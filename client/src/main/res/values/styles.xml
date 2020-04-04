@@ -10,4 +10,10 @@
         <item name="android:textColor">@color/textColor</item>
     </style>
 
+    <style name="InputLayoutTheme" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="colorPrimary">@android:color/white</item>
+    </style>
+    <style name="ButtonTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">#CBB132</item>
+    </style>
 </resources>
