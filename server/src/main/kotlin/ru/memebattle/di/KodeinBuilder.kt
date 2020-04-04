@@ -1,5 +1,6 @@
 package ru.memebattle.di
 
+import com.google.gson.Gson
 import io.ktor.application.ApplicationEnvironment
 import kotlinx.coroutines.channels.Channel
 import org.kodein.di.Kodein
@@ -55,6 +56,7 @@ class KodeinBuilder(private val environment: ApplicationEnvironment) {
                 @Suppress("RemoveExplicitTypeArguments")
                 Channel<MemeResponse>()
             }
+            bind<Gson>() with eagerSingleton { Gson() }
             bind<MemeService>() with eagerSingleton { MemeService(instance<Channel<MemeResponse>>("memes"), instance()) }
             bind<MemeRepository>() with eagerSingleton { MemeRepositoryImpl() }
             bind<ParserService>() with eagerSingleton { ParserService(instance()) }
