@@ -33,7 +33,7 @@ import ru.memebattle.core.utils.log
 class MemeBattleFragment : BaseFragment() {
 
     private val prefs: SharedPreferences = get()
-    private var isLoading = true
+    private var isButtonDisabled = true
     private val memeChannel = Channel<MemeRequest>()
 
     val client = HttpClient {
@@ -52,7 +52,7 @@ class MemeBattleFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         image1.setOnClickListener {
-            if (isLoading) return@setOnClickListener
+            if (isButtonDisabled) return@setOnClickListener
             if (like1.visibility == View.GONE && like2.visibility == View.GONE) {
                 like1.visibility = View.VISIBLE
             }
@@ -60,7 +60,7 @@ class MemeBattleFragment : BaseFragment() {
         }
 
         image2.setOnClickListener {
-            if (isLoading) return@setOnClickListener
+            if (isButtonDisabled) return@setOnClickListener
             if (like1.visibility == View.GONE && like2.visibility == View.GONE) {
                 like2.visibility = View.VISIBLE
             }
@@ -81,7 +81,7 @@ class MemeBattleFragment : BaseFragment() {
                                     val type = MemeResponse::class.javaObjectType
                                     val memeResponse = Gson().fromJson(frame.readText(), type)
                                     log(memeResponse.toString())
-                                    if (memeResponse.state == GameState.MEMES) isLoading = false
+                                    if (memeResponse.state == GameState.MEMES) isButtonDisabled = false
                                     withContext(Dispatchers.Main) {
                                         processState(memeResponse)
                                     }
@@ -107,9 +107,9 @@ class MemeBattleFragment : BaseFragment() {
     }
 
     private fun sendLike(num: Int) {
-        isLoading = true
+        isButtonDisabled = true
         launch {
-            memeChannel.send(MemeRequest(num))
+            memeChannel.offer(MemeRequest(num))
         }
     }
 
@@ -132,6 +132,7 @@ class MemeBattleFragment : BaseFragment() {
                     .into(image2)
             }
             GameState.RESULT-> {
+                isButtonDisabled = true
                 like1.visibility = View.GONE
                 like2.visibility = View.GONE
                 result1.visibility = View.VISIBLE
