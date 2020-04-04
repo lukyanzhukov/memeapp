@@ -15,6 +15,7 @@ import io.ktor.routing.*
 import io.ktor.websocket.webSocket
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.isActive
 import ru.memebattle.auth.BasicAuth
 import ru.memebattle.auth.JwtAuth
 import ru.memebattle.common.dto.AuthenticationRequestDto
@@ -96,7 +97,9 @@ class RoutingV1(
                     webSocket {
                         val memes = async {
                             for (memes in memeChannel) {
-                                outgoing.send(Frame.Text(gson.toJson(memes)))
+                                if (!outgoing.isClosedForSend) {
+                                    outgoing.send(Frame.Text(gson.toJson(memes)))
+                                }
                             }
                         }
 
