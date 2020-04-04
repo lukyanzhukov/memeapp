@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import ru.memebattle.common.dto.AuthenticationRequestDto
 import ru.memebattle.common.dto.AuthenticationResponseDto
 import ru.memebattle.common.dto.PasswordChangeRequestDto
-import ru.memebattle.common.dto.UserResponseDto
+import ru.memebattle.common.dto.user.UserResponseDto
 import ru.memebattle.exception.InvalidPasswordException
 import ru.memebattle.exception.PasswordChangeException
 import ru.memebattle.exception.UserExistsException
@@ -63,7 +63,12 @@ class UserService(
                 throw UserExistsException("User exists!")
             }
 
-            repo.save(UserModel(username = username, password = passwordEncoder.encode(password)))
+            repo.save(
+                UserModel(
+                    username = username,
+                    password = passwordEncoder.encode(password)
+                )
+            )
 
             val model = requireNotNull(repo.getByUsername(username))
 

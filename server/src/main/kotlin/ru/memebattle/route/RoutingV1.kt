@@ -3,7 +3,8 @@ package ru.memebattle.route
 import io.ktor.application.call
 import io.ktor.auth.authenticate
 import io.ktor.features.ParameterConversionException
-import io.ktor.http.content.*
+import io.ktor.http.content.files
+import io.ktor.http.content.static
 import io.ktor.request.receive
 import io.ktor.request.receiveMultipart
 import io.ktor.response.respond
@@ -12,9 +13,11 @@ import ru.memebattle.auth.BasicAuth
 import ru.memebattle.auth.JwtAuth
 import ru.memebattle.common.dto.AuthenticationRequestDto
 import ru.memebattle.common.dto.PostRequestDto
-import ru.memebattle.common.dto.UserRegisterRequestDto
+import ru.memebattle.common.dto.game.MemeRequest
+import ru.memebattle.common.dto.user.UserRegisterRequestDto
 import ru.memebattle.model.toDto
 import ru.memebattle.service.FileService
+import ru.memebattle.service.MemeService
 import ru.memebattle.service.PostService
 import ru.memebattle.service.UserService
 
@@ -22,7 +25,8 @@ class RoutingV1(
     private val staticPath: String,
     private val postService: PostService,
     private val fileService: FileService,
-    private val userService: UserService
+    private val userService: UserService,
+    private val memeService: MemeService
 ) {
     fun setup(configuration: Routing) {
         with(configuration) {
@@ -75,6 +79,18 @@ class RoutingV1(
                                 "id",
                                 "Long"
                             )
+                        }
+                    }
+
+                    route("/game") {
+                        get {
+                            val response = memeService.getCurrentState()
+                            call.respond(response)
+                        }
+                        post {
+                            val input = call.receive<MemeRequest>()
+                            val response = memeService.rateMeme(input.number)
+                            call.respond(response)
                         }
                     }
                 }
