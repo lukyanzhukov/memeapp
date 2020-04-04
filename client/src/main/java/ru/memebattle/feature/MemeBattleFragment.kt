@@ -1,27 +1,44 @@
 package ru.memebattle.feature
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
+import io.ktor.client.HttpClient
+import io.ktor.client.features.websocket.WebSockets
+import io.ktor.client.features.websocket.wss
+import io.ktor.client.request.header
+import io.ktor.http.HttpMethod
+import io.ktor.http.cio.websocket.Frame
+import io.ktor.http.cio.websocket.readText
 import kotlinx.android.synthetic.main.fragment_memebattle.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
+import ru.memebattle.PREFS_TOKEN
 import ru.memebattle.R
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.core.BaseFragment
-import ru.memebattle.core.api.GameApi
+import ru.memebattle.core.utils.getString
 import ru.memebattle.core.utils.log
-import ru.memebattle.core.utils.toast
 
 class MemeBattleFragment : BaseFragment() {
 
-    private val gameApi: GameApi = get()
+    private val prefs: SharedPreferences = get()
+    private var isLoading = true
+    private val memeChannel = Channel<MemeRequest>()
+
+    val client = HttpClient {
+        install(WebSockets)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +52,7 @@ class MemeBattleFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         image1.setOnClickListener {
+            if (isLoading) return@setOnClickListener
             if (like1.visibility == View.GONE && like2.visibility == View.GONE) {
                 like1.visibility = View.VISIBLE
             }
@@ -42,46 +60,56 @@ class MemeBattleFragment : BaseFragment() {
         }
 
         image2.setOnClickListener {
+            if (isLoading) return@setOnClickListener
             if (like1.visibility == View.GONE && like2.visibility == View.GONE) {
                 like2.visibility = View.VISIBLE
             }
             sendLike(1)
         }
-
         launch {
-            while (true) {
-                if (!isActive) {
-                    return@launch
-                }
-
-                try {
-                    val state = gameApi.getState()
-
-                    log("get state res $state")
-                    processState(state)
-
-
-                    delay(1000)
-                } catch (e: Exception) {
-                        log("get state err $e")
-                        toast(e.localizedMessage.orEmpty())
+            try {
+                client.wss(
+                    method = HttpMethod.Get,
+                    host = "memebattle.herokuapp.com",
+                    path = "/api/v1",
+                    request = { header("Authorization", "Bearer ${prefs.getString(PREFS_TOKEN)}") }
+                ) {
+                    val frames = async {
+                        for (frame in incoming) {
+                            when (frame) {
+                                is Frame.Text -> {
+                                    val type = MemeResponse::class.javaObjectType
+                                    val memeResponse = Gson().fromJson(frame.readText(), type)
+                                    log(memeResponse.toString())
+                                    if (memeResponse.state == GameState.MEMES) isLoading = false
+                                    withContext(Dispatchers.Main) {
+                                        processState(memeResponse)
+                                    }
+                                }
+                            }
+                        }
                     }
+                    val memes = async {
+                        for (memes in memeChannel) {
+                            val type = MemeRequest::class.javaObjectType
+                            val jsonValue = Gson().toJson(memes, type)
+                            outgoing.send(Frame.Text(jsonValue))
+                        }
+                    }
+                    frames.await()
+                    memes.await()
+                }
+            } catch (error: Throwable) {
+                log(error.toString())
+                error.printStackTrace()
             }
         }
     }
 
     private fun sendLike(num: Int) {
+        isLoading = true
         launch {
-
-            try {
-                val state = gameApi.sendLike(MemeRequest(num))
-
-                log("send like res $state")
-                processState(state)
-            } catch (e: Exception) {
-                log("send like err $e")
-                toast(e.localizedMessage.orEmpty())
-            }
+            memeChannel.send(MemeRequest(num))
         }
     }
 
