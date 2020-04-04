@@ -5,4 +5,10 @@
         android:id="@+id/gameFragment"
         android:icon="@drawable/ic_game"
         android:title="GAME" />
+
+    <item
+        android:id="@+id/ratingFragment"
+        android:icon="@drawable/ic_hv_s"
+        android:title="Rating" />
+
 </menu>

@@ -4,14 +4,21 @@
     android:id="@+id/navigation_main"
     app:startDestination="@id/gameFragment">
 
+
+    <fragment
+        android:id="@+id/ratingFragment"
+        android:name="ru.memebattle.feature.rating.RatingFragment" />
+
     <fragment
         android:id="@+id/gameFragment"
         android:name="ru.memebattle.feature.GameFragment"
-        android:label="GameFragment" >
+        android:label="GameFragment">
         <action
             android:id="@+id/action_gameFragment_to_memebattleFragment"
             app:destination="@id/memebattleFragment" />
     </fragment>
+
+
     <fragment
         android:id="@+id/memebattleFragment"
         android:name="ru.memebattle.feature.MemeBattleFragment"
