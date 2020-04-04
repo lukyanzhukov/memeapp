@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_rating.*
 import ru.memebattle.R
+import ru.memebattle.common.model.RatingModel
 
 class RatingFragment : Fragment(R.layout.fragment_rating) {
 
@@ -12,36 +13,36 @@ class RatingFragment : Fragment(R.layout.fragment_rating) {
         val ratingAdapter = RatingAdapter()
         recycler_view.adapter = ratingAdapter
 
-        ratingAdapter.ratings = listOf(
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1),
-            Rating("Den", 100, 1)
+        ratingAdapter.ratingModels = listOf(
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1),
+            RatingModel("Den", 100, 1)
         )
         toolbar.title = "Рейтинг игроков"
     }

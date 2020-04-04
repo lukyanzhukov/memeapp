@@ -6,10 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.memebattle.R
+import ru.memebattle.common.model.RatingModel
 
 class RatingAdapter : RecyclerView.Adapter<RatingAdapter.RatingViewHolder>() {
 
-    var ratings: List<Rating> = emptyList()
+    var ratingModels: List<RatingModel> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -20,10 +21,10 @@ class RatingAdapter : RecyclerView.Adapter<RatingAdapter.RatingViewHolder>() {
         return RatingViewHolder(ratingItemView)
     }
 
-    override fun getItemCount(): Int = ratings.size
+    override fun getItemCount(): Int = ratingModels.size
 
     override fun onBindViewHolder(holder: RatingViewHolder, position: Int) {
-        holder.bind(ratings[position], position + 1)
+        holder.bind(ratingModels[position], position + 1)
     }
 
     class RatingViewHolder(ratingView: View) : RecyclerView.ViewHolder(ratingView) {
@@ -32,9 +33,9 @@ class RatingAdapter : RecyclerView.Adapter<RatingAdapter.RatingViewHolder>() {
         private val playerScoreTextView = ratingView.findViewById<TextView>(R.id.playerScore)
         private val placeTextView = ratingView.findViewById<TextView>(R.id.place)
 
-        fun bind(rating: Rating, position: Int) {
-            playerNameTextView.text = rating.playerName
-            playerScoreTextView.text = rating.score.toString()
+        fun bind(ratingModel: RatingModel, position: Int) {
+            playerNameTextView.text = ratingModel.playerName
+            playerScoreTextView.text = ratingModel.score.toString()
             placeTextView.text = "#${position}"
         }
     }

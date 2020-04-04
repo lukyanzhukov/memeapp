@@ -1,6 +1,6 @@
-package ru.memebattle.feature.rating
+package ru.memebattle.common.model
 
-data class Rating(
+data class RatingModel(
     val playerName: String,
     val score: Long,
     val place: Long
