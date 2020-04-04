@@ -13,7 +13,6 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.memebattle.core.api.AuthApi
-import ru.memebattle.core.api.GameApi
 import ru.memebattle.core.utils.getString
 
 class App : Application() {
@@ -67,7 +66,6 @@ val networkModule = module {
     }
 
     single { get<Retrofit>().create(AuthApi::class.java) }
-    single { get<Retrofit>().create(GameApi::class.java) }
 }
 
 val sharedPreferencesModule = module {
