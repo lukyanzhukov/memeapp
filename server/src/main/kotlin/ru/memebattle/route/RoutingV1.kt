@@ -3,12 +3,17 @@ package ru.memebattle.route
 import io.ktor.application.call
 import io.ktor.auth.authenticate
 import io.ktor.features.ParameterConversionException
+import io.ktor.http.cio.websocket.CloseReason
+import io.ktor.http.cio.websocket.Frame
+import io.ktor.http.cio.websocket.close
+import io.ktor.http.cio.websocket.readText
 import io.ktor.http.content.files
 import io.ktor.http.content.static
 import io.ktor.request.receive
 import io.ktor.request.receiveMultipart
 import io.ktor.response.respond
 import io.ktor.routing.*
+import io.ktor.websocket.webSocket
 import ru.memebattle.auth.BasicAuth
 import ru.memebattle.auth.JwtAuth
 import ru.memebattle.common.dto.AuthenticationRequestDto
@@ -91,6 +96,21 @@ class RoutingV1(
                             val input = call.receive<MemeRequest>()
                             val response = memeService.rateMeme(input.number)
                             call.respond(response)
+                        }
+                    }
+
+                    webSocket {
+
+                        for (frame in incoming) {
+                            when (frame) {
+                                is Frame.Text -> {
+                                    val text = frame.readText()
+                                    outgoing.send(Frame.Text("YOU SAID: $text"))
+                                    if (text.equals("bye", ignoreCase = true)) {
+                                        close(CloseReason(CloseReason.Codes.NORMAL, "Client said BYE"))
+                                    }
+                                }
+                            }
                         }
                     }
                 }

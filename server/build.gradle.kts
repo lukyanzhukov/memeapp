@@ -45,6 +45,7 @@ dependencies {
     implementation("io.ktor:ktor-gson:1.2.4")
     implementation("io.ktor:ktor-auth:1.2.4")
     implementation("io.ktor:ktor-auth-jwt:1.2.4")
+    implementation("io.ktor:ktor-websockets:1.2.4")
     implementation("org.springframework.security:spring-security-crypto:5.1.6.RELEASE")
     implementation("commons-logging:commons-logging:1.2")
     implementation("ch.qos.logback:logback-classic:1.2.3")
