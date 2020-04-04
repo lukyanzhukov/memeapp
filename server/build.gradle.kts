@@ -41,6 +41,8 @@ tasks.withType<Test> {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("io.ktor:ktor-client-core:1.2.4")
+    implementation("io.ktor:ktor-client-apache:1.2.4")
     implementation("io.ktor:ktor-server-cio:1.2.4")
     implementation("io.ktor:ktor-gson:1.2.4")
     implementation("io.ktor:ktor-auth:1.2.4")

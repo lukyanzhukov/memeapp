@@ -1,17 +1,17 @@
 package ru.memebattle.service
 
-import com.google.gson.Gson
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.io.core.readText
-import kotlinx.io.streams.asInput
 import ru.memebattle.common.dto.game.MemeResponse
-import ru.memebattle.model.vk.model.VKResponse
-import ru.memebattle.model.vk.model.getMaxImage
+import ru.memebattle.model.MemeModel
+import ru.memebattle.repository.MemeRepository
 
-class MemeService(private val sendResponse: SendChannel<MemeResponse>) {
+class MemeService(
+    private val sendResponse: SendChannel<MemeResponse>,
+    private val memeRepository: MemeRepository
+) {
 
     private var currentMemes: List<String> = emptyList()
     private var currentLikes: MutableList<Int> = mutableListOf(
@@ -42,18 +42,13 @@ class MemeService(private val sendResponse: SendChannel<MemeResponse>) {
         withContext(Dispatchers.Default) {
 
             while (true) {
-                val memes = getMemes()
+                val photos = getMemeModels().map { it.url }
 
                 val pairs = mutex.withLock {
-                    val photos = memes.response?.items?.map {
-                        it.attachments?.firstOrNull()?.photo?.sizes?.getMaxImage()
-                    }
-
                     val pairs: MutableList<Pair<String, String>> = mutableListOf()
-                    val photosNotNull = photos.orEmpty().filterNotNull()
-                    for (s in 0..photosNotNull.size step 2) {
-                        if (s.inc() <= photosNotNull.lastIndex) {
-                            pairs.add(photosNotNull[s] to photosNotNull[s.inc()])
+                    for (s in 0..photos.size step 2) {
+                        if (s.inc() <= photos.lastIndex) {
+                            pairs.add(photos[s] to photos[s.inc()])
                         }
                     }
                     pairs
@@ -85,8 +80,8 @@ class MemeService(private val sendResponse: SendChannel<MemeResponse>) {
         }
     }
 
-    private suspend fun getMemes(): VKResponse =
+    private suspend fun getMemeModels(): List<MemeModel> =
         withContext(Dispatchers.IO) {
-            Gson().fromJson(requireNotNull(ClassLoader.getSystemResourceAsStream("vk.json")).asInput().readText(), VKResponse::class.java)
+            memeRepository.getAll()
         }
 }
