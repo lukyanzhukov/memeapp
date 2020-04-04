@@ -1,11 +1,10 @@
 package ru.memebattle.route
 
+import com.google.gson.Gson
 import io.ktor.application.call
 import io.ktor.auth.authenticate
 import io.ktor.features.ParameterConversionException
-import io.ktor.http.cio.websocket.CloseReason
 import io.ktor.http.cio.websocket.Frame
-import io.ktor.http.cio.websocket.close
 import io.ktor.http.cio.websocket.readText
 import io.ktor.http.content.files
 import io.ktor.http.content.static
@@ -14,11 +13,13 @@ import io.ktor.request.receiveMultipart
 import io.ktor.response.respond
 import io.ktor.routing.*
 import io.ktor.websocket.webSocket
+import kotlinx.coroutines.channels.ReceiveChannel
 import ru.memebattle.auth.BasicAuth
 import ru.memebattle.auth.JwtAuth
 import ru.memebattle.common.dto.AuthenticationRequestDto
 import ru.memebattle.common.dto.PostRequestDto
 import ru.memebattle.common.dto.game.MemeRequest
+import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.common.dto.user.UserRegisterRequestDto
 import ru.memebattle.model.toDto
 import ru.memebattle.service.FileService
@@ -31,7 +32,9 @@ class RoutingV1(
     private val postService: PostService,
     private val fileService: FileService,
     private val userService: UserService,
-    private val memeService: MemeService
+    private val memeService: MemeService,
+    private val memeChannel: ReceiveChannel<MemeResponse>,
+    private val gson: Gson
 ) {
     fun setup(configuration: Routing) {
         with(configuration) {
@@ -67,10 +70,11 @@ class RoutingV1(
                             call.respond(response)
                         }
                         get("/{id}") {
-                            val id = call.parameters["id"]?.toLongOrNull() ?: throw ParameterConversionException(
-                                "id",
-                                "Long"
-                            )
+                            val id = call.parameters["id"]?.toLongOrNull()
+                                ?: throw ParameterConversionException(
+                                    "id",
+                                    "Long"
+                                )
                             val response = postService.getById(id)
                             call.respond(response)
                         }
@@ -80,35 +84,25 @@ class RoutingV1(
                             call.respond(response)
                         }
                         delete("/{id}") {
-                            val id = call.parameters["id"]?.toLongOrNull() ?: throw ParameterConversionException(
-                                "id",
-                                "Long"
-                            )
-                        }
-                    }
-
-                    route("/game") {
-                        get {
-                            val response = memeService.getCurrentState()
-                            call.respond(response)
-                        }
-                        post {
-                            val input = call.receive<MemeRequest>()
-                            val response = memeService.rateMeme(input.number)
-                            call.respond(response)
+                            val id = call.parameters["id"]?.toLongOrNull()
+                                ?: throw ParameterConversionException(
+                                    "id",
+                                    "Long"
+                                )
                         }
                     }
 
                     webSocket {
-
                         for (frame in incoming) {
+                            for (memes in memeChannel) {
+                                outgoing.send(Frame.Text(gson.toJson(memes)))
+                            }
+
                             when (frame) {
                                 is Frame.Text -> {
-                                    val text = frame.readText()
-                                    outgoing.send(Frame.Text("YOU SAID: $text"))
-                                    if (text.equals("bye", ignoreCase = true)) {
-                                        close(CloseReason(CloseReason.Codes.NORMAL, "Client said BYE"))
-                                    }
+                                    val memeRequest =
+                                        gson.fromJson(frame.readText(), MemeRequest::class.java)
+                                    memeService.rateMeme(memeRequest.number)
                                 }
                             }
                         }
