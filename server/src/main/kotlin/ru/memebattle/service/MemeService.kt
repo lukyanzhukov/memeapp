@@ -4,6 +4,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.model.MemeModel
 import ru.memebattle.repository.MemeRepository
@@ -17,7 +18,7 @@ class MemeService(
     private var currentLikes: MutableList<Int> = mutableListOf(
         0, 0
     )
-    private var state: String = "start"
+    private var state: GameState = GameState.START
     private val mutex = Mutex()
 
     init {
@@ -25,11 +26,6 @@ class MemeService(
             startRound()
         }
     }
-
-    suspend fun getCurrentState(): MemeResponse =
-        mutex.withLock {
-            MemeResponse(state, currentMemes, currentLikes)
-        }
 
     suspend fun rateMeme(memeIndex: Int): MemeResponse =
         mutex.withLock {
@@ -57,7 +53,7 @@ class MemeService(
                 pairs.forEach {
 
                     mutex.withLock {
-                        state = "memes"
+                        state = GameState.MEMES
 
                         currentMemes = listOf(it.first, it.second)
 
@@ -67,7 +63,9 @@ class MemeService(
                     delay(10000)
 
                     mutex.withLock {
-                        state = "result"
+                        state = GameState.RESULT
+
+                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes))
                     }
 
                     delay(5000)

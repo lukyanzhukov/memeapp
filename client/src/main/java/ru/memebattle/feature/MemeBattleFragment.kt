@@ -11,6 +11,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 import ru.memebattle.R
+import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.core.BaseFragment
@@ -86,13 +87,13 @@ class MemeBattleFragment : BaseFragment() {
 
     private fun processState(memeResponse: MemeResponse) {
         when (memeResponse.state) {
-            "start" -> {
+            GameState.START -> {
                 like1.visibility = View.GONE
                 like2.visibility = View.GONE
                 result1.visibility = View.GONE
                 result2.visibility = View.GONE
             }
-            "memes" -> {
+            GameState.MEMES -> {
                 result1.visibility = View.GONE
                 result2.visibility = View.GONE
                 Glide.with(requireActivity())
@@ -102,7 +103,7 @@ class MemeBattleFragment : BaseFragment() {
                     .load(memeResponse.memes[1])
                     .into(image2)
             }
-            "result" -> {
+            GameState.RESULT-> {
                 like1.visibility = View.GONE
                 like2.visibility = View.GONE
                 result1.visibility = View.VISIBLE
