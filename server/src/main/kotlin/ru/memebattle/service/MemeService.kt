@@ -1,15 +1,11 @@
 package ru.memebattle.service
 
-import com.google.gson.Gson
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.io.core.readText
-import kotlinx.io.streams.asInput
 import ru.memebattle.common.dto.game.MemeResponse
-import ru.memebattle.model.vk.model.VKResponse
-import ru.memebattle.model.vk.model.getMaxImage
+import ru.memebattle.model.MemeModel
 import ru.memebattle.repository.MemeRepository
 
 class MemeService(

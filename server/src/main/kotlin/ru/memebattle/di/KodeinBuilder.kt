@@ -1,6 +1,5 @@
 package ru.memebattle.di
 
-import com.google.gson.Gson
 import io.ktor.application.ApplicationEnvironment
 import kotlinx.coroutines.channels.Channel
 import org.kodein.di.Kodein
@@ -15,10 +14,7 @@ import ru.memebattle.auth.JwtAuth
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.db.data.DatabaseFactory
 import ru.memebattle.exception.ConfigurationException
-import ru.memebattle.repository.PostRepository
-import ru.memebattle.repository.PostRepositoryInMemoryWithMutexImpl
-import ru.memebattle.repository.UserRepository
-import ru.memebattle.repository.UserRepositoryImpl
+import ru.memebattle.repository.*
 import ru.memebattle.route.RoutingV1
 import ru.memebattle.service.*
 import java.net.URI
