@@ -15,10 +15,7 @@ import ru.memebattle.auth.JwtAuth
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.db.data.DatabaseFactory
 import ru.memebattle.exception.ConfigurationException
-import ru.memebattle.repository.PostRepository
-import ru.memebattle.repository.PostRepositoryInMemoryWithMutexImpl
-import ru.memebattle.repository.UserRepository
-import ru.memebattle.repository.UserRepositoryImpl
+import ru.memebattle.repository.*
 import ru.memebattle.route.RoutingV1
 import ru.memebattle.service.*
 import java.net.URI
@@ -49,7 +46,6 @@ class KodeinBuilder(private val environment: ApplicationEnvironment) {
             }
             constant(tag = UPLOAD_DIR) with (environment.config.propertyOrNull("memebattle.upload.dir")?.getString()
                 ?: throw ConfigurationException("Upload dir is not specified"))
-            bind<Gson>() with eagerSingleton { Gson() }
             bind<PasswordEncoder>() with eagerSingleton { BCryptPasswordEncoder() }
             bind<JWTTokenService>() with eagerSingleton { JWTTokenService() }
             bind<PostRepository>() with eagerSingleton { PostRepositoryInMemoryWithMutexImpl() }
@@ -60,7 +56,10 @@ class KodeinBuilder(private val environment: ApplicationEnvironment) {
                 @Suppress("RemoveExplicitTypeArguments")
                 Channel<MemeResponse>()
             }
-            bind<MemeService>() with eagerSingleton { MemeService(instance<Channel<MemeResponse>>("memes")) }
+            bind<Gson>() with eagerSingleton { Gson() }
+            bind<MemeService>() with eagerSingleton { MemeService(instance<Channel<MemeResponse>>("memes"), instance()) }
+            bind<MemeRepository>() with eagerSingleton { MemeRepositoryImpl() }
+            bind<ParserService>() with eagerSingleton { ParserService(instance()) }
             bind<UserService>() with eagerSingleton { UserService(instance(), instance(), instance()) }
             bind<RoutingV1>() with eagerSingleton {
                 RoutingV1(

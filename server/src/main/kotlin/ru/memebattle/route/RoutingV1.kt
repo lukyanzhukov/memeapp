@@ -22,6 +22,7 @@ import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.common.dto.user.UserRegisterRequestDto
 import ru.memebattle.model.toDto
+import ru.memebattle.repository.MemeRepository
 import ru.memebattle.service.FileService
 import ru.memebattle.service.MemeService
 import ru.memebattle.service.PostService
