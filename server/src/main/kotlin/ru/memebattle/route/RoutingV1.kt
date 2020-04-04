@@ -93,11 +93,11 @@ class RoutingV1(
                     }
 
                     webSocket {
-                        for (frame in incoming) {
-                            for (memes in memeChannel) {
-                                outgoing.send(Frame.Text(gson.toJson(memes)))
-                            }
+                        for (memes in memeChannel) {
+                            outgoing.send(Frame.Text(gson.toJson(memes)))
+                        }
 
+                        for (frame in incoming) {
                             when (frame) {
                                 is Frame.Text -> {
                                     val memeRequest =
