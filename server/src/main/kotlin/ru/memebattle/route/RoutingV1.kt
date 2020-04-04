@@ -13,6 +13,7 @@ import io.ktor.request.receiveMultipart
 import io.ktor.response.respond
 import io.ktor.routing.*
 import io.ktor.websocket.webSocket
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.ReceiveChannel
 import ru.memebattle.auth.BasicAuth
 import ru.memebattle.auth.JwtAuth
@@ -22,7 +23,6 @@ import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.common.dto.user.UserRegisterRequestDto
 import ru.memebattle.model.toDto
-import ru.memebattle.repository.MemeRepository
 import ru.memebattle.service.FileService
 import ru.memebattle.service.MemeService
 import ru.memebattle.service.PostService
@@ -94,19 +94,26 @@ class RoutingV1(
                     }
 
                     webSocket {
-                        for (memes in memeChannel) {
-                            outgoing.send(Frame.Text(gson.toJson(memes)))
+                        val memes = async {
+                            for (memes in memeChannel) {
+                                outgoing.send(Frame.Text(gson.toJson(memes)))
+                            }
                         }
 
-                        for (frame in incoming) {
-                            when (frame) {
-                                is Frame.Text -> {
-                                    val memeRequest =
-                                        gson.fromJson(frame.readText(), MemeRequest::class.java)
-                                    memeService.rateMeme(memeRequest.number)
+                        val frames = async {
+                            for (frame in incoming) {
+                                when (frame) {
+                                    is Frame.Text -> {
+                                        val memeRequest =
+                                            gson.fromJson(frame.readText(), MemeRequest::class.java)
+                                        memeService.rateMeme(memeRequest.number)
+                                    }
                                 }
                             }
                         }
+
+                        memes.await()
+                        frames.await()
                     }
                 }
 
