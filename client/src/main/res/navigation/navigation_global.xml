@@ -32,7 +32,7 @@
         android:name="ru.memebattle.feature.MainFragment"
         android:label="MainFragment">
         <action
-            android:id="@+id/action_mainFragment_to_memeBattleFragment"
-            app:destination="@id/memeBattleFragment" />
+            android:id="@+id/action_mainFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
     </fragment>
 </navigation>
