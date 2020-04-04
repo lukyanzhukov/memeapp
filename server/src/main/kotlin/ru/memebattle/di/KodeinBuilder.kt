@@ -54,7 +54,7 @@ class KodeinBuilder(private val environment: ApplicationEnvironment) {
             bind<UserRepository>() with eagerSingleton { UserRepositoryImpl() }
             bind<Channel<MemeResponse>>("memes") with eagerSingleton {
                 @Suppress("RemoveExplicitTypeArguments")
-                Channel<MemeResponse>()
+                Channel<MemeResponse>(Channel.CONFLATED)
             }
             bind<Gson>() with eagerSingleton { Gson() }
             bind<MemeService>() with eagerSingleton { MemeService(instance<Channel<MemeResponse>>("memes"), instance()) }
