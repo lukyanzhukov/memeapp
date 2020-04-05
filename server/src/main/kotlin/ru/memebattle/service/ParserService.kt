@@ -37,7 +37,7 @@ class ParserService(
                         url?.let { memeRepository.save(MemeModel(url = url)) }
                     }
                 }
-                delay(60000 * 15)
+                delay(60000 * 5)
             }
         }
     }
