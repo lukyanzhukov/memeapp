@@ -58,13 +58,15 @@ class KodeinBuilder(private val environment: ApplicationEnvironment) {
                 BroadcastChannel<MemeResponse>(Channel.CONFLATED)
             }
             bind<Gson>() with eagerSingleton { Gson() }
-            bind<MemeService>() with eagerSingleton { MemeService(instance<BroadcastChannel<MemeResponse>>("memes"), instance()) }
+            bind<RateusersRepository>() with eagerSingleton { RateusersRepositoryImpl() }
+            bind<MemeService>() with eagerSingleton { MemeService(instance<BroadcastChannel<MemeResponse>>("memes"), instance(), instance()) }
             bind<MemeRepository>() with eagerSingleton { MemeRepositoryImpl() }
             bind<ParserService>() with eagerSingleton { ParserService(instance()) }
             bind<UserService>() with eagerSingleton { UserService(instance(), instance(), instance()) }
             bind<RoutingV1>() with eagerSingleton {
                 RoutingV1(
                     instance(tag = UPLOAD_DIR),
+                    instance(),
                     instance(),
                     instance(),
                     instance(),
