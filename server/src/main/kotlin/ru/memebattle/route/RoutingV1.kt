@@ -28,15 +28,12 @@ import ru.memebattle.common.model.RatingModel
 import ru.memebattle.model.UserModel
 import ru.memebattle.model.toDto
 import ru.memebattle.repository.RateusersRepository
-import ru.memebattle.service.FileService
 import ru.memebattle.service.MemeService
 import ru.memebattle.service.PostService
 import ru.memebattle.service.UserService
 
 class RoutingV1(
-    private val staticPath: String,
     private val postService: PostService,
-    private val fileService: FileService,
     private val userService: UserService,
     private val memeService: MemeService,
     private val rateusersRepository: RateusersRepository,
@@ -46,9 +43,6 @@ class RoutingV1(
     fun setup(configuration: Routing) {
         with(configuration) {
             route("/api/v1/") {
-                static("/static") {
-                    files(staticPath)
-                }
 
                 route("/") {
                     post("/registration") {
@@ -137,14 +131,6 @@ class RoutingV1(
 
                         memes.await()
                         frames.await()
-                    }
-                }
-
-                route("/media") {
-                    post {
-                        val multipart = call.receiveMultipart()
-                        val response = fileService.save(multipart)
-                        call.respond(response)
                     }
                 }
             }
