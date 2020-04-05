@@ -3,6 +3,7 @@ package ru.memebattle.route
 import com.google.gson.Gson
 import io.ktor.application.call
 import io.ktor.auth.authenticate
+import io.ktor.auth.authentication
 import io.ktor.features.ParameterConversionException
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.readText
@@ -16,7 +17,6 @@ import io.ktor.websocket.webSocket
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ReceiveChannel
-import kotlinx.coroutines.isActive
 import ru.memebattle.auth.BasicAuth
 import ru.memebattle.auth.JwtAuth
 import ru.memebattle.common.dto.AuthenticationRequestDto
@@ -24,6 +24,7 @@ import ru.memebattle.common.dto.PostRequestDto
 import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.common.dto.user.UserRegisterRequestDto
+import ru.memebattle.model.UserModel
 import ru.memebattle.model.toDto
 import ru.memebattle.service.FileService
 import ru.memebattle.service.MemeService
@@ -110,9 +111,10 @@ class RoutingV1(
                             for (frame in incoming) {
                                 when (frame) {
                                     is Frame.Text -> {
+                                        val user = call.authentication.principal<UserModel>()
                                         val memeRequest =
                                             gson.fromJson(frame.readText(), MemeRequest::class.java)
-                                        memeService.rateMeme(memeRequest.number)
+                                        memeService.rateMeme(memeRequest.number, user)
                                     }
                                 }
                             }
