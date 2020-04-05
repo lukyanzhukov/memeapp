@@ -12,12 +12,13 @@ class RatingAdapter : RecyclerView.Adapter<RatingAdapter.RatingViewHolder>() {
 
     var ratingModels: List<RatingModel> = emptyList()
         set(value) {
-            field = value
+            field = value.sortedByDescending { it.score }
             notifyDataSetChanged()
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RatingViewHolder {
-        val ratingItemView = LayoutInflater.from(parent.context).inflate(R.layout.item_rating, parent, false)
+        val ratingItemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_rating, parent, false)
         return RatingViewHolder(ratingItemView)
     }
 
