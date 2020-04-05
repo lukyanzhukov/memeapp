@@ -28,7 +28,6 @@
             app:destination="@+id/mainFragment"
             app:popUpTo="@+id/navigation_global" />
     </fragment>
-
     <fragment
         android:id="@+id/mainFragment"
         android:name="ru.memebattle.feature.MainFragment"
@@ -39,6 +38,13 @@
 
         <action
             android:id="@+id/action_mainFragment_to_ratingFragment"
-            app:destination="@id/ratingFragment"/>
+            app:destination="@id/ratingFragment" />
+        <action
+            android:id="@+id/action_mainFragment_action_to_memebattleFragment"
+            app:destination="@+id/memebattleFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/memebattleFragment"
+        android:name="ru.memebattle.feature.MemeBattleFragment"
+        android:label="MemebattleFragment" />
 </navigation>
