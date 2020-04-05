@@ -70,6 +70,7 @@ class KodeinBuilder(private val environment: ApplicationEnvironment) {
                     instance(),
                     instance(),
                     instance(),
+                    instance(),
                     instance<BroadcastChannel<MemeResponse>>("memes"),
                     instance()
                 )
