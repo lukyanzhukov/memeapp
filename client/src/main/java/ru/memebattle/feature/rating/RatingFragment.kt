@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_rating.*
 import kotlinx.coroutines.launch
@@ -24,6 +25,16 @@ class RatingFragment : BaseFragment() {
     private val prefs: SharedPreferences = get()
     private val ratingApi: RatingApi = get()
 
+    override fun onResume() {
+        super.onResume()
+        shimmer_view_container.startShimmerAnimation();
+    }
+
+    override fun onPause() {
+        shimmer_view_container.stopShimmerAnimation();
+        super.onPause()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,6 +51,8 @@ class RatingFragment : BaseFragment() {
         launch {
             try {
                 ratingAdapter.ratingModels = ratingApi.getRating()
+                shimmer_view_container.stopShimmerAnimation()
+                shimmer_view_container.isVisible = false
             } catch (error: Throwable) {
                 log(error.toString())
                 error.printStackTrace()

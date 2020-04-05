@@ -80,4 +80,5 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5")
     implementation ("com.airbnb.android:lottie:3.1.0")
     implementation(project(":common"))
+    implementation ("com.facebook.shimmer:shimmer:0.1.0@aar")
 }
