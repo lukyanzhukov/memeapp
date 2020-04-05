@@ -109,7 +109,7 @@ class MemeBattleFragment : BaseFragment() {
     private fun sendLike(num: Int) {
         isButtonDisabled = true
         launch {
-            memeChannel.offer(MemeRequest(num))
+            memeChannel.send(MemeRequest(num))
         }
     }
 

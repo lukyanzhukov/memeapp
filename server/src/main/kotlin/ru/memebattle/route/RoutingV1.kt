@@ -14,6 +14,7 @@ import io.ktor.response.respond
 import io.ktor.routing.*
 import io.ktor.websocket.webSocket
 import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.isActive
 import ru.memebattle.auth.BasicAuth
@@ -35,7 +36,7 @@ class RoutingV1(
     private val fileService: FileService,
     private val userService: UserService,
     private val memeService: MemeService,
-    private val memeChannel: ReceiveChannel<MemeResponse>,
+    private val memeChannel: BroadcastChannel<MemeResponse>,
     private val gson: Gson
 ) {
     fun setup(configuration: Routing) {
@@ -95,8 +96,10 @@ class RoutingV1(
                     }
 
                     webSocket {
+                        outgoing.send(Frame.Text(gson.toJson(memeService.getCurrentState())))
+
                         val memes = async {
-                            for (memes in memeChannel) {
+                            for (memes in memeChannel.openSubscription()) {
                                 if (!outgoing.isClosedForSend) {
                                     outgoing.send(Frame.Text(gson.toJson(memes)))
                                 }

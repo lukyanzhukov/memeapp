@@ -2,6 +2,7 @@ package ru.memebattle.di
 
 import com.google.gson.Gson
 import io.ktor.application.ApplicationEnvironment
+import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -52,12 +53,12 @@ class KodeinBuilder(private val environment: ApplicationEnvironment) {
             bind<PostService>() with eagerSingleton { PostService(instance()) }
             bind<FileService>() with eagerSingleton { FileService(instance(tag = UPLOAD_DIR)) }
             bind<UserRepository>() with eagerSingleton { UserRepositoryImpl() }
-            bind<Channel<MemeResponse>>("memes") with eagerSingleton {
+            bind<BroadcastChannel<MemeResponse>>("memes") with eagerSingleton {
                 @Suppress("RemoveExplicitTypeArguments")
-                Channel<MemeResponse>(Channel.CONFLATED)
+                BroadcastChannel<MemeResponse>(Channel.CONFLATED)
             }
             bind<Gson>() with eagerSingleton { Gson() }
-            bind<MemeService>() with eagerSingleton { MemeService(instance<Channel<MemeResponse>>("memes"), instance()) }
+            bind<MemeService>() with eagerSingleton { MemeService(instance<BroadcastChannel<MemeResponse>>("memes"), instance()) }
             bind<MemeRepository>() with eagerSingleton { MemeRepositoryImpl() }
             bind<ParserService>() with eagerSingleton { ParserService(instance()) }
             bind<UserService>() with eagerSingleton { UserService(instance(), instance(), instance()) }
@@ -68,7 +69,7 @@ class KodeinBuilder(private val environment: ApplicationEnvironment) {
                     instance(),
                     instance(),
                     instance(),
-                    instance<Channel<MemeResponse>>("memes"),
+                    instance<BroadcastChannel<MemeResponse>>("memes"),
                     instance()
                 )
             }

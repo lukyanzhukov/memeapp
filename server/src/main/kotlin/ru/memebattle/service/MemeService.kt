@@ -27,6 +27,10 @@ class MemeService(
         }
     }
 
+    suspend fun getCurrentState(): MemeResponse = mutex.withLock {
+        MemeResponse(state, currentMemes, currentLikes)
+    }
+
     suspend fun rateMeme(memeIndex: Int): MemeResponse =
         mutex.withLock {
             currentLikes[memeIndex] = currentLikes[memeIndex].inc()
