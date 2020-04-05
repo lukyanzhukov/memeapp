@@ -3,8 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_main"
     app:startDestination="@id/gameFragment">
-
-
     <fragment
         android:id="@+id/ratingFragment"
         android:name="ru.memebattle.feature.rating.RatingFragment" />
@@ -12,6 +10,9 @@
     <fragment
         android:id="@+id/gameFragment"
         android:name="ru.memebattle.feature.GameFragment"
-        android:label="GameFragment">
-    </fragment>
+        android:label="GameFragment" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="ru.memebattle.feature.SettingsFragment" />
 </navigation>

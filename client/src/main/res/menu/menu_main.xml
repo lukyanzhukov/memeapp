@@ -11,4 +11,9 @@
             android:icon="@drawable/ic_lrating"
             android:title="Rating" />
 
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="Settings" />
+
 </menu>
