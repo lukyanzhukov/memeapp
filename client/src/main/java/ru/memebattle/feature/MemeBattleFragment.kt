@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import io.ktor.client.HttpClient
@@ -34,6 +35,7 @@ class MemeBattleFragment : BaseFragment() {
 
     private val prefs: SharedPreferences = get()
     private var isButtonDisabled = true
+    private var chosenMeme = -1
     private val memeChannel = Channel<MemeRequest>()
 
     val client = HttpClient {
@@ -50,7 +52,6 @@ class MemeBattleFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         image1.setOnClickListener {
             if (isButtonDisabled) return@setOnClickListener
             if (like1.visibility == View.GONE && like2.visibility == View.GONE) {
@@ -81,8 +82,12 @@ class MemeBattleFragment : BaseFragment() {
                                     val type = MemeResponse::class.javaObjectType
                                     val memeResponse = Gson().fromJson(frame.readText(), type)
                                     log(memeResponse.toString())
-                                    if (memeResponse.state == GameState.MEMES) isButtonDisabled = false
+                                    if (memeResponse.state == GameState.MEMES) isButtonDisabled =
+                                        false
                                     withContext(Dispatchers.Main) {
+                                        winAnimation.visibility = View.GONE
+                                        winAnimation.pauseAnimation()
+                                        winAnimation.progress = 0f
                                         processState(memeResponse)
                                     }
                                 }
@@ -108,6 +113,7 @@ class MemeBattleFragment : BaseFragment() {
 
     private fun sendLike(num: Int) {
         isButtonDisabled = true
+        chosenMeme = num
         launch {
             memeChannel.send(MemeRequest(num))
         }
@@ -131,7 +137,7 @@ class MemeBattleFragment : BaseFragment() {
                     .load(memeResponse.memes[1])
                     .into(image2)
             }
-            GameState.RESULT-> {
+            GameState.RESULT -> {
                 isButtonDisabled = true
                 like1.visibility = View.GONE
                 like2.visibility = View.GONE
@@ -139,6 +145,18 @@ class MemeBattleFragment : BaseFragment() {
                 result2.visibility = View.VISIBLE
                 res1.text = "${memeResponse.likes[0]} likes"
                 res2.text = "${memeResponse.likes[1]} likes"
+                if (memeResponse.likes[0] > memeResponse.likes[1]) {
+                    if (chosenMeme == 0) {
+                        winAnimation.visibility = View.VISIBLE
+                        winAnimation.playAnimation()
+                    }
+                } else {
+                    if (chosenMeme == 1) {
+                        winAnimation.visibility = View.VISIBLE
+                        winAnimation.playAnimation()
+                    }
+                }
+                chosenMeme = -1
             }
         }
     }

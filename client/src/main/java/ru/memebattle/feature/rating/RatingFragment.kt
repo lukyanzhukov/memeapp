@@ -14,7 +14,7 @@ class RatingFragment : Fragment(R.layout.fragment_rating) {
         recycler_view.adapter = ratingAdapter
 
         ratingAdapter.ratingModels = listOf(
-            RatingModel("Den", 100, 1),
+            RatingModel("Lukyan", 100, 1),
             RatingModel("Den", 100, 1),
             RatingModel("Den", 100, 1),
             RatingModel("Den", 100, 1),
