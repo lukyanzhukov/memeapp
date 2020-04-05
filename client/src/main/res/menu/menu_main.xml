@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/gameFragment"
-        android:icon="@drawable/ic_game"
-        android:title="GAME" />
+            android:id="@+id/gameFragment"
+            android:icon="@drawable/ic_game"
+            android:title="Memes" />
 
     <item
-        android:id="@+id/ratingFragment"
-        android:icon="@drawable/ic_hv_s"
-        android:title="Rating" />
+            android:id="@+id/ratingFragment"
+            android:icon="@drawable/ic_lrating"
+            android:title="Rating" />
 
 </menu>
