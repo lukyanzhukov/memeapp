@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_auth.*
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
+import ru.memebattle.PREFS_EMAIL
 import ru.memebattle.PREFS_TOKEN
 import ru.memebattle.R
 import ru.memebattle.common.dto.AuthenticationRequestDto
@@ -102,6 +103,7 @@ class AuthFragment : BaseFragment() {
 
     private fun onAuthSuccess(authenticationResponseDto: AuthenticationResponseDto) {
         prefs.putString(PREFS_TOKEN, authenticationResponseDto.token)
+        prefs.putString(PREFS_EMAIL, emailInput.text?.toString())
         progressBar.visibility = View.GONE
         signUpButton.isEnabled = true
         signInButton.isEnabled = true

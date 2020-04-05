@@ -10,12 +10,14 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_rating.*
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
+import ru.memebattle.PREFS_EMAIL
 import ru.memebattle.R
 import ru.memebattle.common.model.RatingModel
 import ru.memebattle.core.BaseFragment
 import ru.memebattle.core.api.AuthApi
 import ru.memebattle.core.api.RatingApi
 import ru.memebattle.core.utils.log
+import ru.memebattle.core.utils.putString
 
 class RatingFragment : BaseFragment() {
 
@@ -32,7 +34,7 @@ class RatingFragment : BaseFragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val ratingAdapter = RatingAdapter()
+        val ratingAdapter = RatingAdapter(prefs.getString(PREFS_EMAIL, "")!!)
         recycler_view.adapter = ratingAdapter
 
         launch {

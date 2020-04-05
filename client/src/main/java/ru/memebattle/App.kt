@@ -75,3 +75,4 @@ val sharedPreferencesModule = module {
 }
 
 const val PREFS_TOKEN = "token"
+const val PREFS_EMAIL = "email"
