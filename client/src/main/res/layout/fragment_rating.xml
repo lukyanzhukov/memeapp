@@ -12,6 +12,7 @@
         android:layout_height="200dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/colToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -30,6 +31,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 app:layout_collapseMode="pin"
+                android:titleTextColor="@color/colorAccent"
                 android:layout_height="?attr/actionBarSize" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
