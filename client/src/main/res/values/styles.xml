@@ -14,6 +14,6 @@
         <item name="colorPrimary">@android:color/white</item>
     </style>
     <style name="ButtonTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">#CBB132</item>
+        <item name="colorPrimary">#0C2F39</item>
     </style>
 </resources>
