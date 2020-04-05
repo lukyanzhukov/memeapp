@@ -41,8 +41,6 @@ class KodeinBuilder(private val environment: ApplicationEnvironment) {
             }
             bind<PasswordEncoder>() with eagerSingleton { BCryptPasswordEncoder() }
             bind<JWTTokenService>() with eagerSingleton { JWTTokenService() }
-            bind<PostRepository>() with eagerSingleton { PostRepositoryInMemoryWithMutexImpl() }
-            bind<PostService>() with eagerSingleton { PostService(instance()) }
             bind<UserRepository>() with eagerSingleton { UserRepositoryImpl() }
             bind<BroadcastChannel<MemeResponse>>("memes") with eagerSingleton {
                 @Suppress("RemoveExplicitTypeArguments")
@@ -59,8 +57,7 @@ class KodeinBuilder(private val environment: ApplicationEnvironment) {
                     instance(),
                     instance(),
                     instance(),
-                    instance(),
-                    instance<BroadcastChannel<MemeResponse>>("memes"),
+                    instance("memes"),
                     instance()
                 )
             }

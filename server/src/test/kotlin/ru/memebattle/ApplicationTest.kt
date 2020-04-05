@@ -38,7 +38,7 @@ class ApplicationTest {
     @Test
     fun `unauthorized EXPECT 401 status code`() {
         withTestApplication(configure) {
-            with(handleRequest(HttpMethod.Get, "/api/v1/posts")) {
+            with(handleRequest(HttpMethod.Get, "/api/v1/me")) {
                 assertEquals(HttpStatusCode.Unauthorized, response.status())
             }
         }

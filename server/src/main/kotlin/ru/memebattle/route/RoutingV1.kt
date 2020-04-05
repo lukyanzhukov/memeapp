@@ -4,23 +4,20 @@ import com.google.gson.Gson
 import io.ktor.application.call
 import io.ktor.auth.authenticate
 import io.ktor.auth.authentication
-import io.ktor.features.ParameterConversionException
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.readText
-import io.ktor.http.content.files
-import io.ktor.http.content.static
 import io.ktor.request.receive
-import io.ktor.request.receiveMultipart
 import io.ktor.response.respond
-import io.ktor.routing.*
+import io.ktor.routing.Routing
+import io.ktor.routing.get
+import io.ktor.routing.post
+import io.ktor.routing.route
 import io.ktor.websocket.webSocket
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.ReceiveChannel
 import ru.memebattle.auth.BasicAuth
 import ru.memebattle.auth.JwtAuth
 import ru.memebattle.common.dto.AuthenticationRequestDto
-import ru.memebattle.common.dto.PostRequestDto
 import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.common.dto.user.UserRegisterRequestDto
@@ -29,11 +26,9 @@ import ru.memebattle.model.UserModel
 import ru.memebattle.model.toDto
 import ru.memebattle.repository.RateusersRepository
 import ru.memebattle.service.MemeService
-import ru.memebattle.service.PostService
 import ru.memebattle.service.UserService
 
 class RoutingV1(
-    private val postService: PostService,
     private val userService: UserService,
     private val memeService: MemeService,
     private val rateusersRepository: RateusersRepository,
@@ -74,34 +69,6 @@ class RoutingV1(
                     route("/me") {
                         get {
                             call.respond(requireNotNull(me).toDto())
-                        }
-                    }
-
-                    route("/posts") {
-                        get {
-                            val response = postService.getAll()
-                            call.respond(response)
-                        }
-                        get("/{id}") {
-                            val id = call.parameters["id"]?.toLongOrNull()
-                                ?: throw ParameterConversionException(
-                                    "id",
-                                    "Long"
-                                )
-                            val response = postService.getById(id)
-                            call.respond(response)
-                        }
-                        post {
-                            val input = call.receive<PostRequestDto>()
-                            val response = postService.save(input)
-                            call.respond(response)
-                        }
-                        delete("/{id}") {
-                            val id = call.parameters["id"]?.toLongOrNull()
-                                ?: throw ParameterConversionException(
-                                    "id",
-                                    "Long"
-                                )
                         }
                     }
 
