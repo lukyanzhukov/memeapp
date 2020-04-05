@@ -150,7 +150,7 @@ class MemeBattleFragment : BaseFragment() {
                         winAnimation.visibility = View.VISIBLE
                         winAnimation.playAnimation()
                     }
-                } else {
+                } else if (memeResponse.likes[0] < memeResponse.likes[1]) {
                     if (chosenMeme == 1) {
                         winAnimation.visibility = View.VISIBLE
                         winAnimation.playAnimation()
