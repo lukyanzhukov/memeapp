@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.coroutineScope
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
 import io.ktor.client.HttpClient
-import io.ktor.client.features.websocket.WebSockets
 import io.ktor.client.features.websocket.wss
 import io.ktor.client.request.header
 import io.ktor.http.HttpMethod
@@ -21,26 +20,26 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.UnstableDefault
+import kotlinx.serialization.json.Json
 import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 import ru.memebattle.PREFS_TOKEN
 import ru.memebattle.R
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
-import ru.memebattle.core.BaseFragment
 import ru.memebattle.core.utils.getString
 import ru.memebattle.core.utils.log
 
-class MemeBattleFragment : BaseFragment() {
+class MemeBattleFragment : Fragment() {
 
     private val prefs: SharedPreferences = get()
     private var isButtonDisabled = true
     private var chosenMeme = -1
     private val memeChannel = Channel<MemeRequest>()
 
-    val client = HttpClient {
-        install(WebSockets)
-    }
+    val client: HttpClient  = get()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +49,7 @@ class MemeBattleFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_memebattle, container, false)
     }
 
+    @UnstableDefault
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         image1.setOnClickListener {
@@ -67,7 +67,7 @@ class MemeBattleFragment : BaseFragment() {
             }
             sendLike(1)
         }
-        launch {
+        lifecycle.coroutineScope.launch {
             try {
                 client.wss(
                     method = HttpMethod.Get,
@@ -79,8 +79,7 @@ class MemeBattleFragment : BaseFragment() {
                         for (frame in incoming) {
                             when (frame) {
                                 is Frame.Text -> {
-                                    val type = MemeResponse::class.javaObjectType
-                                    val memeResponse = Gson().fromJson(frame.readText(), type)
+                                    val memeResponse: MemeResponse = Json.parse(MemeResponse.serializer(), frame.readText())
                                     log(memeResponse.toString())
                                     if (memeResponse.state == GameState.MEMES) isButtonDisabled =
                                         false
@@ -96,8 +95,7 @@ class MemeBattleFragment : BaseFragment() {
                     }
                     val memes = async {
                         for (memes in memeChannel) {
-                            val type = MemeRequest::class.javaObjectType
-                            val jsonValue = Gson().toJson(memes, type)
+                            val jsonValue = Json.stringify(MemeRequest.serializer(), memes)
                             outgoing.send(Frame.Text(jsonValue))
                         }
                     }
@@ -114,7 +112,7 @@ class MemeBattleFragment : BaseFragment() {
     private fun sendLike(num: Int) {
         isButtonDisabled = true
         chosenMeme = num
-        launch {
+        lifecycle.coroutineScope.launch {
             memeChannel.send(MemeRequest(num))
         }
     }

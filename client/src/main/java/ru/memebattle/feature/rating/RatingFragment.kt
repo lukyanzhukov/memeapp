@@ -8,22 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.coroutineScope
+import client.common.data.getRating
+import io.ktor.client.HttpClient
 import kotlinx.android.synthetic.main.fragment_rating.*
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 import ru.memebattle.PREFS_EMAIL
 import ru.memebattle.R
-import ru.memebattle.common.model.RatingModel
-import ru.memebattle.core.BaseFragment
-import ru.memebattle.core.api.AuthApi
-import ru.memebattle.core.api.RatingApi
 import ru.memebattle.core.utils.log
-import ru.memebattle.core.utils.putString
 
-class RatingFragment : BaseFragment() {
+class RatingFragment : Fragment() {
 
     private val prefs: SharedPreferences = get()
-    private val ratingApi: RatingApi = get()
+    private val httpClient: HttpClient = get()
 
     override fun onResume() {
         super.onResume()
@@ -48,9 +46,9 @@ class RatingFragment : BaseFragment() {
         val ratingAdapter = RatingAdapter(prefs.getString(PREFS_EMAIL, "")!!)
         recycler_view.adapter = ratingAdapter
 
-        launch {
+        viewLifecycleOwner.lifecycle.coroutineScope.launch {
             try {
-                ratingAdapter.ratingModels = ratingApi.getRating()
+                ratingAdapter.ratingModels = httpClient.getRating()
                 shimmer_view_container.stopShimmerAnimation()
                 shimmer_view_container.isVisible = false
             } catch (error: Throwable) {

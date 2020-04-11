@@ -6,6 +6,7 @@ plugins {
     id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("com.google.gms.google-services")
+    kotlin("plugin.serialization") version Versions.KOTLIN
 }
 
 repositories {
@@ -34,6 +35,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    packagingOptions {
+        exclude("META-INF/*.kotlin_module")
+    }
 }
 
 tasks.withType<KotlinCompile> {
@@ -43,42 +48,31 @@ tasks.withType<KotlinCompile> {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.KOTLIN}")
     implementation("androidx.appcompat:appcompat:1.1.0")
     implementation("androidx.core:core-ktx:1.2.0")
     implementation("androidx.constraintlayout:constraintlayout:1.1.3")
     implementation("androidx.navigation:navigation-fragment-ktx:2.2.1")
     implementation("androidx.navigation:navigation-ui-ktx:2.2.1")
-    implementation("com.squareup.retrofit2:retrofit:2.7.1")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:2.5.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.5.0")
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("com.google.android.material:material:1.1.0")
-    implementation("androidx.recyclerview:recyclerview:1.2.0-alpha01")
-    implementation("com.squareup.retrofit2:retrofit:2.7.1")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:2.5.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.5.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.3.1")
-    implementation("androidx.room:room-runtime:2.2.4")
+    implementation("androidx.recyclerview:recyclerview:1.2.0-alpha02")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
-    kapt("androidx.room:room-compiler:2.2.4")
-    implementation("androidx.room:room-rxjava2:2.2.4")
     implementation("org.koin:koin-android:2.0.1")
     implementation("org.koin:koin-android-viewmodel:2.0.1")
     implementation("org.koin:koin-androidx-scope:2.0.1")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
-    implementation("com.google.firebase:firebase-core:17.2.3")
-    implementation("com.google.firebase:firebase-messaging:20.1.1")
-    implementation("com.github.nkzawa:socket.io-client:0.6.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
-    implementation("com.github.bumptech.glide:glide:4.4.0")
-    kapt("com.github.bumptech.glide:compiler:4.4.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}")
+    implementation("com.github.bumptech.glide:glide:4.11.0")
+    kapt("com.github.bumptech.glide:compiler:4.11.0")
     implementation("io.ktor:ktor-client-websockets-jvm:1.3.2")
     implementation("io.ktor:ktor-client-cio:1.3.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5")
     implementation ("com.airbnb.android:lottie:3.1.0")
     implementation(project(":common"))
     implementation ("com.facebook.shimmer:shimmer:0.1.0@aar")
+    implementation (project(":client-common"))
+    implementation("com.russhwolf:multiplatform-settings:0.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.SERIALIZATION}")
 }

@@ -5,7 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.findNavController
+import client.common.data.signIn
+import client.common.data.signUp
+import io.ktor.client.HttpClient
 import kotlinx.android.synthetic.main.fragment_auth.*
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
@@ -14,15 +19,13 @@ import ru.memebattle.PREFS_TOKEN
 import ru.memebattle.R
 import ru.memebattle.common.dto.AuthenticationRequestDto
 import ru.memebattle.common.dto.AuthenticationResponseDto
-import ru.memebattle.core.BaseFragment
-import ru.memebattle.core.api.AuthApi
 import ru.memebattle.core.utils.putString
 import ru.memebattle.core.utils.toast
 
-class AuthFragment : BaseFragment() {
+class AuthFragment : Fragment() {
 
     private val prefs: SharedPreferences = get()
-    private val authApi: AuthApi = get()
+    private val client: HttpClient = get()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,9 +54,9 @@ class AuthFragment : BaseFragment() {
             val authenticationRequestDto = getAuthDto() ?: return@setOnClickListener
             prepareAuth()
 
-            launch {
+            lifecycle.coroutineScope.launch {
                 try {
-                    val response = authApi.signIn(authenticationRequestDto)
+                    val response = client.signIn(authenticationRequestDto)
 
                     onAuthSuccess(response)
                 } catch (e: Exception) {
@@ -67,9 +70,9 @@ class AuthFragment : BaseFragment() {
 
             prepareAuth()
 
-            launch {
+            lifecycle.coroutineScope.launch {
                 try {
-                    val response = authApi.signUp(authenticationRequestDto)
+                    val response = client.signUp(authenticationRequestDto)
 
                     onAuthSuccess(response)
                 } catch (e: Exception) {
