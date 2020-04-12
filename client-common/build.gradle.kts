@@ -79,11 +79,10 @@ kotlin {
 
     sourceSets["iosMain"].dependencies {
         implementation("io.ktor:ktor-client-ios:${Versions.KTOR}")
-        implementation("io.ktor:ktor-client-websockets-ios:${Versions.KTOR}")
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:${Versions.KTOR}")
+        implementation("io.ktor:ktor-client-websockets-native:${Versions.KTOR}")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:${Versions.SERIALIZATION}")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:${Versions.COROUTINES}")
-        implementation("io.ktor:ktor-client-core-ios:${Versions.KTOR}")
-        implementation("io.ktor:ktor-client-json-ios:${Versions.KTOR}")
+        implementation("io.ktor:ktor-client-json-native:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-serialization-native:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-auth-native:${Versions.KTOR}")
     }
