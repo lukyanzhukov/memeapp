@@ -10,6 +10,8 @@ import io.ktor.client.features.logging.Logging
 import io.ktor.client.features.websocket.WebSockets
 import io.ktor.client.request.get
 import io.ktor.client.request.post
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import ru.memebattle.common.dto.AuthenticationRequestDto
 import ru.memebattle.common.dto.AuthenticationResponseDto
 import ru.memebattle.common.model.RatingModel
@@ -31,15 +33,17 @@ fun MemeClient(tokenSource: TokenSource): HttpClient = HttpClient {
     install(WebSockets)
 }
 
-suspend fun HttpClient.signUp(authenticationRequestDto: AuthenticationRequestDto): AuthenticationResponseDto =
+internal suspend fun HttpClient.signUp(authenticationRequestDto: AuthenticationRequestDto): AuthenticationResponseDto =
     post("${BASE_URL}registration") {
+        contentType(ContentType.Application.Json)
         body = authenticationRequestDto
     }
 
-suspend fun HttpClient.signIn(authenticationRequestDto: AuthenticationRequestDto): AuthenticationResponseDto =
+internal suspend fun HttpClient.signIn(authenticationRequestDto: AuthenticationRequestDto): AuthenticationResponseDto =
     post("${BASE_URL}authentication") {
+        contentType(ContentType.Application.Json)
         body = authenticationRequestDto
     }
 
-suspend fun HttpClient.getRating(): List<RatingModel> =
+internal suspend fun HttpClient.getRating(): List<RatingModel> =
     get("${BASE_URL}rating")

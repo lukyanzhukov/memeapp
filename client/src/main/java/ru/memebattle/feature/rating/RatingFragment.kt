@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.coroutineScope
-import client.common.data.getRating
 import io.ktor.client.HttpClient
 import kotlinx.android.synthetic.main.fragment_rating.*
 import kotlinx.coroutines.launch
@@ -48,7 +47,7 @@ class RatingFragment : Fragment() {
 
         viewLifecycleOwner.lifecycle.coroutineScope.launch {
             try {
-                ratingAdapter.ratingModels = httpClient.getRating()
+                //ratingAdapter.ratingModels = httpClient.getRating()
                 shimmer_view_container.stopShimmerAnimation()
                 shimmer_view_container.isVisible = false
             } catch (error: Throwable) {

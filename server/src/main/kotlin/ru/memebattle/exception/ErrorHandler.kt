@@ -11,14 +11,21 @@ object ErrorHandler {
     @Suppress("EXPERIMENTAL_API_USAGE")
     fun setup(configuration: StatusPages.Configuration) {
         with(configuration) {
-            exception<NotImplementedError> {
+            exception<NotImplementedError> { error ->
                 call.respond(HttpStatusCode.NotImplemented)
+                throw error
             }
-            exception<ParameterConversionException> {
+            exception<ParameterConversionException> { error ->
                 call.respond(HttpStatusCode.BadRequest)
+                throw error
             }
-            exception<UserExistsException> {
+            exception<UserExistsException> { error ->
                 call.respond(HttpStatusCode.BadRequest)
+                throw error
+            }
+            exception<InvalidPasswordException> { error ->
+                call.respond(HttpStatusCode.Forbidden)
+                throw error
             }
         }
     }

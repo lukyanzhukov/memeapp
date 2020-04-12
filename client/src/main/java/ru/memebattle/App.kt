@@ -5,12 +5,18 @@ import android.content.Context
 import client.common.data.MemeClient
 import client.common.data.SettingsTokenSource
 import client.common.data.TokenSource
+import client.common.feature.auth.AuthViewModel
+import client.common.feature.splash.SplashViewModel
 import com.russhwolf.settings.AndroidSettings
 import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
 import org.koin.android.ext.koin.androidContext
+import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import ru.memebattle.feature.AuthFragment
+import ru.memebattle.feature.SplashFragment
 
 class App : Application() {
 
@@ -23,7 +29,9 @@ class App : Application() {
             modules(
                 listOf(
                     sharedPreferencesModule,
-                    networkModule
+                    networkModule,
+                    splashModule,
+                    authModule
                 )
             )
         }
@@ -36,8 +44,24 @@ val networkModule = module {
         SettingsTokenSource(AndroidSettings(get()))
     }
 
-    single<HttpClient> {
+    single {
         MemeClient(get())
+    }
+}
+
+val splashModule = module {
+    scope(named<SplashFragment>()) {
+        scoped {
+            SplashViewModel(get())
+        }
+    }
+}
+
+val authModule = module {
+    scope(named<AuthFragment>()) {
+        viewModel {
+            AuthViewModel(get(), get())
+        }
     }
 }
 

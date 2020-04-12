@@ -1,12 +1,29 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
+    id("com.android.library")
     kotlin("multiplatform")
     kotlin("plugin.serialization") version Versions.KOTLIN
 }
 
+android {
+    compileSdkVersion(29)
+
+    defaultConfig {
+        minSdkVersion(21)
+        targetSdkVersion(29)
+    }
+
+    sourceSets {
+        getByName("main") {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            java.srcDirs("src/androidMain/kotlin")
+            res.srcDirs("src/androidMain/res")
+        }
+    }
+}
+
 repositories {
-    maven(url = "https://dl.bintray.com/florent37/maven")
     google()
     jcenter()
 }
@@ -27,7 +44,7 @@ kotlin {
         }
     }
 
-    jvm("android")
+    android()
 
     sourceSets["commonMain"].dependencies {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
@@ -55,6 +72,9 @@ kotlin {
         implementation("io.ktor:ktor-client-serialization-jvm:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-auth-jvm:${Versions.KTOR}")
         implementation("org.slf4j:slf4j-simple:1.6.1")
+        implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
+        implementation("androidx.appcompat:appcompat:1.1.0")
+        implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
     }
 
     sourceSets["iosMain"].dependencies {

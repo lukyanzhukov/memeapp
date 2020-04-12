@@ -1,25 +1,23 @@
 package ru.memebattle.feature
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import org.koin.android.ext.android.get
-import ru.memebattle.PREFS_TOKEN
+import client.common.feature.splash.SplashNavigation
+import client.common.feature.splash.SplashViewModel
+import org.koin.android.scope.currentScope
 import ru.memebattle.R
-import ru.memebattle.core.utils.getString
 
 class SplashFragment : Fragment() {
+
+    private val viewModel: SplashViewModel = currentScope.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val prefs: SharedPreferences = get()
-
-        if (prefs.getString(PREFS_TOKEN) != null) {
-            findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
-        } else {
-            findNavController().navigate(R.id.action_splashFragment_to_authFragment)
+        when (viewModel.getRoute()) {
+            SplashNavigation.ToMain -> findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
+            SplashNavigation.ToAuth -> findNavController().navigate(R.id.action_splashFragment_to_authFragment)
         }
     }
 }
