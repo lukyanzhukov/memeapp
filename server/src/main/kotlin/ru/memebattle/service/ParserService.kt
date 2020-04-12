@@ -28,7 +28,7 @@ class ParserService(
                 val groupIds = listOf("183566984","120891224", "155464693", "154906069")
                 groupIds.forEach { groupId ->
                     val response =
-                        client.get<String>("https://api.vk.com/method/wall.get?owner_id=-$groupId&access_token=e0cd519e93ed63e1947c49cc09f89c60b4b6f3ba38f188eb726ce6e7b9b1c2e5c247821664052fb1c13aa&v=5.103")
+                        client.get<String>("https://api.vk.com/method/wall.get?owner_id=-$groupId&access_token=2f0935dcc011e41fdd54052842b577d80739bbca71728837395626c0a00c4fa68e6e2ecedc412cb0d1a40&v=5.103")
                     val vkResponse = Gson().fromJson(response, VKResponse::class.java)
                     val urls = vkResponse.response?.items?.map {
                         it.attachments?.firstOrNull()?.photo?.sizes?.getMaxImage()
