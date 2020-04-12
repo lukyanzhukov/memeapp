@@ -8,7 +8,6 @@ import client.common.feature.memebattle.MemeBattleViewModel
 import client.common.feature.rating.RatingViewModel
 import client.common.feature.settings.SettingsViewModel
 import client.common.feature.splash.SplashViewModel
-import com.russhwolf.settings.AndroidSettings
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
