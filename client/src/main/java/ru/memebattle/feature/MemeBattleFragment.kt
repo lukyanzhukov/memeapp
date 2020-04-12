@@ -1,57 +1,53 @@
 package ru.memebattle.feature
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.observe
+import client.common.feature.memebattle.MemeBattleState
+import client.common.feature.memebattle.MemeBattleViewModel
 import com.bumptech.glide.Glide
-import io.ktor.client.HttpClient
-import io.ktor.client.features.websocket.wss
-import io.ktor.client.request.header
-import io.ktor.http.HttpMethod
-import io.ktor.http.cio.websocket.Frame
-import io.ktor.http.cio.websocket.readText
 import kotlinx.android.synthetic.main.fragment_memebattle.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.UnstableDefault
-import kotlinx.serialization.json.Json
-import org.koin.android.ext.android.get
-import org.koin.android.ext.android.inject
-import ru.memebattle.PREFS_TOKEN
+import org.koin.android.scope.currentScope
+import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
 import ru.memebattle.common.dto.game.GameState
-import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
-import ru.memebattle.core.utils.getString
-import ru.memebattle.core.utils.log
 
-class MemeBattleFragment : Fragment() {
+class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
 
-    private val prefs: SharedPreferences = get()
     private var isButtonDisabled = true
     private var chosenMeme = -1
-    private val memeChannel = Channel<MemeRequest>()
-
-    val client: HttpClient  = get()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_memebattle, container, false)
-    }
+    private val viewModel: MemeBattleViewModel by currentScope.viewModel(this)
 
     @UnstableDefault
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        error_button.setOnClickListener {
+            viewModel.connect()
+        }
+
+        viewModel.state.platform.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is MemeBattleState.Meme -> {
+                    processState(state.memeResponse)
+                }
+
+                MemeBattleState.Error -> {
+                    progress.isVisible = false
+                    error_group.isVisible = true
+                }
+
+                MemeBattleState.Progress -> {
+                    error_group.isVisible = false
+                    progress.isVisible = true
+                }
+            }
+        }
+
         image1.setOnClickListener {
             if (isButtonDisabled) return@setOnClickListener
             if (like1.visibility == View.GONE && like2.visibility == View.GONE) {
@@ -67,57 +63,17 @@ class MemeBattleFragment : Fragment() {
             }
             sendLike(1)
         }
-        lifecycle.coroutineScope.launch {
-            try {
-                client.wss(
-                    method = HttpMethod.Get,
-                    host = "memebattle.herokuapp.com",
-                    path = "/api/v1",
-                    request = { header("Authorization", "Bearer ${prefs.getString(PREFS_TOKEN)}") }
-                ) {
-                    val frames = async {
-                        for (frame in incoming) {
-                            when (frame) {
-                                is Frame.Text -> {
-                                    val memeResponse: MemeResponse = Json.parse(MemeResponse.serializer(), frame.readText())
-                                    log(memeResponse.toString())
-                                    if (memeResponse.state == GameState.MEMES) isButtonDisabled =
-                                        false
-                                    withContext(Dispatchers.Main) {
-                                        winAnimation.visibility = View.GONE
-                                        winAnimation.pauseAnimation()
-                                        winAnimation.progress = 0f
-                                        processState(memeResponse)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    val memes = async {
-                        for (memes in memeChannel) {
-                            val jsonValue = Json.stringify(MemeRequest.serializer(), memes)
-                            outgoing.send(Frame.Text(jsonValue))
-                        }
-                    }
-                    frames.await()
-                    memes.await()
-                }
-            } catch (error: Throwable) {
-                log(error.toString())
-                error.printStackTrace()
-            }
-        }
     }
 
     private fun sendLike(num: Int) {
         isButtonDisabled = true
         chosenMeme = num
-        lifecycle.coroutineScope.launch {
-            memeChannel.send(MemeRequest(num))
-        }
+        viewModel.like(num)
     }
 
     private fun processState(memeResponse: MemeResponse) {
+        progress.isVisible = false
+        error_group.isVisible = false
         when (memeResponse.state) {
             GameState.START -> {
                 like1.visibility = View.GONE

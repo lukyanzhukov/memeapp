@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import client.common.data.*
 import client.common.feature.auth.AuthViewModel
+import client.common.feature.memebattle.MemeBattleViewModel
 import client.common.feature.rating.RatingViewModel
 import client.common.feature.settings.SettingsViewModel
 import client.common.feature.splash.SplashViewModel
@@ -14,6 +15,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import ru.memebattle.feature.AuthFragment
+import ru.memebattle.feature.MemeBattleFragment
 import ru.memebattle.feature.SettingsFragment
 import ru.memebattle.feature.SplashFragment
 import ru.memebattle.feature.rating.RatingFragment
@@ -33,7 +35,8 @@ class App : Application() {
                     splashModule,
                     authModule,
                     ratingModule,
-                    settingsModule
+                    settingsModule,
+                    memeBattleModule
                 )
             )
         }
@@ -79,6 +82,14 @@ val ratingModule = module {
     }
 }
 
+val memeBattleModule = module {
+    scope(named<MemeBattleFragment>()) {
+        scoped {
+            MemeBattleViewModel(get(), get()).also(MemeBattleViewModel::connect)
+        }
+    }
+}
+
 val settingsModule = module {
     scope(named<SettingsFragment>()) {
         scoped {
@@ -90,5 +101,3 @@ val settingsModule = module {
 val sharedPreferencesModule = module {
     single { androidContext().getSharedPreferences("settings", Context.MODE_PRIVATE) }
 }
-
-const val PREFS_TOKEN = "token"
