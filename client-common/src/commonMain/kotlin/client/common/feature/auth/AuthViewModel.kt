@@ -1,5 +1,6 @@
 package client.common.feature.auth
 
+import client.common.data.LoginSource
 import client.common.data.TokenSource
 import client.common.data.signIn
 import client.common.data.signUp
@@ -12,7 +13,8 @@ import ru.memebattle.common.dto.AuthenticationRequestDto
 
 class AuthViewModel(
     private val client: HttpClient,
-    private val tokenSource: TokenSource
+    private val tokenSource: TokenSource,
+    private val loginSource: LoginSource
 ) : ViewModel() {
 
     private val _loading = MutableLiveData<Boolean>()
@@ -43,6 +45,7 @@ class AuthViewModel(
                 )
 
                 tokenSource.token = response.token
+                loginSource.login = login
 
                 _authResult.value = AuthResult.Success
             } catch (exception: Exception) {
@@ -73,6 +76,7 @@ class AuthViewModel(
                 )
 
                 tokenSource.token = response.token
+                loginSource.login = login
 
                 _authResult.value = AuthResult.Success
             } catch (exception: Exception) {

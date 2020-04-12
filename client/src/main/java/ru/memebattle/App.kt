@@ -2,14 +2,11 @@ package ru.memebattle
 
 import android.app.Application
 import android.content.Context
-import client.common.data.MemeClient
-import client.common.data.SettingsTokenSource
-import client.common.data.TokenSource
+import client.common.data.*
 import client.common.feature.auth.AuthViewModel
+import client.common.feature.rating.RatingViewModel
 import client.common.feature.splash.SplashViewModel
 import com.russhwolf.settings.AndroidSettings
-import com.russhwolf.settings.Settings
-import io.ktor.client.HttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
@@ -17,6 +14,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import ru.memebattle.feature.AuthFragment
 import ru.memebattle.feature.SplashFragment
+import ru.memebattle.feature.rating.RatingFragment
 
 class App : Application() {
 
@@ -31,7 +29,8 @@ class App : Application() {
                     sharedPreferencesModule,
                     networkModule,
                     splashModule,
-                    authModule
+                    authModule,
+                    ratingModule
                 )
             )
         }
@@ -42,6 +41,10 @@ val networkModule = module {
 
     single<TokenSource> {
         SettingsTokenSource(AndroidSettings(get()))
+    }
+
+    single<LoginSource> {
+        SettingsLoginSource(AndroidSettings(get()))
     }
 
     single {
@@ -60,7 +63,15 @@ val splashModule = module {
 val authModule = module {
     scope(named<AuthFragment>()) {
         viewModel {
-            AuthViewModel(get(), get())
+            AuthViewModel(get(), get(), get())
+        }
+    }
+}
+
+val ratingModule = module {
+    scope(named<RatingFragment>()) {
+        viewModel {
+            RatingViewModel(get()).also(RatingViewModel::getRating)
         }
     }
 }
@@ -70,4 +81,3 @@ val sharedPreferencesModule = module {
 }
 
 const val PREFS_TOKEN = "token"
-const val PREFS_EMAIL = "email"
