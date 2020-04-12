@@ -5,6 +5,7 @@ import android.content.Context
 import client.common.data.*
 import client.common.feature.auth.AuthViewModel
 import client.common.feature.rating.RatingViewModel
+import client.common.feature.settings.SettingsViewModel
 import client.common.feature.splash.SplashViewModel
 import com.russhwolf.settings.AndroidSettings
 import org.koin.android.ext.koin.androidContext
@@ -13,6 +14,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import ru.memebattle.feature.AuthFragment
+import ru.memebattle.feature.SettingsFragment
 import ru.memebattle.feature.SplashFragment
 import ru.memebattle.feature.rating.RatingFragment
 
@@ -30,7 +32,8 @@ class App : Application() {
                     networkModule,
                     splashModule,
                     authModule,
-                    ratingModule
+                    ratingModule,
+                    settingsModule
                 )
             )
         }
@@ -72,6 +75,14 @@ val ratingModule = module {
     scope(named<RatingFragment>()) {
         viewModel {
             RatingViewModel(get()).also(RatingViewModel::getRating)
+        }
+    }
+}
+
+val settingsModule = module {
+    scope(named<SettingsFragment>()) {
+        scoped {
+            SettingsViewModel(get(), get())
         }
     }
 }
