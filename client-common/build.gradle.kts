@@ -97,6 +97,7 @@ kotlin {
         implementation("io.ktor:ktor-client-serialization-native:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-auth-native:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-logging-native:${Versions.KTOR}")
+        implementation("io.ktor:ktor-utils-native:${Versions.KTOR}")
     }
 }
 
