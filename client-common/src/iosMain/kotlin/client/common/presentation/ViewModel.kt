@@ -1,12 +1,12 @@
 package client.common.presentation
 
+import client.common.UIDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 
 actual open class ViewModel {
 
-    val actualScope = MainScope()
+    val actualScope = CoroutineScope(UIDispatcher)
 
     fun clear() {
         actualScope.cancel()

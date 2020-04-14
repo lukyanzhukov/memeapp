@@ -5,13 +5,13 @@ import client.common.presentation.LiveData
 import client.common.presentation.MutableLiveData
 import client.common.presentation.ViewModel
 import client.common.presentation.viewModelScope
+import client.uiDispatcher
 import io.ktor.client.HttpClient
 import io.ktor.client.features.websocket.wss
 import io.ktor.client.request.header
 import io.ktor.http.HttpMethod
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.readText
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
@@ -42,7 +42,7 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
                                 is Frame.Text -> {
                                     @Suppress("EXPERIMENTAL_API_USAGE") val memeResponse: MemeResponse =
                                         Json.parse(MemeResponse.serializer(), frame.readText())
-                                    withContext(Dispatchers.Main) {
+                                    withContext(uiDispatcher()) {
                                         _state.value = MemeBattleState.Meme(memeResponse)
                                     }
                                 }
@@ -59,7 +59,7 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
                     memes.await()
                 }
             } catch (error: Throwable) {
-                _state.value = MemeBattleState.Error
+                _state.value = MemeBattleState.Error(error.message)
             }
         }
     }

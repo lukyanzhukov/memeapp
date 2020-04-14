@@ -73,6 +73,5 @@ dependencies {
     implementation(project(":common"))
     implementation ("com.facebook.shimmer:shimmer:0.1.0@aar")
     implementation (project(":client-common"))
-    implementation("com.russhwolf:multiplatform-settings:0.5.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.SERIALIZATION}")
 }

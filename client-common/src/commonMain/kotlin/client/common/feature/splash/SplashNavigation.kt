@@ -1,6 +1,6 @@
 package client.common.feature.splash
 
-enum class SplashNavigation {
-    ToMain,
-    ToAuth
+sealed class SplashNavigation {
+    object ToMain: SplashNavigation()
+    object ToAuth: SplashNavigation()
 }

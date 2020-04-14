@@ -21,6 +21,17 @@ android {
             res.srcDirs("src/androidMain/res")
         }
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 repositories {
@@ -56,7 +67,6 @@ kotlin {
         implementation("io.ktor:ktor-client-logging:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-serialization:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-auth:${Versions.KTOR}")
-        implementation("com.russhwolf:multiplatform-settings:0.5.1")
         implementation(project(":common"))
     }
 
@@ -75,6 +85,7 @@ kotlin {
         implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
         implementation("androidx.appcompat:appcompat:1.1.0")
         implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
+        implementation("androidx.core:core-ktx:1.2.0")
     }
 
     sourceSets["iosMain"].dependencies {
@@ -85,6 +96,8 @@ kotlin {
         implementation("io.ktor:ktor-client-json-native:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-serialization-native:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-auth-native:${Versions.KTOR}")
+        implementation("io.ktor:ktor-client-logging-native:${Versions.KTOR}")
+        implementation("io.ktor:ktor-utils-native:${Versions.KTOR}")
     }
 }
 

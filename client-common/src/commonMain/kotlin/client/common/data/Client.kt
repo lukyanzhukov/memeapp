@@ -7,7 +7,6 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.logging.DEFAULT
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
-import io.ktor.client.features.websocket.WebSockets
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.http.ContentType

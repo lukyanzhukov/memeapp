@@ -36,7 +36,7 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                     processState(state.memeResponse)
                 }
 
-                MemeBattleState.Error -> {
+                is MemeBattleState.Error -> {
                     progress.isVisible = false
                     error_group.isVisible = true
                 }
