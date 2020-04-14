@@ -9,6 +9,7 @@ import client.common.feature.memebattle.MemeBattleState
 import client.common.feature.memebattle.MemeBattleViewModel
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_memebattle.*
+import kotlinx.coroutines.*
 import kotlinx.serialization.UnstableDefault
 import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -26,6 +27,7 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loadingMemesProgressBar.progress = 0
         error_button.setOnClickListener {
             viewModel.connect()
         }
@@ -76,6 +78,12 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
         error_group.isVisible = false
         when (memeResponse.state) {
             GameState.START -> {
+                GlobalScope.launch(Dispatchers.Main) {
+                    repeat(DELAY_RESULTS_SECONDS_TIME) {
+                        delay(1000)
+                        loadingMemesProgressBar.incrementProgressBy(FULL_PROGRESS / DELAY_RESULTS_SECONDS_TIME)
+                    }
+                }
                 like1.visibility = View.GONE
                 like2.visibility = View.GONE
                 result1.visibility = View.GONE
@@ -92,6 +100,7 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                     .into(image2)
             }
             GameState.RESULT -> {
+                loadingMemesProgressBar.progress = 0
                 isButtonDisabled = true
                 like1.visibility = View.GONE
                 like2.visibility = View.GONE
@@ -113,5 +122,10 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                 chosenMeme = -1
             }
         }
+    }
+
+    companion object {
+        const val FULL_PROGRESS = 100
+        const val DELAY_RESULTS_SECONDS_TIME = 10
     }
 }

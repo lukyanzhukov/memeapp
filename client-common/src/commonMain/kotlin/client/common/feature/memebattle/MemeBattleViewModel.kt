@@ -31,17 +31,18 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
         viewModelScope.launch {
             try {
                 client.wss(
-                    method = HttpMethod.Get,
-                    host = "memebattle.herokuapp.com",
-                    path = "/api/v1",
-                    request = { header("Authorization", "Bearer ${tokenSource.token}") }
+                        method = HttpMethod.Get,
+                        host = "memebattle.herokuapp.com",
+                        path = "/api/v1",
+                        request = { header("Authorization", "Bearer ${tokenSource.token}") }
                 ) {
                     val frames = async {
                         for (frame in incoming) {
                             when (frame) {
                                 is Frame.Text -> {
-                                    @Suppress("EXPERIMENTAL_API_USAGE") val memeResponse: MemeResponse =
-                                        Json.parse(MemeResponse.serializer(), frame.readText())
+                                    @Suppress("EXPERIMENTAL_API_USAGE")
+                                    val memeResponse: MemeResponse =
+                                            Json.parse(MemeResponse.serializer(), frame.readText())
                                     withContext(uiDispatcher()) {
                                         _state.value = MemeBattleState.Meme(memeResponse)
                                     }
@@ -49,7 +50,8 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
                             }
                         }
                     }
-                    @Suppress("EXPERIMENTAL_API_USAGE") val memes = async {
+                    @Suppress("EXPERIMENTAL_API_USAGE")
+                    val memes = async {
                         for (memes in memeChannel) {
                             val jsonValue = Json.stringify(MemeRequest.serializer(), memes)
                             outgoing.send(Frame.Text(jsonValue))
