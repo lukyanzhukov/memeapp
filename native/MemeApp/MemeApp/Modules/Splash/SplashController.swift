@@ -7,6 +7,10 @@ final class SplashController: UIViewController, ViewSpecificController {
     
     var viewModel: SplashViewModel!
     
+    override func loadView() {
+        view = SplashView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
