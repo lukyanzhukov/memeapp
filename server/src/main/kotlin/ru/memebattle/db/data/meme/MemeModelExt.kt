@@ -5,5 +5,6 @@ import ru.memebattle.model.MemeModel
 
 fun ResultRow.toMeme() = MemeModel(
     url = this[Memes.url],
-    id = this[Memes.id]
+    id = this[Memes.id],
+    mode = this[Memes.mode]
 )
