@@ -76,25 +76,18 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     }
 
     private fun isFieldsNotValid(): Boolean {
-        val isLoginNotValid = if (isLoginNotValid(loginInput.text.toString())) {
-            loginTextInputLayout.error = getString(R.string.auth_not_valid_field_error_message)
-            true
-        } else false
-        val isPasswordNotValid = if (isPasswordNotValid(passwordInput.text.toString())) {
-            passwordTextInputLayout.error = getString(R.string.auth_not_valid_field_error_message)
-            true
-        } else false
+        val isLoginNotValid =
+            if (authViewModel.isLoginNotValid(loginInput.text.toString())) {
+                loginTextInputLayout.error = getString(R.string.auth_not_valid_field_error_message)
+                true
+            } else false
+        val isPasswordNotValid =
+            if (authViewModel.isPasswordNotValid(passwordInput.text.toString())) {
+                passwordTextInputLayout.error =
+                    getString(R.string.auth_not_valid_field_error_message)
+                true
+            } else false
         return isLoginNotValid || isPasswordNotValid
-    }
-
-    private fun isPasswordNotValid(field: String): Boolean {
-        val regex = getString(R.string.password_regex).toRegex()
-        return !field.matches(regex)
-    }
-
-    private fun isLoginNotValid(field: String): Boolean {
-        val regex = getString(R.string.login_regex).toRegex()
-        return !field.matches(regex)
     }
 
     private fun showProgress() {

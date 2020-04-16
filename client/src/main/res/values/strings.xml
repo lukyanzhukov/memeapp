@@ -5,8 +5,6 @@
     <string name="auth_not_user_error_message">Вы не зарегистрированы</string>
     <string name="auth_user_exist_error_message">Вы уже зарегистрированы</string>
     <string name="auth_netword_error_message">Проблемы с сетью</string>
-    <string name="password_regex">^(?=.*[0-9])(?=.*[a-z])(?=\\S+$).{8,}$</string>
-    <string name="login_regex">^(?=.*[a-z])(?=\\S+$).{4,}$</string>
     <string name="login_hint_text">Логин</string>
     <string name="password_hint_text">Пароль</string>
     <string name="sign_in_button_text">Вход</string>
