@@ -16,16 +16,16 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/emailTextInputLayout"
-            android:theme="@style/InputLayoutTheme"
+            android:id="@+id/loginTextInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="@string/login_hint_text"
+            android:theme="@style/InputLayoutTheme"
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/emailInput"
+                android:id="@+id/loginInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -36,18 +36,18 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordTextInputLayout"
-            android:theme="@style/InputLayoutTheme"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:hint="Пароль"
+            android:hint="@string/password_hint_text"
+            android:theme="@style/InputLayoutTheme"
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberPassword" />
+                android:inputType="textWebPassword" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
@@ -61,18 +61,18 @@
         app:layout_constraintTop_toBottomOf="@+id/inputsLayout">
 
         <Button
-            android:theme="@style/ButtonTheme"
             android:id="@+id/signInButton"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="Вход" />
+            android:text="@string/sign_in_button_text"
+            android:theme="@style/ButtonTheme" />
 
         <Button
-            android:theme="@style/ButtonTheme"
             android:id="@+id/signUpButton"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="Регистрация" />
+            android:text="@string/sign_up_button_text"
+            android:theme="@style/ButtonTheme" />
 
     </LinearLayout>
 

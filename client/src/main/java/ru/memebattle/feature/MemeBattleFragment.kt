@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import client.common.feature.memebattle.MemeBattleState
 import client.common.feature.memebattle.MemeBattleViewModel
@@ -78,7 +79,7 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
         error_group.isVisible = false
         when (memeResponse.state) {
             GameState.START -> {
-                GlobalScope.launch(Dispatchers.Main) {
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
                     repeat(DELAY_RESULTS_SECONDS_TIME) {
                         delay(1000)
                         loadingMemesProgressBar.incrementProgressBy(FULL_PROGRESS / DELAY_RESULTS_SECONDS_TIME)

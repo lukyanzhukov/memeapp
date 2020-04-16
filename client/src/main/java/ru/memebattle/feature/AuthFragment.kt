@@ -19,7 +19,10 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
 
+    private fun initView() {
         authViewModel.loading.platform.observe(viewLifecycleOwner) { loading ->
             if (loading) {
                 showProgress()
@@ -30,35 +33,68 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
         authViewModel.authResult.platform.observe(viewLifecycleOwner) { authResult ->
             when (authResult) {
-                AuthResult.Success -> findNavController().navigate(R.id.action_authFragment_to_mainFragment)
-                AuthResult.Fail.InvalidPassword -> emailTextInputLayout.error = "Заполните поле"
-                AuthResult.Fail.InvalidLogin -> passwordTextInputLayout.error = "Неправильный пароль"
-                AuthResult.Fail.UserNotFound -> toast("Вы не зарегистрированы")
-                AuthResult.Fail.UserAlreadyRegistered -> toast("Вы уже зарегистрированы")
-                AuthResult.Fail.NetworkError -> toast("Проблемы с сетью")
-                AuthResult.Fail.EmptyPassword -> passwordTextInputLayout.error = "Заполните поле"
+                AuthResult.Success -> findNavController()
+                    .navigate(R.id.action_authFragment_to_mainFragment)
+                AuthResult.Fail.InvalidPassword -> loginTextInputLayout.error =
+                    getString(R.string.auth_not_valid_field_error_message)
+                AuthResult.Fail.InvalidLogin -> passwordTextInputLayout.error =
+                    getString(R.string.auth_wrong_password_error_message)
+                AuthResult.Fail.UserNotFound ->
+                    toast(getString(R.string.auth_not_user_error_message))
+                AuthResult.Fail.UserAlreadyRegistered ->
+                    toast(getString(R.string.auth_user_exist_error_message))
+                AuthResult.Fail.NetworkError ->
+                    toast(getString(R.string.auth_netword_error_message))
+                AuthResult.Fail.EmptyPassword -> passwordTextInputLayout.error =
+                    getString(R.string.auth_not_valid_field_error_message)
             }
         }
 
         signInButton.setOnClickListener {
-            emailTextInputLayout.isErrorEnabled = false
+            loginTextInputLayout.isErrorEnabled = false
             passwordTextInputLayout.isErrorEnabled = false
 
+            if (isFieldsNotValid()) return@setOnClickListener
+
             authViewModel.auth(
-                emailInput.text?.toString().orEmpty(),
-                passwordInput.text?.toString().orEmpty()
+                loginInput.text.toString(),
+                passwordInput.text.toString()
             )
         }
 
         signUpButton.setOnClickListener {
-            emailTextInputLayout.isErrorEnabled = false
+            loginTextInputLayout.isErrorEnabled = false
             passwordTextInputLayout.isErrorEnabled = false
 
+            if (isFieldsNotValid()) return@setOnClickListener
+
             authViewModel.register(
-                emailInput.text?.toString().orEmpty(),
-                passwordInput.text?.toString().orEmpty()
+                loginInput.text.toString(),
+                passwordInput.text.toString()
             )
         }
+    }
+
+    private fun isFieldsNotValid(): Boolean {
+        val isLoginNotValid = if (isLoginNotValid(loginInput.text.toString())) {
+            loginTextInputLayout.error = getString(R.string.auth_not_valid_field_error_message)
+            true
+        } else false
+        val isPasswordNotValid = if (isPasswordNotValid(passwordInput.text.toString())) {
+            passwordTextInputLayout.error = getString(R.string.auth_not_valid_field_error_message)
+            true
+        } else false
+        return isLoginNotValid || isPasswordNotValid
+    }
+
+    private fun isPasswordNotValid(field: String): Boolean {
+        val regex = getString(R.string.password_regex).toRegex()
+        return !field.matches(regex)
+    }
+
+    private fun isLoginNotValid(field: String): Boolean {
+        val regex = getString(R.string.login_regex).toRegex()
+        return !field.matches(regex)
     }
 
     private fun showProgress() {
