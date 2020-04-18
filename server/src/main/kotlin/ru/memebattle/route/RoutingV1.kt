@@ -63,6 +63,11 @@ class RoutingV1(
                             }
                         call.respond(response)
                     }
+
+                    get("/memes") {
+                        val response = memeService.getAllMemes()
+                        call.respond(response)
+                    }
                 }
 
                 authenticate(BasicAuth.NAME, JwtAuth.NAME) {
