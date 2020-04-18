@@ -87,6 +87,16 @@ class AuthViewModel(
         }
     }
 
+    fun isPasswordNotValid(field: String): Boolean {
+        val regex = PASSWORD_REGEX.toRegex()
+        return !field.matches(regex)
+    }
+
+    fun isLoginNotValid(field: String): Boolean {
+        val regex = LOGIN_REGEX.toRegex()
+        return !field.matches(regex)
+    }
+
     private fun handleError(exception: Exception): AuthResult.Fail =
         when (exception) {
             is ClientRequestException -> {
@@ -99,4 +109,9 @@ class AuthViewModel(
             }
             else -> AuthResult.Fail.NetworkError
         }
+
+    companion object {
+        const val PASSWORD_REGEX = """^(?=.*[0-9])(?=.*[a-z])(?=\\S+${'$'}).{8,}${'$'}"""
+        const val LOGIN_REGEX = """^(?=.*[a-z])(?=\\S+${'$'}).{4,}${'$'}"""
+    }
 }

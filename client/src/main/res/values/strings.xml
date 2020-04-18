@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Мембатл</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="auth_not_valid_field_error_message">Некорректный ввод</string>
+    <string name="auth_wrong_password_error_message">Неправильный пароль</string>
+    <string name="auth_not_user_error_message">Вы не зарегистрированы</string>
+    <string name="auth_user_exist_error_message">Вы уже зарегистрированы</string>
+    <string name="auth_netword_error_message">Проблемы с сетью</string>
+    <string name="login_hint_text">Логин</string>
+    <string name="password_hint_text">Пароль</string>
+    <string name="sign_in_button_text">Вход</string>
+    <string name="sign_up_button_text">Регистрация</string>
 </resources>
