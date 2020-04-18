@@ -6,4 +6,5 @@ import org.jetbrains.exposed.sql.Table
 object Memes : Table() {
     val id: Column<Long> = Memes.long("id").autoIncrement().primaryKey()
     val url: Column<String> = Memes.varchar("url", 150)
+    val mode: Column<String> = Memes.varchar("mode", 50)
 }

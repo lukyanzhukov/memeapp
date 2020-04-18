@@ -26,14 +26,15 @@ kotlin {
         }
     }
 
-    jvm("android")
+    jvm()
 
     sourceSets["commonMain"].dependencies {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:${Versions.SERIALIZATION}")
     }
 
-    sourceSets["androidMain"].dependencies {
+    sourceSets["jvmMain"].dependencies {
+        implementation(kotlin("stdlib-jdk8"))
         implementation("org.jetbrains.kotlin:kotlin-stdlib")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.SERIALIZATION}")
     }

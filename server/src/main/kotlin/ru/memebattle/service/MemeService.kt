@@ -32,6 +32,8 @@ class MemeService(
         }
     }
 
+    suspend fun getAllMemes() = memeRepository.getAll()
+
     suspend fun getCurrentState(): MemeResponse = mutex.withLock {
         MemeResponse(state, currentMemes, currentLikes)
     }
