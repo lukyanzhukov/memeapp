@@ -6,7 +6,7 @@ pipelines:
           caches:
             - gradle
           script:
-            - bash ./gradlew stage
+            - bash ./gradlew assemble
   branches:
     master:
       - step:
