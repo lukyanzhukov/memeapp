@@ -1,11 +1,12 @@
 pipelines:
   pull-requests:
-    - step:
-        name: Build
-        caches:
-          - gradle
-        script:
-          - bash ./gradlew stage
+    '**':
+      - step:
+          name: Build
+          caches:
+            - gradle
+          script:
+            - bash ./gradlew stage
   branches:
     master:
       - step:
