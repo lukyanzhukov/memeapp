@@ -13,6 +13,8 @@
 		C11AA5632445FD3700DB6398 /* ViewSpecificController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11AA5622445FD3700DB6398 /* ViewSpecificController.swift */; };
 		C11AA5652445FD6500DB6398 /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11AA5642445FD6500DB6398 /* Assembly.swift */; };
 		C11AA5672445FD8D00DB6398 /* TransitionHadler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11AA5662445FD8D00DB6398 /* TransitionHadler.swift */; };
+		C11F56CC244C9AAB00A6C3CD /* Nibless.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C11F56CB244C9AA500A6C3CD /* Nibless.framework */; };
+		C11F56CD244C9AAB00A6C3CD /* Nibless.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C11F56CB244C9AA500A6C3CD /* Nibless.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E53F4C902443601800933F56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E53F4C8F2443601800933F56 /* AppDelegate.swift */; };
 		E53F4C922443601800933F56 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E53F4C912443601800933F56 /* SceneDelegate.swift */; };
 		E53F4C942443601800933F56 /* SplashController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E53F4C932443601800933F56 /* SplashController.swift */; };
@@ -23,9 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C11AA55F2445FCB000DB6398 /* PBXContainerItemProxy */ = {
+		C11F56CA244C9AA500A6C3CD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C11AA55B2445FCB000DB6398 /* Nibless.xcodeproj */;
+			containerPortal = C11F56C6244C9AA500A6C3CD /* Nibless.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = C100725C243CA5E2004CB175;
 			remoteInfo = Nibless;
@@ -40,6 +42,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				E53F4CC32443705500933F56 /* ClientCommon.framework in Embed Frameworks */,
+				C11F56CD244C9AAB00A6C3CD /* Nibless.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,10 +53,11 @@
 		C11AA5392445F2CB00DB6398 /* ClientCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ClientCommon.framework; path = "../../client-common/build/xcode-frameworks/ClientCommon.framework"; sourceTree = "<group>"; };
 		C11AA53C2445FB6400DB6398 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		C11AA5462445FBCE00DB6398 /* SplashAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashAssembly.swift; sourceTree = "<group>"; };
-		C11AA55B2445FCB000DB6398 /* Nibless.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nibless.xcodeproj; path = "../../../../../../iCloud Drive (архив)/Desktop/swift/Frameworks/Nibless/Nibless.xcodeproj"; sourceTree = "<group>"; };
 		C11AA5622445FD3700DB6398 /* ViewSpecificController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSpecificController.swift; sourceTree = "<group>"; };
 		C11AA5642445FD6500DB6398 /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		C11AA5662445FD8D00DB6398 /* TransitionHadler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionHadler.swift; sourceTree = "<group>"; };
+		C11F56C6244C9AA500A6C3CD /* Nibless.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nibless.xcodeproj; path = ../../../../../../swift/Frameworks/Nibless/Nibless.xcodeproj; sourceTree = "<group>"; };
+		C11F56CE244C9AD300A6C3CD /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		E53F4C8C2443601800933F56 /* MemeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E53F4C8F2443601800933F56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E53F4C912443601800933F56 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +80,7 @@
 			files = (
 				C11AA53A2445F2CB00DB6398 /* ClientCommon.framework in Frameworks */,
 				E53F4CC22443705500933F56 /* ClientCommon.framework in Frameworks */,
+				C11F56CC244C9AAB00A6C3CD /* Nibless.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +102,7 @@
 			children = (
 				E53F4C982443601B00933F56 /* Assets.xcassets */,
 				E53F4C9A2443601B00933F56 /* LaunchScreen.storyboard */,
+				C11F56CE244C9AD300A6C3CD /* Config.xcconfig */,
 			);
 			path = "Support files";
 			sourceTree = "<group>";
@@ -130,17 +136,9 @@
 		C11AA55A2445FCB000DB6398 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				C11AA55B2445FCB000DB6398 /* Nibless.xcodeproj */,
+				C11F56C6244C9AA500A6C3CD /* Nibless.xcodeproj */,
 			);
 			path = UI;
-			sourceTree = "<group>";
-		};
-		C11AA55C2445FCB000DB6398 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C11AA5602445FCB000DB6398 /* Nibless.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		C11AA5612445FD0100DB6398 /* Protocols */ = {
@@ -151,6 +149,14 @@
 				C11AA5662445FD8D00DB6398 /* TransitionHadler.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		C11F56C7244C9AA500A6C3CD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C11F56CB244C9AA500A6C3CD /* Nibless.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		E53F4C832443601700933F56 = {
@@ -261,8 +267,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = C11AA55C2445FCB000DB6398 /* Products */;
-					ProjectRef = C11AA55B2445FCB000DB6398 /* Nibless.xcodeproj */;
+					ProductGroup = C11F56C7244C9AA500A6C3CD /* Products */;
+					ProjectRef = C11F56C6244C9AA500A6C3CD /* Nibless.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -273,11 +279,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		C11AA5602445FCB000DB6398 /* Nibless.framework */ = {
+		C11F56CB244C9AA500A6C3CD /* Nibless.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Nibless.framework;
-			remoteRef = C11AA55F2445FCB000DB6398 /* PBXContainerItemProxy */;
+			remoteRef = C11F56CA244C9AA500A6C3CD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -326,6 +332,7 @@
 /* Begin XCBuildConfiguration section */
 		E53F4CB42443601B00933F56 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C11F56CE244C9AD300A6C3CD /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

@@ -1,0 +1,1 @@
+FRAMEWORK_SEARCH_PATHS = $(inherited) $SRCROOT/../../client-common/build/xcode-frameworks
