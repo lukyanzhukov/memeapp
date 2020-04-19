@@ -29,6 +29,6 @@ class RateusersRepositoryImpl : RateusersRepository {
 
     override suspend fun getAll(): List<RateuserModel> =
         dbQuery {
-            Rateusers.selectAll().map { it.toRateUser() }
+            Rateusers.selectAll().map { it.toRateUser() }.sortedBy { it.likes }.reversed()
         }
 }
