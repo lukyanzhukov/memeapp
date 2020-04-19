@@ -1,8 +1,23 @@
 pipelines:
   default:
-  - step:
-      name: Build
-      caches:
+    - step:
+        name: Build
+        caches:
           - gradle
-      script:
+        script:
           - bash ./gradlew stage
+    - step:
+        name: Create artifact
+        script:
+          - tar czfv application.tgz src/
+        artifacts:
+          - application.tgz
+    - step:
+        name: Deploy
+        deployment: production
+        script:
+          - pipe: atlassian/heroku-deploy:1.1.3
+          variables:
+            HEROKU_API_KEY: $HEROKU_API_KEY
+            HEROKU_APP_NAME: $HEROKU_APP_NAME
+            ZIP_FILE: "application.tgz"
