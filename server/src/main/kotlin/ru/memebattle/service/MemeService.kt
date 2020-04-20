@@ -10,6 +10,7 @@ import ru.memebattle.model.MemeModel
 import ru.memebattle.model.UserModel
 import ru.memebattle.repository.MemeRepository
 import ru.memebattle.repository.RateusersRepository
+import java.time.Instant
 
 class MemeService(
     private val sendResponse: SendChannel<MemeResponse>,
@@ -24,6 +25,7 @@ class MemeService(
     private var firstLikes: MutableList<UserModel> = mutableListOf()
     private var secondLikes: MutableList<UserModel> = mutableListOf()
     private var state: GameState = GameState.START
+    private var endTime = 0L
     private val mutex = Mutex()
 
     init {
@@ -35,7 +37,7 @@ class MemeService(
     suspend fun getAllMemes() = memeRepository.getAll()
 
     suspend fun getCurrentState(): MemeResponse = mutex.withLock {
-        MemeResponse(state, currentMemes, currentLikes)
+        MemeResponse(state, currentMemes, currentLikes, endTime)
     }
 
     suspend fun rateMeme(memeIndex: Int, user: UserModel?): MemeResponse =
@@ -47,7 +49,7 @@ class MemeService(
             if (memeIndex == 1 && user != null) {
                 secondLikes.add(user)
             }
-            MemeResponse(state, currentMemes, currentLikes)
+            MemeResponse(state, currentMemes, currentLikes, endTime)
         }
 
     private suspend fun startRound() {
@@ -74,7 +76,9 @@ class MemeService(
 
                         currentMemes = listOf(it.first, it.second)
 
-                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes))
+                        endTime = Instant.now().toEpochMilli() + 10000
+
+                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes, endTime))
                     }
 
                     delay(10000)
@@ -82,7 +86,9 @@ class MemeService(
                     mutex.withLock {
                         state = GameState.RESULT
 
-                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes))
+                        endTime = Instant.now().toEpochMilli() + 10000
+
+                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes, endTime))
 
                         if (currentLikes[0] > currentLikes[1]) {
                             firstLikes.forEach {
