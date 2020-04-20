@@ -76,17 +76,17 @@ class MemeService(
 
                         currentMemes = listOf(it.first, it.second)
 
-                        endTime = Instant.now().toEpochMilli() + 10000
+                        endTime = Instant.now().toEpochMilli() + 15000
 
                         sendResponse.send(MemeResponse(state, currentMemes, currentLikes, endTime))
                     }
 
-                    delay(10000)
+                    delay(15000)
 
                     mutex.withLock {
                         state = GameState.RESULT
 
-                        endTime = Instant.now().toEpochMilli() + 10000
+                        endTime = Instant.now().toEpochMilli() + 5000
 
                         sendResponse.send(MemeResponse(state, currentMemes, currentLikes, endTime))
 
