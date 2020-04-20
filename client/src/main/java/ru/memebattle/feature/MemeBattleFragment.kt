@@ -79,7 +79,7 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
         error_group.isVisible = false
         when (memeResponse.state) {
             GameState.START -> {
-                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                viewLifecycleOwner.lifecycleScope.launch {
                     repeat(DELAY_RESULTS_SECONDS_TIME) {
                         delay(1000)
                         loadingMemesProgressBar.incrementProgressBy(FULL_PROGRESS / DELAY_RESULTS_SECONDS_TIME)
