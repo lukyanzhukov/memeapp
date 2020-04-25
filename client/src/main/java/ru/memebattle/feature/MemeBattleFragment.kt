@@ -15,6 +15,7 @@ import kotlinx.serialization.UnstableDefault
 import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
+import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeResponse
 
@@ -27,6 +28,10 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
     @UnstableDefault
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val mode = arguments?.getString("GameMode") ?: GameMode.CLASSIC.toString()
+        val gameMode = GameMode.valueOf(mode)
+        viewModel.setGameMode(gameMode)
 
         loadingMemesProgressBar.progress = 0
         error_button.setOnClickListener {

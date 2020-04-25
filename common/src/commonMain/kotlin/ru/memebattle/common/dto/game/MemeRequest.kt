@@ -4,5 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MemeRequest(
-    val number: Int
+    val number: Int,
+    val gameMode: String
 )

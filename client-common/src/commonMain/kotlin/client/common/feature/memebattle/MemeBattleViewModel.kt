@@ -17,11 +17,13 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
+import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
 
 class MemeBattleViewModel(private val client: HttpClient, private val tokenSource: TokenSource) : ViewModel() {
 
+    private lateinit var mode: GameMode
     private val memeChannel = Channel<MemeRequest>()
     private val _state = MutableLiveData<MemeBattleState>()
     val state: LiveData<MemeBattleState>
@@ -43,8 +45,10 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
                                     @Suppress("EXPERIMENTAL_API_USAGE")
                                     val memeResponse: MemeResponse =
                                             Json.parse(MemeResponse.serializer(), frame.readText())
-                                    withContext(uiDispatcher()) {
-                                        _state.value = MemeBattleState.Meme(memeResponse)
+                                    if (memeResponse.gameMode == mode.toString()) {
+                                        withContext(uiDispatcher()) {
+                                            _state.value = MemeBattleState.Meme(memeResponse)
+                                        }
                                     }
                                 }
                             }
@@ -68,7 +72,11 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
 
     fun like(num: Int) {
         viewModelScope.launch {
-            memeChannel.send(MemeRequest(num))
+            memeChannel.send(MemeRequest(num, mode.toString()))
         }
+    }
+
+    fun setGameMode(mode: GameMode) {
+        this.mode = mode
     }
 }
