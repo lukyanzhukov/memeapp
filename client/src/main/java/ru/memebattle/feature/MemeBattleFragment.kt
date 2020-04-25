@@ -81,6 +81,8 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
     }
 
     private fun processState(memeResponse: MemeResponse) {
+        wait_next_round_text_view.visibility = View.GONE
+        memebattle_view.visibility = View.VISIBLE
         progress.isVisible = false
         error_group.isVisible = false
         when (memeResponse.state) {
@@ -107,9 +109,11 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                 }
                 Glide.with(requireActivity())
                     .load(memeResponse.memes[0])
+                    .placeholder(resources.getDrawable(R.drawable.wait_image))
                     .into(image1)
                 Glide.with(requireActivity())
                     .load(memeResponse.memes[1])
+                    .placeholder(resources.getDrawable(R.drawable.wait_image))
                     .into(image2)
             }
             GameState.RESULT -> {
