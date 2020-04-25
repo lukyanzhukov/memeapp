@@ -10,7 +10,8 @@ import client.common.feature.memebattle.MemeBattleState
 import client.common.feature.memebattle.MemeBattleViewModel
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_memebattle.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.serialization.UnstableDefault
 import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -18,6 +19,7 @@ import ru.memebattle.R
 import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeResponse
+import java.util.*
 
 class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
 
@@ -82,21 +84,27 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
         progress.isVisible = false
         error_group.isVisible = false
         when (memeResponse.state) {
-            GameState.START -> {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    repeat(DELAY_RESULTS_SECONDS_TIME) {
-                        delay(1000)
-                        loadingMemesProgressBar.incrementProgressBy(FULL_PROGRESS / DELAY_RESULTS_SECONDS_TIME)
-                    }
-                }
+            GameState.MEMES -> {
+                isButtonDisabled = false
+                firstWinAnimation.visibility = View.GONE
+                firstWinAnimation.progress = ZERO_PROGRESS
+                secondWinAnimation.visibility = View.GONE
+                secondWinAnimation.progress = ZERO_PROGRESS
                 like1.visibility = View.GONE
                 like2.visibility = View.GONE
                 result1.visibility = View.GONE
                 result2.visibility = View.GONE
-            }
-            GameState.MEMES -> {
-                result1.visibility = View.GONE
-                result2.visibility = View.GONE
+                val currentDate = Date()
+                val endDate = Date(memeResponse.timeEnd)
+                val time =
+                    (endDate.time - currentDate.time - CLIENT_SERVER_DELAY) / PROGRESS_COEFFICIENT
+                loadingMemesProgressBar.max = time.toInt()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    repeat(time.toInt()) {
+                        delay(50)
+                        loadingMemesProgressBar.progress = (time - it).toInt()
+                    }
+                }
                 Glide.with(requireActivity())
                     .load(memeResponse.memes[0])
                     .into(image1)
@@ -115,13 +123,13 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                 res2.text = "${memeResponse.likes[1]} likes"
                 if (memeResponse.likes[0] > memeResponse.likes[1]) {
                     if (chosenMeme == 0) {
-                        winAnimation.visibility = View.VISIBLE
-                        winAnimation.playAnimation()
+                        firstWinAnimation.visibility = View.VISIBLE
+                        firstWinAnimation.playAnimation()
                     }
                 } else if (memeResponse.likes[0] < memeResponse.likes[1]) {
                     if (chosenMeme == 1) {
-                        winAnimation.visibility = View.VISIBLE
-                        winAnimation.playAnimation()
+                        secondWinAnimation.visibility = View.VISIBLE
+                        secondWinAnimation.playAnimation()
                     }
                 }
                 chosenMeme = -1
@@ -130,7 +138,8 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
     }
 
     companion object {
-        const val FULL_PROGRESS = 100
-        const val DELAY_RESULTS_SECONDS_TIME = 10
+        const val PROGRESS_COEFFICIENT = 50
+        const val CLIENT_SERVER_DELAY = 1000
+        const val ZERO_PROGRESS = 0F
     }
 }
