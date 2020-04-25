@@ -27,9 +27,7 @@ class GameFactory(
     }
 
     suspend fun rateMeme(memeRequest: MemeRequest, user: UserModel?) {
-        val mode = GameMode.valueOf(memeRequest.gameMode ?: GameMode.CLASSIC.toString())
-
-        mapOfMemeServices[mode]?.rateMeme(memeRequest.number, user)
+        mapOfMemeServices[memeRequest.gameMode]?.rateMeme(memeRequest.number, user)
     }
 
     suspend fun getAllMemes() = memeRepository.getAll()

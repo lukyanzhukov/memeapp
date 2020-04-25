@@ -29,9 +29,8 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mode = arguments?.getString("GameMode") ?: GameMode.CLASSIC.toString()
-        val gameMode = GameMode.valueOf(mode)
-        viewModel.setGameMode(gameMode)
+        val mode = arguments?.getSerializable("GameMode") as? GameMode ?: GameMode.CLASSIC
+        viewModel.setGameMode(mode)
 
         loadingMemesProgressBar.progress = 0
         error_button.setOnClickListener {

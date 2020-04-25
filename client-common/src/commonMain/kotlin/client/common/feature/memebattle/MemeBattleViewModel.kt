@@ -72,7 +72,7 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
 
     fun like(num: Int) {
         viewModelScope.launch {
-            memeChannel.send(MemeRequest(num, mode.toString()))
+            memeChannel.send(MemeRequest(num, mode))
         }
     }
 
