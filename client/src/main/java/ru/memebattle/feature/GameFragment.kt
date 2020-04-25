@@ -6,11 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import client.common.feature.game.GameViewModel
 import kotlinx.android.synthetic.main.fragment_game.*
+import org.koin.android.scope.currentScope
 import ru.memebattle.R
 import ru.memebattle.common.GameMode
+import ru.memebattle.core.utils.GameOnboardingDialogListener
+import ru.memebattle.core.utils.openGameOnboardingDialog
 
 class GameFragment : Fragment() {
+
+    private val viewModel: GameViewModel by currentScope.inject()
 
     private val gameModesClickListener = View.OnClickListener {
         val bundle = Bundle()
@@ -23,8 +29,16 @@ class GameFragment : Fragment() {
             R.id.work_game_mode_btn -> bundle.putSerializable("GameMode", GameMode.WORK)
             R.id.study_game_mode_btn -> bundle.putSerializable("GameMode", GameMode.STUDY)
         }
-        Navigation.findNavController(requireActivity(), R.id.host_global)
-            .navigate(R.id.action_mainFragment_action_to_memebattleFragment, bundle)
+        // Сейчас проверяется и ставится только классический режим, в след. релизе будет чекаться каждый.
+        if (viewModel.isGameModeUsed(GameMode.CLASSIC)) {
+            Navigation.findNavController(requireActivity(), R.id.host_global)
+                .navigate(R.id.action_mainFragment_action_to_memebattleFragment, bundle)
+            return@OnClickListener
+        }
+        openGameOnboardingDialog(GameOnboardingDialogListener {
+            Navigation.findNavController(requireActivity(), R.id.host_global)
+                .navigate(R.id.action_mainFragment_action_to_memebattleFragment, bundle)
+        })
     }
 
     override fun onCreateView(
@@ -44,6 +58,5 @@ class GameFragment : Fragment() {
         science_game_mode_btn.setOnClickListener(gameModesClickListener)
         work_game_mode_btn.setOnClickListener(gameModesClickListener)
         study_game_mode_btn.setOnClickListener(gameModesClickListener)
-
     }
 }
