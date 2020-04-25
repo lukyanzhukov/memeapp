@@ -4,6 +4,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.model.MemeModel
@@ -15,7 +16,8 @@ import java.time.Instant
 class MemeService(
     private val sendResponse: SendChannel<MemeResponse>,
     private val memeRepository: MemeRepository,
-    private val rateusersRepository: RateusersRepository
+    private val rateusersRepository: RateusersRepository,
+    private val gameMode: GameMode
 ) {
 
     private var currentMemes: List<String> = emptyList()
@@ -34,12 +36,6 @@ class MemeService(
         }
     }
 
-    suspend fun getAllMemes() = memeRepository.getAll()
-
-    suspend fun getCurrentState(): MemeResponse = mutex.withLock {
-        MemeResponse(state, currentMemes, currentLikes, endTime)
-    }
-
     suspend fun rateMeme(memeIndex: Int, user: UserModel?): MemeResponse =
         mutex.withLock {
             currentLikes[memeIndex] = currentLikes[memeIndex].inc()
@@ -49,7 +45,7 @@ class MemeService(
             if (memeIndex == 1 && user != null) {
                 secondLikes.add(user)
             }
-            MemeResponse(state, currentMemes, currentLikes, endTime)
+            MemeResponse(state, currentMemes, currentLikes, endTime, gameMode)
         }
 
     private suspend fun startRound() {
@@ -78,7 +74,7 @@ class MemeService(
 
                         endTime = Instant.now().toEpochMilli() + 15000
 
-                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes, endTime))
+                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes, endTime, gameMode))
                     }
 
                     delay(15000)
@@ -88,7 +84,7 @@ class MemeService(
 
                         endTime = Instant.now().toEpochMilli() + 5000
 
-                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes, endTime))
+                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes, endTime, gameMode))
 
                         if (currentLikes[0] > currentLikes[1]) {
                             firstLikes.forEach {
@@ -117,6 +113,6 @@ class MemeService(
 
     private suspend fun getMemeModels(): List<MemeModel> =
         withContext(Dispatchers.IO) {
-            memeRepository.getAll()
+            memeRepository.getByMode(gameMode)
         }
 }

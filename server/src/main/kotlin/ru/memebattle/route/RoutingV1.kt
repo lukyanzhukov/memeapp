@@ -25,12 +25,12 @@ import ru.memebattle.common.model.RatingModel
 import ru.memebattle.model.UserModel
 import ru.memebattle.model.toDto
 import ru.memebattle.repository.RateusersRepository
-import ru.memebattle.service.MemeService
+import ru.memebattle.service.GameFactory
 import ru.memebattle.service.UserService
 
 class RoutingV1(
     private val userService: UserService,
-    private val memeService: MemeService,
+    private val gameFactory: GameFactory,
     private val rateusersRepository: RateusersRepository,
     private val memeChannel: BroadcastChannel<MemeResponse>,
     private val gson: Gson
@@ -65,7 +65,7 @@ class RoutingV1(
                     }
 
                     get("/memes") {
-                        val response = memeService.getAllMemes()
+                        val response = gameFactory.getAllMemes()
                         call.respond(response)
                     }
                 }
@@ -78,8 +78,6 @@ class RoutingV1(
                     }
 
                     webSocket {
-                        outgoing.send(Frame.Text(gson.toJson(memeService.getCurrentState())))
-
                         val memes = async {
                             for (memes in memeChannel.openSubscription()) {
                                 if (!outgoing.isClosedForSend) {
@@ -95,7 +93,7 @@ class RoutingV1(
                                         val user = call.authentication.principal<UserModel>()
                                         val memeRequest =
                                             gson.fromJson(frame.readText(), MemeRequest::class.java)
-                                        memeService.rateMeme(memeRequest.number, user)
+                                        gameFactory.rateMeme(memeRequest, user)
                                     }
                                 }
                             }
