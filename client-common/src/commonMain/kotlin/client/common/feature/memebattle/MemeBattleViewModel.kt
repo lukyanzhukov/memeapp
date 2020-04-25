@@ -45,7 +45,7 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
                                     @Suppress("EXPERIMENTAL_API_USAGE")
                                     val memeResponse: MemeResponse =
                                             Json.parse(MemeResponse.serializer(), frame.readText())
-                                    if (memeResponse.gameMode == mode.toString()) {
+                                    if (memeResponse.gameMode == mode) {
                                         withContext(uiDispatcher()) {
                                             _state.value = MemeBattleState.Meme(memeResponse)
                                         }

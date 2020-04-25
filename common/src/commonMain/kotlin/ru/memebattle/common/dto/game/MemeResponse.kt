@@ -1,6 +1,7 @@
 package ru.memebattle.common.dto.game
 
 import kotlinx.serialization.Serializable
+import ru.memebattle.common.GameMode
 
 @Serializable
 data class MemeResponse(
@@ -8,5 +9,5 @@ data class MemeResponse(
     val memes: List<String>,
     val likes: List<Int>,
     val timeEnd: Long,
-    val gameMode: String
+    val gameMode: GameMode
 )

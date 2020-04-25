@@ -45,7 +45,7 @@ class MemeService(
             if (memeIndex == 1 && user != null) {
                 secondLikes.add(user)
             }
-            MemeResponse(state, currentMemes, currentLikes, endTime, gameMode.toString())
+            MemeResponse(state, currentMemes, currentLikes, endTime, gameMode)
         }
 
     private suspend fun startRound() {
@@ -74,7 +74,7 @@ class MemeService(
 
                         endTime = Instant.now().toEpochMilli() + 15000
 
-                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes, endTime, gameMode.toString()))
+                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes, endTime, gameMode))
                     }
 
                     delay(15000)
@@ -84,7 +84,7 @@ class MemeService(
 
                         endTime = Instant.now().toEpochMilli() + 5000
 
-                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes, endTime, gameMode.toString()))
+                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes, endTime, gameMode))
 
                         if (currentLikes[0] > currentLikes[1]) {
                             firstLikes.forEach {
