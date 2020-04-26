@@ -11,4 +11,12 @@ class AndroidSettings(private val preferences: SharedPreferences) : Settings {
 
     override fun getString(key: String): String? =
         preferences.getString(key, null)
+
+    override fun setBoolean(key: String, value: Boolean) {
+        preferences.edit {
+            putBoolean(key, value)
+        }
+    }
+
+    override fun getBoolean(key: String): Boolean? = preferences.getBoolean(key, false)
 }

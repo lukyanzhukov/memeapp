@@ -4,4 +4,7 @@
     <dimen name="placeholderImage">60dp</dimen>
     <dimen name="placeholderTextHeight">8dp</dimen>
     <dimen name="padding_10">10dp</dimen>
+    <dimen name="alert_margins">16dp</dimen>
+    <dimen name="alert_corner_radius">14dp</dimen>
+    <dimen name="alert_padding">4dp</dimen>
 </resources>
