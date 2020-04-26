@@ -11,4 +11,7 @@
     <string name="password_hint_text">Пароль</string>
     <string name="sign_in_button_text">Вход</string>
     <string name="sign_up_button_text">Регистрация</string>
+    <string name="onboarding_text">У тебя есть всего 15 секунд на выбор самой смешной картинки из пары. \n\nПомоги смешным мемам выиграть эту битву и получи за это очки.</string>
+    <string name="onboarding_title">В первый раз?</string>
+    <string name="onboarding_ok_btn_text">Погнали</string>
 </resources>

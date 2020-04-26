@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import client.common.data.*
 import client.common.feature.auth.AuthViewModel
+import client.common.feature.game.GameViewModel
 import client.common.feature.memebattle.MemeBattleViewModel
 import client.common.feature.rating.RatingViewModel
 import client.common.feature.settings.SettingsViewModel
@@ -13,10 +14,7 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import ru.memebattle.feature.AuthFragment
-import ru.memebattle.feature.MemeBattleFragment
-import ru.memebattle.feature.SettingsFragment
-import ru.memebattle.feature.SplashFragment
+import ru.memebattle.feature.*
 import ru.memebattle.feature.rating.RatingFragment
 
 class App : Application() {
@@ -34,6 +32,7 @@ class App : Application() {
                     splashModule,
                     authModule,
                     ratingModule,
+                    gameModule,
                     settingsModule,
                     memeBattleModule
                 )
@@ -77,6 +76,17 @@ val ratingModule = module {
     scope(named<RatingFragment>()) {
         viewModel {
             RatingViewModel(get()).also(RatingViewModel::getRating)
+        }
+    }
+}
+
+val gameModule = module {
+    single<GameModeSource> {
+        SettingsGameModeSource(AndroidSettings(get()))
+    }
+    scope(named<GameFragment>()) {
+        scoped {
+            GameViewModel(get())
         }
     }
 }
