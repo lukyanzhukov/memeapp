@@ -117,7 +117,7 @@ val packForXcode by tasks.creating(Sync::class) {
     from({ framework.outputDirectory })
     into(targetDir)
 
-    /// generate a helpful ./gradlew wrapper with embedded Ja1/va path
+    /// generate a helpful ./gradlew wrapper with embedded Java path
     doLast {
         val gradlew = File(targetDir, "gradlew")
         gradlew.writeText(
