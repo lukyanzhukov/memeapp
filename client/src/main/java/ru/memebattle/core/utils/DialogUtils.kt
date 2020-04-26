@@ -20,7 +20,7 @@ fun Fragment.createDialog(
     val dialog = AlertDialog.Builder(context!!)
         .setView(dialogView)
         .create()
-    val bg = ContextCompat.getDrawable(context!!, R.drawable.bg_alert)
+    val bg = ContextCompat.getDrawable(requireContext(), R.drawable.bg_alert)
     val margins = resources.getDimensionPixelOffset(marginsRes)
     dialog.window?.setBackgroundDrawable(InsetDrawable(bg, margins))
     return dialog
