@@ -14,4 +14,5 @@
     <string name="onboarding_text">У тебя есть всего 15 секунд на выбор самой смешной картинки из пары. \n\nПомоги смешным мемам выиграть эту битву и получи за это очки.</string>
     <string name="onboarding_title">В первый раз?</string>
     <string name="onboarding_ok_btn_text">Погнали</string>
+    <string name="wait_next_round_text">Ждём окончания следующего раунда...</string>
 </resources>
