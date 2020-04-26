@@ -5,7 +5,6 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
-    id("com.google.gms.google-services")
     kotlin("plugin.serialization") version Versions.KOTLIN
 }
 
