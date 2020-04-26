@@ -25,7 +25,7 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
 
     private var isButtonDisabled = true
     private var chosenMeme = -1
-    private val viewModel: MemeBattleViewModel by currentScope.viewModel(this)
+    private val viewModel: MemeBattleViewModel by viewModel()
 
     @UnstableDefault
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

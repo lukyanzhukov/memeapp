@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import client.common.feature.settings.SettingsViewModel
 import kotlinx.android.synthetic.main.fragment_settings.*
-import org.koin.android.scope.currentScope
+import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
-    private val viewModel: SettingsViewModel by currentScope.inject()
+    private val viewModel: SettingsViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

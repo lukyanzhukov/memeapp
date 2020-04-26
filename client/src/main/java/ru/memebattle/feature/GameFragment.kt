@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import client.common.feature.game.GameViewModel
 import kotlinx.android.synthetic.main.fragment_game.*
-import org.koin.android.scope.currentScope
+import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
 import ru.memebattle.common.GameMode
 import ru.memebattle.core.utils.GameOnboardingDialogListener
@@ -16,7 +16,7 @@ import ru.memebattle.core.utils.openGameOnboardingDialog
 
 class GameFragment : Fragment() {
 
-    private val viewModel: GameViewModel by currentScope.inject()
+    private val viewModel: GameViewModel by viewModel()
 
     private val gameModesClickListener = View.OnClickListener {
         val bundle = Bundle()
