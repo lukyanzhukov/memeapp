@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Мембатл</string>
+    <string name="app_name">MemeBattle</string>
     <string name="auth_password_not_valid_field_error_message">Пароль должен содержать строчные и прописные латинские буквы и цифры</string>
     <string name="auth_login_not_valid_field_error_message">Логин должен состоять из латинских букв или цифр.</string>
     <string name="auth_wrong_login_error_message">Неправильный логин</string>
