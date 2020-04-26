@@ -17,7 +17,7 @@ android {
     compileSdkVersion(29)
     buildToolsVersion = "29.0.3"
     defaultConfig {
-        applicationId = "ru.memebattle.memebattle"
+        applicationId = "ru.memeapp"
         minSdkVersion(23)
         targetSdkVersion(29)
         versionCode = 1
