@@ -67,4 +67,5 @@ class RatingFragment : Fragment(R.layout.fragment_rating) {
         shimmer_view_container.stopShimmerAnimation()
         shimmer_view_container.isVisible = false
     }
+    
 }
