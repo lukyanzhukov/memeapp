@@ -20,7 +20,6 @@ class RatingFragment : Fragment(R.layout.fragment_rating) {
     private val loginSource: LoginSource = get()
     private val viewModel: RatingViewModel by viewModel()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val ratingAdapter = RatingAdapter(requireNotNull(loginSource.login))
         recycler_view.adapter = ratingAdapter
