@@ -15,4 +15,9 @@
     <string name="onboarding_title">В первый раз?</string>
     <string name="onboarding_ok_btn_text">Погнали</string>
     <string name="wait_next_round_text">Ждём начала следующего раунда...</string>
+    <string name="share_image_text">\"Я нашёл этот мемасик в Memebattle, заходи поорём: https://play.google.com/store/apps/details?id=ru.memeapp \"</string>
+    <string name="permission_dialog_title">Настройте разрешения</string>
+    <string name="permission_dialog_text">Включите разрешение в настройках приложения, чтобы сохранять понравивишиеся вам мемы.</string>
+    <string name="permission_dialog_btn_text">Настроить</string>
+    <string name="save_image_text">"Saved as %s"</string>
 </resources>
