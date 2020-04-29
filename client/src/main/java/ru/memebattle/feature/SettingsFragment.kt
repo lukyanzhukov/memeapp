@@ -30,5 +30,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 checkNotNull(context).startActivity(intent)
             }
         }
+
+        rateApp.setOnClickListener {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=${requireContext().packageName}")
+                )
+            )
+        }
     }
 }
