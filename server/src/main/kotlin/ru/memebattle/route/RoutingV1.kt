@@ -70,37 +70,37 @@ class RoutingV1(
                     }
                 }
 
+                webSocket {
+                    val memes = async {
+                        for (memes in memeChannel.openSubscription()) {
+                            if (!outgoing.isClosedForSend) {
+                                outgoing.send(Frame.Text(gson.toJson(memes)))
+                            }
+                        }
+                    }
+
+                    val frames = async {
+                        for (frame in incoming) {
+                            when (frame) {
+                                is Frame.Text -> {
+                                    val user = call.authentication.principal<UserModel>()
+                                    val memeRequest =
+                                        gson.fromJson(frame.readText(), MemeRequest::class.java)
+                                    gameFactory.rateMeme(memeRequest, user)
+                                }
+                            }
+                        }
+                    }
+
+                    memes.await()
+                    frames.await()
+                }
+
                 authenticate(BasicAuth.NAME, JwtAuth.NAME) {
                     route("/me") {
                         get {
                             call.respond(requireNotNull(me).toDto())
                         }
-                    }
-
-                    webSocket {
-                        val memes = async {
-                            for (memes in memeChannel.openSubscription()) {
-                                if (!outgoing.isClosedForSend) {
-                                    outgoing.send(Frame.Text(gson.toJson(memes)))
-                                }
-                            }
-                        }
-
-                        val frames = async {
-                            for (frame in incoming) {
-                                when (frame) {
-                                    is Frame.Text -> {
-                                        val user = call.authentication.principal<UserModel>()
-                                        val memeRequest =
-                                            gson.fromJson(frame.readText(), MemeRequest::class.java)
-                                        gameFactory.rateMeme(memeRequest, user)
-                                    }
-                                }
-                            }
-                        }
-
-                        memes.await()
-                        frames.await()
                     }
                 }
             }
