@@ -40,7 +40,9 @@ class ParserService(
                         val response =
                             client.get<String>("https://api.vk.com/method/wall.get?owner_id=-$groupId&access_token=2f0935dcc011e41fdd54052842b577d80739bbca71728837395626c0a00c4fa68e6e2ecedc412cb0d1a40&v=5.103")
                         val vkResponse = Gson().fromJson(response, VKResponse::class.java)
-                        val urls = vkResponse.response?.items?.map {
+                        val urls = vkResponse.response?.items?.filter {
+                            it.markedAsAds != 1
+                        }?.map {
                             it.attachments?.firstOrNull()?.photo?.sizes?.getMaxImage()
                         }
                         urls?.forEach { url ->
