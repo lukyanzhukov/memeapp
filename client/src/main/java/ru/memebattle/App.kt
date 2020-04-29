@@ -12,10 +12,7 @@ import client.common.feature.splash.SplashViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import ru.memebattle.feature.*
-import ru.memebattle.feature.rating.RatingFragment
 
 class App : Application() {
 
@@ -57,26 +54,20 @@ val networkModule = module {
 }
 
 val splashModule = module {
-    scope(named<SplashFragment>()) {
-        scoped {
-            SplashViewModel(get())
-        }
+    viewModel {
+        SplashViewModel(get())
     }
 }
 
 val authModule = module {
-    scope(named<AuthFragment>()) {
-        viewModel {
-            AuthViewModel(get(), get(), get())
-        }
+    viewModel {
+        AuthViewModel(get(), get(), get())
     }
 }
 
 val ratingModule = module {
-    scope(named<RatingFragment>()) {
-        viewModel {
-            RatingViewModel(get()).also(RatingViewModel::getRating)
-        }
+    viewModel {
+        RatingViewModel(get()).also(RatingViewModel::getRating)
     }
 }
 
@@ -84,26 +75,20 @@ val gameModule = module {
     single<GameModeSource> {
         SettingsGameModeSource(AndroidSettings(get()))
     }
-    scope(named<GameFragment>()) {
-        scoped {
-            GameViewModel(get())
-        }
+    viewModel {
+        GameViewModel(get())
     }
 }
 
 val memeBattleModule = module {
-    scope(named<MemeBattleFragment>()) {
-        scoped {
-            MemeBattleViewModel(get(), get()).also(MemeBattleViewModel::connect)
-        }
+    viewModel {
+        MemeBattleViewModel(get(), get()).also(MemeBattleViewModel::connect)
     }
 }
 
 val settingsModule = module {
-    scope(named<SettingsFragment>()) {
-        scoped {
-            SettingsViewModel(get(), get())
-        }
+    viewModel {
+        SettingsViewModel(get(), get())
     }
 }
 

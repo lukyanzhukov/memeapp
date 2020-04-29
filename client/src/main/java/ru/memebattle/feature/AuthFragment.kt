@@ -16,7 +16,7 @@ import ru.memebattle.core.utils.toast
 
 class AuthFragment : Fragment(R.layout.fragment_auth) {
 
-    private val authViewModel: AuthViewModel by currentScope.viewModel(this)
+    private val authViewModel: AuthViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
