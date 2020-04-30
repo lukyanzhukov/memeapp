@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
+import androidx.navigation.Navigation
 import client.common.feature.memebattle.MemeBattleState
 import client.common.feature.memebattle.MemeBattleViewModel
 import com.bumptech.glide.Glide
@@ -21,6 +22,8 @@ import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.core.utils.saveImage
 import ru.memebattle.core.utils.shareImage
+import ru.memebattle.core.utils.FirstWinDialogListener
+import ru.memebattle.core.utils.openFirstWinDialog
 import java.util.*
 
 class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
@@ -163,15 +166,28 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                     if (chosenMeme == 0) {
                         firstWinAnimation.isVisible = true
                         firstWinAnimation.playAnimation()
+                        showFirstWinDialog()
                     }
                 } else if (memeResponse.likes[0] < memeResponse.likes[1]) {
                     if (chosenMeme == 1) {
                         secondWinAnimation.isVisible = true
                         secondWinAnimation.playAnimation()
+                        showFirstWinDialog()
                     }
                 }
                 chosenMeme = -1
             }
+        }
+    }
+
+    private fun showFirstWinDialog() {
+        if (viewModel.isFistWin()) {
+            openFirstWinDialog(FirstWinDialogListener({
+
+            }, {
+                Navigation.findNavController(requireActivity(), R.id.host_global)
+                    .navigate(R.id.action_memebattleFragment_to_authFragment)
+            }))
         }
     }
 

@@ -51,5 +51,9 @@
     <fragment
         android:id="@+id/memebattleFragment"
         android:name="ru.memebattle.feature.MemeBattleFragment"
-        android:label="MemebattleFragment" />
+        android:label="MemebattleFragment" >
+        <action
+            android:id="@+id/action_memebattleFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+    </fragment>
 </navigation>

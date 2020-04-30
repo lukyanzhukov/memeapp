@@ -99,4 +99,13 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
     fun setGameMode(mode: GameMode) {
         this.mode = mode
     }
+
+    fun isFistWin(): Boolean {
+        return if (tokenSource.token == null && !tokenSource.hasWin) {
+            tokenSource.hasWin = true
+            true
+        } else {
+            false
+        }
+    }
 }
