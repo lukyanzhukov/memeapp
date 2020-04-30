@@ -9,6 +9,6 @@ class SplashViewModel(private val tokenSource: TokenSource) : ViewModel() {
         if (tokenSource.token != null) {
             SplashNavigation.ToMain
         } else {
-            SplashNavigation.ToAuth
+            SplashNavigation.ToMain
         }
 }

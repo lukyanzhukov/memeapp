@@ -10,7 +10,7 @@ import ru.memebattle.R
 import ru.memebattle.common.model.RatingModel
 
 class RatingAdapter(
-    private val currentPlayerName: String
+    private val currentPlayerName: String?
 ) : RecyclerView.Adapter<RatingAdapter.RatingViewHolder>() {
 
     var ratingModels: List<RatingModel> = emptyList()

@@ -7,7 +7,7 @@ import client.common.presentation.ViewModel
 import client.common.presentation.viewModelScope
 import client.uiDispatcher
 import io.ktor.client.HttpClient
-import io.ktor.client.features.websocket.wss
+import io.ktor.client.features.websocket.ws
 import io.ktor.client.request.header
 import io.ktor.http.HttpMethod
 import io.ktor.http.cio.websocket.Frame
@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import ru.memebattle.common.GameMode
+import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
 
@@ -32,11 +33,28 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
     fun connect() {
         viewModelScope.launch {
             try {
-                client.wss(
-                        method = HttpMethod.Get,
-                        host = "memebattle.herokuapp.com",
-                        path = "/api/v1",
-                        request = { header("Authorization", "Bearer ${tokenSource.token}") }
+                // prod
+                /*client.wss(
+                    method = HttpMethod.Get,
+                    host = "memebattle.herokuapp.com",
+                    path = "/api/v1",
+                    request = {
+                        if (tokenSource.token != null) {
+                            header("Authorization", "Bearer ${tokenSource.token}")
+                        }
+                    }
+                )*/
+                // local
+                client.ws(
+                    method = HttpMethod.Get,
+                    host = "192.168.0.6",
+                    port = 8888,
+                    path = "/api/v1",
+                    request = {
+                        if (tokenSource.token != null) {
+                            header("Authorization", "Bearer ${tokenSource.token}")
+                        }
+                    }
                 ) {
                     val frames = async {
                         for (frame in incoming) {
@@ -46,8 +64,10 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
                                     val memeResponse: MemeResponse =
                                             Json.parse(MemeResponse.serializer(), frame.readText())
                                     if (memeResponse.gameMode == mode) {
-                                        withContext(uiDispatcher()) {
-                                            _state.value = MemeBattleState.Meme(memeResponse)
+                                        if (!(memeResponse.state == GameState.RESULT && _state.value == null)) {
+                                            withContext(uiDispatcher()) {
+                                                _state.value = MemeBattleState.Meme(memeResponse)
+                                            }
                                         }
                                     }
                                 }

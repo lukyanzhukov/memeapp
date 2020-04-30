@@ -55,6 +55,10 @@ class MemeService(
             while (true) {
                 val photos = getMemeModels().map { it.url }
 
+                if (photos.isEmpty()) {
+                    delay(10000)
+                }
+
                 val pairs = mutex.withLock {
                     val pairs: MutableList<Pair<String, String>> = mutableListOf()
                     for (s in 0..photos.size step 2) {
