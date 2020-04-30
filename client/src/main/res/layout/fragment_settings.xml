@@ -51,7 +51,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/memebattle_button"
+        android:id="@+id/share_app_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -66,16 +66,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:layout_gravity="center_vertical"
-            android:text="#MEMEBATTLE"
+            android:text="@string/share_app_btn_text"
             android:textColor="#0C2F39"
             android:textSize="18sp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/memebattle_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="16dp"
+            android:text="@string/memebattle_team_text"
+            android:textColor="#0C2F39"
+            android:textSize="18sp" />
+
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="end"
             android:layout_margin="16dp"
-            android:src="@drawable/logo"
-            />
+            android:src="@drawable/logo" />
     </androidx.cardview.widget.CardView>
 </LinearLayout>

@@ -34,20 +34,20 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
     private val onSaveClickListener: (v: View) -> Unit = {
         when (it.id) {
             R.id.save_first_meme_btn -> {
-                saveImage(requireContext(), image1.drawable.toBitmap())
+                saveImage(image1.drawable.toBitmap())
             }
             R.id.save_second_meme_btn -> {
-                saveImage(requireContext(), image2.drawable.toBitmap())
+                saveImage(image2.drawable.toBitmap())
             }
         }
     }
     private val onShareClickListener: (v: View) -> Unit = {
         when (it.id) {
             R.id.share_first_meme_btn -> {
-                shareImage(requireContext(), image1.drawable.toBitmap())
+                shareImage(image1.drawable.toBitmap())
             }
             R.id.share_second_meme_btn -> {
-                shareImage(requireContext(), image2.drawable.toBitmap())
+                shareImage(image2.drawable.toBitmap())
             }
         }
     }
