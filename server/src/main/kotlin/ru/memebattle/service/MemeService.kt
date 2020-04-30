@@ -36,6 +36,8 @@ class MemeService(
         }
     }
 
+    suspend fun getState() = MemeResponse(state, currentMemes, currentLikes, endTime, gameMode)
+
     suspend fun rateMeme(memeIndex: Int, user: UserModel?): MemeResponse =
         mutex.withLock {
             currentLikes[memeIndex] = currentLikes[memeIndex].inc()
@@ -45,7 +47,7 @@ class MemeService(
             if (memeIndex == 1 && user != null) {
                 secondLikes.add(user)
             }
-            MemeResponse(state, currentMemes, currentLikes, endTime, gameMode)
+            getState()
         }
 
     private suspend fun startRound() {
@@ -78,7 +80,7 @@ class MemeService(
 
                         endTime = Instant.now().toEpochMilli() + 15000
 
-                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes, endTime, gameMode))
+                        sendResponse.send(getState())
                     }
 
                     delay(15000)
@@ -88,7 +90,7 @@ class MemeService(
 
                         endTime = Instant.now().toEpochMilli() + 5000
 
-                        sendResponse.send(MemeResponse(state, currentMemes, currentLikes, endTime, gameMode))
+                        sendResponse.send(getState())
 
                         if (currentLikes[0] > currentLikes[1]) {
                             firstLikes.forEach {

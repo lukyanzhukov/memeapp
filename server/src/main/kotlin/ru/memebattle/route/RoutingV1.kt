@@ -79,6 +79,10 @@ class RoutingV1(
                     }
 
                     webSocket {
+                        gameFactory.getStates().forEach {
+                            outgoing.send(Frame.Text(gson.toJson(it)))
+                        }
+
                         val memes = async {
                             for (memes in memeChannel.openSubscription()) {
                                 if (!outgoing.isClosedForSend) {

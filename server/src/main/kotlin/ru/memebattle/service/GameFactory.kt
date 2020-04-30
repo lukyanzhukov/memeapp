@@ -30,5 +30,10 @@ class GameFactory(
         mapOfMemeServices[memeRequest.gameMode]?.rateMeme(memeRequest.number, user)
     }
 
+    suspend fun getStates(): List<MemeResponse> =
+        mapOfMemeServices.map {
+            it.value.getState()
+        }
+
     suspend fun getAllMemes() = memeRepository.getAll()
 }
