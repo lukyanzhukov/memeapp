@@ -9,6 +9,8 @@ class SettingsViewModel(
     private val tokenSource: TokenSource
 ) : ViewModel() {
 
+    fun isSignedIn() = tokenSource.token != null
+
     fun logout() {
         loginSource.login = null
         tokenSource.token = null
