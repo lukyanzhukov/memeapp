@@ -3,21 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_global"
-    app:startDestination="@id/splashFragment">
-
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="ru.memebattle.feature.SplashFragment"
-        android:label="SplashFragment">
-        <action
-            android:id="@+id/action_splashFragment_to_mainFragment"
-            app:destination="@+id/mainFragment"
-            app:popUpTo="@+id/navigation_global" />
-        <action
-            android:id="@+id/action_splashFragment_to_authFragment"
-            app:destination="@id/authFragment"
-            app:popUpTo="@+id/navigation_global" />
-    </fragment>
+    app:startDestination="@id/mainFragment">
 
     <action
         android:id="@+id/action_settingsFragment_to_authFragment"
