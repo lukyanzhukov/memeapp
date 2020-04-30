@@ -8,6 +8,7 @@ import client.common.presentation.viewModelScope
 import client.uiDispatcher
 import io.ktor.client.HttpClient
 import io.ktor.client.features.websocket.ws
+import io.ktor.client.features.websocket.wss
 import io.ktor.client.request.header
 import io.ktor.http.HttpMethod
 import io.ktor.http.cio.websocket.Frame
@@ -34,7 +35,7 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
         viewModelScope.launch {
             try {
                 // prod
-                /*client.wss(
+                client.wss(
                     method = HttpMethod.Get,
                     host = "memebattle.herokuapp.com",
                     path = "/api/v1",
@@ -43,9 +44,9 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
                             header("Authorization", "Bearer ${tokenSource.token}")
                         }
                     }
-                )*/
+                )
                 // local
-                client.ws(
+                /*client.ws(
                     method = HttpMethod.Get,
                     host = "192.168.0.6",
                     port = 8888,
@@ -55,7 +56,7 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
                             header("Authorization", "Bearer ${tokenSource.token}")
                         }
                     }
-                ) {
+                ) */{
                     val frames = async {
                         for (frame in incoming) {
                             when (frame) {
