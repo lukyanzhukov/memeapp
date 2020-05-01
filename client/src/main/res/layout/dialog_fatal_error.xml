@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -20,12 +21,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/ubuntu"
-        android:text="@string/fatal_error_dialog_text"
         android:textColor="#FF9A62"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/errorImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/errorImageView"
+        tools:text="@tools:sample/lorem[2]" />
 
     <TextView
         android:id="@+id/back_button"
@@ -38,12 +39,12 @@
         android:background="@drawable/bg_retry_error_loading_btn"
         android:fontFamily="@font/ubuntu"
         android:gravity="center"
-        android:text="@string/fatal_error_dialog_btn_text"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/errorTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/errorTextView"
+        tools:text="@tools:sample/lorem" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import io.ktor.features.ParameterConversionException
 import io.ktor.features.StatusPages
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
+import ru.memebattle.common.dto.error.ErrorDto
 
 object ErrorHandler {
 
@@ -25,6 +26,10 @@ object ErrorHandler {
             }
             exception<InvalidPasswordException> { error ->
                 call.respond(HttpStatusCode.Forbidden)
+                throw error
+            }
+            exception<LanguageNotFoundException> { error ->
+                call.respond(HttpStatusCode.BadRequest, ErrorDto("Expect language"))
                 throw error
             }
         }

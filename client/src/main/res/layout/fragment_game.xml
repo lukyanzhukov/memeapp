@@ -37,7 +37,7 @@
                     android:paddingTop="7dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="7dp"
-                    android:text="@string/classic_mode_title"
+                    android:text="Классика"
                     android:textSize="16sp" />
 
                 <TextView
@@ -51,7 +51,7 @@
                     android:paddingTop="7dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="7dp"
-                    android:text="@string/chill_mode_title"
+                    android:text="Чил"
                     android:textSize="16sp"
                     tools:background="@drawable/bg_selected_game_mode" />
             </LinearLayout>

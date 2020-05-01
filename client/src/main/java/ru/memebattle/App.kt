@@ -5,16 +5,24 @@ import android.content.Context
 import client.common.data.*
 import client.common.feature.auth.AuthViewModel
 import client.common.feature.game.GameViewModel
+import client.common.feature.localization.LastLocaleStore
+import client.common.feature.localization.LocalizationDelegate
+import client.common.feature.localization.LocalizationViewModel
 import client.common.feature.memebattle.MemeBattleViewModel
 import client.common.feature.memechill.MemeChillViewModel
 import client.common.feature.rating.RatingViewModel
 import client.common.feature.settings.SettingsViewModel
 import client.common.feature.splash.SplashViewModel
+import com.squareup.sqldelight.android.AndroidSqliteDriver
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
-import ru.memebattle.feature.MemeChillFragment
+import ru.memebattle.feature.fatal.FatalViewModel
+import ru.memebattle.feature.firstwin.FirstWinViewModel
+import ru.memebattle.feature.locale.AndroidDeviceLocaleSource
+import ru.memebattle.feature.onboarding.OnboardingViewModel
+import ru.memebattle.feature.signout.TrySignOutViewModel
 
 class App : Application() {
 
@@ -28,12 +36,18 @@ class App : Application() {
                 listOf(
                     sharedPreferencesModule,
                     networkModule,
+                    splashModule,
                     authModule,
                     ratingModule,
                     gameModule,
                     settingsModule,
                     memeBattleModule,
-                    memeChillModule
+                    localizationModule,
+                    onboardingModule,
+                    memeChillModule,
+                    firstWinModule,
+                    fatalModule,
+                    signOutModule
                 )
             )
         }
@@ -43,11 +57,11 @@ class App : Application() {
 val networkModule = module {
 
     single<TokenSource> {
-        SettingsTokenSource(AndroidSettings(get()))
+        SettingsTokenSource(get())
     }
 
     single<LoginSource> {
-        SettingsLoginSource(AndroidSettings(get()))
+        SettingsLoginSource(get())
     }
 
     single {
@@ -55,45 +69,94 @@ val networkModule = module {
     }
 }
 
-val authModule = module {
+private val splashModule = module {
     viewModel {
-        AuthViewModel(get(), get(), get())
+        SplashViewModel(get(), get(), AndroidDeviceLocaleSource, get())
     }
 }
 
-val ratingModule = module {
+private val authModule = module {
+    viewModel {
+        AuthViewModel(get(), get(), get(), get())
+    }
+}
+
+private val ratingModule = module {
     viewModel {
         RatingViewModel(get()).also(RatingViewModel::getRating)
     }
 }
 
-val gameModule = module {
+private val gameModule = module {
     single<GameModeSource> {
-        SettingsGameModeSource(AndroidSettings(get()))
+        SettingsGameModeSource(get())
     }
     viewModel {
         GameViewModel(get())
     }
 }
 
-val memeBattleModule = module {
+private val memeBattleModule = module {
     viewModel {
-        MemeBattleViewModel(get(), get()).also(MemeBattleViewModel::connect)
+        MemeBattleViewModel(get(), get(), AndroidDeviceLocaleSource).also(MemeBattleViewModel::connect)
     }
 }
 
-val memeChillModule = module {
+private val memeChillModule = module {
     viewModel {
         MemeChillViewModel(get())
     }
 }
 
-val settingsModule = module {
+private val settingsModule = module {
     viewModel {
         SettingsViewModel(get(), get())
     }
 }
 
-val sharedPreferencesModule = module {
-    single { androidContext().getSharedPreferences("settings", Context.MODE_PRIVATE) }
+private val sharedPreferencesModule = module {
+    single<Settings> {
+        AndroidSettings(
+            androidContext().getSharedPreferences("settings", Context.MODE_PRIVATE)
+        )
+    }
+}
+
+private val localizationModule = module {
+    single {
+        LocalizationDb(AndroidSqliteDriver(LocalizationDb.Schema, get(), "localeDb")).localeQueries
+    }
+    single {
+        LocalizationDelegate(get())
+    }
+    single {
+        LastLocaleStore(get())
+    }
+    viewModel {
+        LocalizationViewModel(get())
+    }
+}
+
+private val onboardingModule = module {
+    viewModel {
+        OnboardingViewModel()
+    }
+}
+
+private val firstWinModule = module {
+    viewModel {
+        FirstWinViewModel()
+    }
+}
+
+private val fatalModule = module {
+    viewModel {
+        FatalViewModel()
+    }
+}
+
+private val signOutModule = module {
+    viewModel {
+        TrySignOutViewModel()
+    }
 }

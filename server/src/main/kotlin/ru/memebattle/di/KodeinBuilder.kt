@@ -58,11 +58,13 @@ class KodeinBuilder(private val environment: ApplicationEnvironment) {
                     instance(),
                     instance(),
                     instance("memes"),
+                    instance(),
                     instance()
                 )
             }
             bind<BasicAuth>() with eagerSingleton { BasicAuth(instance(), instance()) }
             bind<JwtAuth>() with eagerSingleton { JwtAuth(instance(), instance()) }
+            bind<LocaleService>() with eagerSingleton { LocaleService() }
         }
     }
 }

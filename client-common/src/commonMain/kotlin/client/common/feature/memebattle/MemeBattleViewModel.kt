@@ -1,5 +1,7 @@
 package client.common.feature.memebattle
 
+import client.common.data.TokenSource
+import client.common.feature.localization.DeviceLocaleSource
 import client.common.data.*
 import client.common.presentation.LiveData
 import client.common.presentation.MutableLiveData
@@ -22,8 +24,11 @@ import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
 
-class MemeBattleViewModel(private val client: HttpClient, private val tokenSource: TokenSource) :
-    ViewModel() {
+class MemeBattleViewModel(
+    private val client: HttpClient,
+    private val tokenSource: TokenSource,
+    private val deviceLocaleSource: DeviceLocaleSource
+) : ViewModel() {
 
     private lateinit var mode: GameMode
     private val memeChannel = Channel<MemeRequest>()
@@ -45,6 +50,8 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
                         if (tokenSource.token != null) {
                             header("Authorization", "Bearer ${tokenSource.token}")
                         }
+                        header("language", deviceLocaleSource.getLanguage())
+                        header("country", deviceLocaleSource.getCountry())
                     }
                 ) {
                     val frames = async {
@@ -65,6 +72,7 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
                             }
                         }
                     }
+
                     @Suppress("EXPERIMENTAL_API_USAGE")
                     val memes = async {
                         for (memes in memeChannel) {

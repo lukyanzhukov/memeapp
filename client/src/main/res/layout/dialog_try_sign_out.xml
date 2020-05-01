@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -8,9 +9,9 @@
         android:id="@+id/close_onboarding_dialog_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="33dp"
+        android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_close_dialog" />
@@ -33,13 +34,13 @@
         android:layout_marginTop="52dp"
         android:layout_marginEnd="60dp"
         android:fontFamily="@font/ubuntu"
-        android:text="Ты точно хочешь\nвыйти из аккаунта?"
         android:textAlignment="center"
         android:textColor="#FF9A62"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/errorImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/errorImageView"
+        tools:text="Ты точно хочешь\nвыйти из аккаунта?" />
 
     <TextView
         android:id="@+id/sign_out_btn"
@@ -52,12 +53,12 @@
         android:background="@drawable/bg_retry_error_loading_btn"
         android:fontFamily="@font/ubuntu"
         android:gravity="center"
-        android:text="@string/sign_out_dialog_btn_text"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/errorTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/errorTextView"
+        tools:text="Выйти" />
 </androidx.constraintlayout.widget.ConstraintLayout>

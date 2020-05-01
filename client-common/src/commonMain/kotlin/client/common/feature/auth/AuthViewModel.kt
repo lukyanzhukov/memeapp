@@ -4,17 +4,20 @@ import client.common.data.LoginSource
 import client.common.data.TokenSource
 import client.common.data.signIn
 import client.common.data.signUp
+import client.common.feature.localization.LocalizationDelegate
 import client.common.presentation.*
 import io.ktor.client.HttpClient
-import io.ktor.client.features.ClientRequestException
+import io.ktor.client.features.ResponseException
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.launch
 import ru.memebattle.common.dto.AuthenticationRequestDto
+import ru.memebattle.common.feature.localization.Localization
 
 class AuthViewModel(
     private val client: HttpClient,
     private val tokenSource: TokenSource,
-    private val loginSource: LoginSource
+    private val loginSource: LoginSource,
+    private val localizationDelegate: LocalizationDelegate
 ) : ViewModel() {
 
     private val _loading = MutableLiveData<Boolean>()
@@ -26,77 +29,107 @@ class AuthViewModel(
         get() = _authResult
 
     fun auth(login: String, password: String) {
-        if (login.isEmpty()) {
-            _authResult.value = AuthResult.Fail.InvalidLogin
-        }
-        if (password.isEmpty()) {
-            _authResult.value = AuthResult.Fail.InvalidPassword
-        }
-
         viewModelScope.launch {
-            try {
-                _loading.value = true
+            val locale = localizationDelegate.localeChannel.openSubscription().receive()
 
-                val response = client.signIn(
-                    AuthenticationRequestDto(
-                        username = login,
-                        password = password
-                    )
+            if (login.isEmpty()) {
+                _authResult.value = AuthResult.Fail.InvalidLogin(
+                    locale.getValue(Localization.AUTH_LOGIN_NOT_VALID_FIELD_ERROR)
                 )
-
-                tokenSource.token = response.token
-                loginSource.login = login
-
-                _authResult.value = AuthResult.Success
-            } catch (exception: Exception) {
-                _authResult.value = handleError(exception)
-            } finally {
-                _loading.value = false
             }
+            if (password.isEmpty()) {
+                _authResult.value = AuthResult.Fail.InvalidPassword(
+                    locale.getValue(Localization.AUTH_PASSWORD_NOT_VALID_FIELD_ERROR)
+                )
+            }
+
+            viewModelScope.launch {
+                try {
+                    _loading.value = true
+
+                    val response = client.signIn(
+                        AuthenticationRequestDto(
+                            username = login,
+                            password = password
+                        )
+                    )
+
+                    tokenSource.token = response.token
+                    loginSource.login = login
+
+                    _authResult.value = AuthResult.Success
+                } catch (exception: Exception) {
+                    _authResult.value = handleError(exception, locale)
+                } finally {
+                    _loading.value = false
+                }
+            }
+
         }
     }
 
     fun register(login: String, password: String) {
-        if (login.isEmpty()) {
-            _authResult.value = AuthResult.Fail.InvalidLogin
-        }
-        if (password.isEmpty()) {
-            _authResult.value = AuthResult.Fail.EmptyPassword
-        }
-
         viewModelScope.launch {
-            try {
-                _loading.value = true
+            val locale = localizationDelegate.localeChannel.openSubscription().receive()
 
-                val response = client.signUp(
-                    AuthenticationRequestDto(
-                        username = login,
-                        password = password
-                    )
+            if (login.isEmpty()) {
+                _authResult.value = AuthResult.Fail.InvalidLogin(
+                    locale.getValue(Localization.AUTH_LOGIN_NOT_VALID_FIELD_ERROR)
                 )
+            }
+            if (password.isEmpty()) {
+                _authResult.value = AuthResult.Fail.InvalidPassword(
+                    locale.getValue(Localization.AUTH_PASSWORD_NOT_VALID_FIELD_ERROR)
+                )
+            }
 
-                tokenSource.token = response.token
-                loginSource.login = login
+            viewModelScope.launch {
+                try {
+                    _loading.value = true
 
-                _authResult.value = AuthResult.Success
-            } catch (exception: Exception) {
-                _authResult.value = handleError(exception)
-            } finally {
-                _loading.value = false
+                    val response = client.signUp(
+                        AuthenticationRequestDto(
+                            username = login,
+                            password = password
+                        )
+                    )
+
+                    tokenSource.token = response.token
+                    loginSource.login = login
+
+                    _authResult.value = AuthResult.Success
+                } catch (exception: Exception) {
+                    _authResult.value = handleError(exception, locale)
+                } finally {
+                    _loading.value = false
+                }
             }
         }
     }
 
-    private fun handleError(exception: Exception): AuthResult.Fail =
+    private fun handleError(
+        exception: Exception,
+        locale: Map<Localization, String>
+    ): AuthResult.Fail =
         when (exception) {
-            is ClientRequestException -> {
+            is ResponseException -> {
                 when (exception.response.status) {
-                    HttpStatusCode.Forbidden -> AuthResult.Fail.InvalidPassword
-                    HttpStatusCode.NotFound -> AuthResult.Fail.UserNotFound
-                    HttpStatusCode.BadRequest -> AuthResult.Fail.UserAlreadyRegistered
-                    else -> AuthResult.Fail.NetworkError
+                    HttpStatusCode.Forbidden -> AuthResult.Fail.InvalidPassword(
+                        locale.getValue(Localization.AUTH_WRONG_PASSWORD_ERROR_MESSAGE)
+                    )
+                    HttpStatusCode.NotFound -> AuthResult.Fail.UserNotFound(
+                        locale.getValue(Localization.AUTH_USER_NOT_REGISTERED_ERROR_MESSAGE)
+                    )
+                    HttpStatusCode.BadRequest -> AuthResult.Fail.UserAlreadyRegistered(
+                        locale.getValue(Localization.AUTH_USER_EXIST_ERROR_MESSAGE)
+                    )
+                    else -> AuthResult.Fail.NetworkError(
+                        locale.getValue(Localization.AUTH_NETWORK_ERROR_MESSAGE)
+                    )
                 }
             }
-            else -> AuthResult.Fail.NetworkError
+            else -> AuthResult.Fail.NetworkError(
+                locale.getValue(Localization.AUTH_NETWORK_ERROR_MESSAGE)
+            )
         }
 }
