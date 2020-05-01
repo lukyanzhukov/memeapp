@@ -1,7 +1,10 @@
 package ru.memebattle.core.utils
 
+import android.content.Intent
 import android.graphics.Outline
 import android.graphics.drawable.InsetDrawable
+import android.net.Uri
+import android.provider.Settings
 import android.view.View
 import android.view.ViewOutlineProvider
 import androidx.annotation.DimenRes
@@ -9,7 +12,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.dialog_game_onboarding.view.*
+import kotlinx.android.synthetic.main.dialog_permission_request_block.view.ok_button
 import ru.memebattle.R
+
 
 data class GameOnboardingDialogListener(val onCloseDialog: () -> Unit)
 
@@ -26,8 +31,24 @@ fun Fragment.createDialog(
     return dialog
 }
 
-fun Fragment.openGameOnboardingDialog(listener: GameOnboardingDialogListener) {
+fun Fragment.openPermissionRequestBlockDialog() {
+    log("openPermissionRequestBlockDialog")
+    val layoutId = R.layout.dialog_permission_request_block
+    val dialogView = layoutInflater.inflate(layoutId, null, false)
+    val dialog = createDialog(dialogView)
+    dialog.setCancelable(false)
+    dialogView.ok_button.setOnClickListener {
+        val intent = Intent(
+            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+            Uri.fromParts("package", requireActivity().packageName, null)
+        )
+        requireActivity().startActivity(intent)
+        dialog.dismiss()
+    }
+    dialog.show()
+}
 
+fun Fragment.openGameOnboardingDialog(listener: GameOnboardingDialogListener) {
     val layoutId = R.layout.dialog_game_onboarding
     val dialogView = layoutInflater.inflate(layoutId, null, false)
     val dialog = createDialog(dialogView)

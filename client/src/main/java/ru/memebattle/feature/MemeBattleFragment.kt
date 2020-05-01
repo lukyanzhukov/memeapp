@@ -2,6 +2,7 @@ package ru.memebattle.feature
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -13,12 +14,13 @@ import kotlinx.android.synthetic.main.fragment_memebattle.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.UnstableDefault
-import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
 import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeResponse
+import ru.memebattle.core.utils.saveImage
+import ru.memebattle.core.utils.shareImage
 import java.util.*
 
 class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
@@ -26,6 +28,26 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
     private var isButtonDisabled = true
     private var chosenMeme = -1
     private val viewModel: MemeBattleViewModel by viewModel()
+    private val onSaveClickListener: (v: View) -> Unit = {
+        when (it.id) {
+            R.id.save_first_meme_btn -> {
+                saveImage(requireContext(), image1.drawable.toBitmap())
+            }
+            R.id.save_second_meme_btn -> {
+                saveImage(requireContext(), image2.drawable.toBitmap())
+            }
+        }
+    }
+    private val onShareClickListener: (v: View) -> Unit = {
+        when (it.id) {
+            R.id.share_first_meme_btn -> {
+                shareImage(requireContext(), image1.drawable.toBitmap())
+            }
+            R.id.share_second_meme_btn -> {
+                shareImage(requireContext(), image2.drawable.toBitmap())
+            }
+        }
+    }
 
     @UnstableDefault
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,7 +82,7 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
         image1.setOnClickListener {
             if (isButtonDisabled) return@setOnClickListener
             if (like1.visibility == View.GONE && like2.visibility == View.GONE) {
-                like1.visibility = View.VISIBLE
+                like1.isVisible = true
             }
             sendLike(0)
         }
@@ -68,10 +90,14 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
         image2.setOnClickListener {
             if (isButtonDisabled) return@setOnClickListener
             if (like1.visibility == View.GONE && like2.visibility == View.GONE) {
-                like2.visibility = View.VISIBLE
+                like2.isVisible = true
             }
             sendLike(1)
         }
+        save_first_meme_btn.setOnClickListener(onSaveClickListener)
+        save_second_meme_btn.setOnClickListener(onSaveClickListener)
+        share_first_meme_btn.setOnClickListener(onShareClickListener)
+        share_second_meme_btn.setOnClickListener(onShareClickListener)
     }
 
     private fun sendLike(num: Int) {
@@ -81,21 +107,25 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
     }
 
     private fun processState(memeResponse: MemeResponse) {
-        wait_next_round_text_view.visibility = View.GONE
-        memebattle_view.visibility = View.VISIBLE
+        wait_next_round_text_view.isVisible = false
+        memebattle_view.isVisible = true
         progress.isVisible = false
         error_group.isVisible = false
         when (memeResponse.state) {
             GameState.MEMES -> {
                 isButtonDisabled = false
-                firstWinAnimation.visibility = View.GONE
+                firstWinAnimation.isVisible = false
                 firstWinAnimation.progress = ZERO_PROGRESS
-                secondWinAnimation.visibility = View.GONE
+                secondWinAnimation.isVisible = false
                 secondWinAnimation.progress = ZERO_PROGRESS
-                like1.visibility = View.GONE
-                like2.visibility = View.GONE
-                result1.visibility = View.GONE
-                result2.visibility = View.GONE
+                like1.isVisible = false
+                like2.isVisible = false
+                result1.isVisible = false
+                result2.isVisible = false
+                save_first_meme_btn.isVisible = true
+                save_second_meme_btn.isVisible = true
+                share_first_meme_btn.isVisible = true
+                share_second_meme_btn.isVisible = true
                 val currentDate = Date()
                 val endDate = Date(memeResponse.timeEnd)
                 val time =
@@ -119,20 +149,24 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
             GameState.RESULT -> {
                 loadingMemesProgressBar.progress = 0
                 isButtonDisabled = true
-                like1.visibility = View.GONE
-                like2.visibility = View.GONE
-                result1.visibility = View.VISIBLE
-                result2.visibility = View.VISIBLE
+                like1.isVisible = false
+                like2.isVisible = false
+                save_first_meme_btn.isVisible = false
+                save_second_meme_btn.isVisible = false
+                share_first_meme_btn.isVisible = false
+                share_second_meme_btn.isVisible = false
+                result1.isVisible = true
+                result2.isVisible = true
                 res1.text = "${memeResponse.likes[0]} likes"
                 res2.text = "${memeResponse.likes[1]} likes"
                 if (memeResponse.likes[0] > memeResponse.likes[1]) {
                     if (chosenMeme == 0) {
-                        firstWinAnimation.visibility = View.VISIBLE
+                        firstWinAnimation.isVisible = true
                         firstWinAnimation.playAnimation()
                     }
                 } else if (memeResponse.likes[0] < memeResponse.likes[1]) {
                     if (chosenMeme == 1) {
-                        secondWinAnimation.visibility = View.VISIBLE
+                        secondWinAnimation.isVisible = true
                         secondWinAnimation.playAnimation()
                     }
                 }
