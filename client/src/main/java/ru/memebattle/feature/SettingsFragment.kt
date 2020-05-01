@@ -10,6 +10,7 @@ import client.common.feature.settings.SettingsViewModel
 import kotlinx.android.synthetic.main.fragment_settings.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
+import ru.memebattle.core.utils.shareApp
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
@@ -46,6 +47,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                     Uri.parse("market://details?id=${requireContext().packageName}")
                 )
             )
+        }
+        share_app_btn.setOnClickListener {
+            shareApp()
         }
     }
 }

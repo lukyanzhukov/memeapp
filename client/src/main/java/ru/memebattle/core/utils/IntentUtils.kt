@@ -14,19 +14,19 @@ private const val SAVED_IMAGE_TYPE = "image/jpeg"
 private const val SHARE_LINK_TEXT_TYPE = "text/plain"
 
 /** Позволяет поделиться bitmap изображением с помощью системного sharing-диалога. */
-fun shareImage(context: Context, bitmap: Bitmap) {
+fun Fragment.shareImage(bitmap: Bitmap) {
     val title = Date().time.toString() + IMAGE_TITLE_SUFFIX
     val bitmapPath: String =
-        MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, title, null)
+        MediaStore.Images.Media.insertImage(requireActivity().contentResolver, bitmap, title, null)
     val bitmapUri = Uri.parse(bitmapPath)
     val intent = Intent().apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_image_text))
+        putExtra(Intent.EXTRA_TEXT, requireActivity().getString(R.string.share_image_text))
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         putExtra(Intent.EXTRA_STREAM, bitmapUri)
         type = SAVED_IMAGE_TYPE
     }
-    context.startActivity(
+    requireActivity().startActivity(
         Intent.createChooser(intent, title).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
@@ -34,20 +34,20 @@ fun shareImage(context: Context, bitmap: Bitmap) {
 }
 
 /** Позволяет сохранить изображение. */
-fun Fragment.saveImage(context: Context, bitmap: Bitmap) {
+fun Fragment.saveImage(bitmap: Bitmap) {
     val title = Date().time.toString() + IMAGE_TITLE_SUFFIX
-    MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, title, null)
+    MediaStore.Images.Media.insertImage(requireActivity().contentResolver, bitmap, title, null)
     toast(getString(R.string.save_image_text, title))
 }
 
 /** Позволяет поделиться ссылкой на приложение с помощью системного sharing-диалога. */
-fun shareApp(context: Context, appLink: String, title: String) {
+fun Fragment.shareApp() {
     val intent = Intent(Intent.ACTION_SEND).apply {
         type = SHARE_LINK_TEXT_TYPE
-        putExtra(Intent.EXTRA_TEXT, appLink)
+        putExtra(Intent.EXTRA_TEXT, requireActivity().getString(R.string.share_app_text))
     }
-    context.startActivity(
-        Intent.createChooser(intent, title).apply {
+    requireActivity().startActivity(
+        Intent.createChooser(intent, getString(R.string.share_app_title)).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
     )
