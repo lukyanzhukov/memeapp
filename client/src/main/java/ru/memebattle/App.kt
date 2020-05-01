@@ -26,7 +26,6 @@ class App : Application() {
                 listOf(
                     sharedPreferencesModule,
                     networkModule,
-                    splashModule,
                     authModule,
                     ratingModule,
                     gameModule,
@@ -50,12 +49,6 @@ val networkModule = module {
 
     single {
         MemeClient(get())
-    }
-}
-
-val splashModule = module {
-    viewModel {
-        SplashViewModel(get())
     }
 }
 

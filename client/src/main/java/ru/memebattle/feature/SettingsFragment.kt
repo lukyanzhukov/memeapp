@@ -18,8 +18,16 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        signOut.setOnClickListener {
-            viewModel.logout()
+        if (viewModel.isSignedIn()) {
+            signButtonText.text = "Выйти из аккаунта"
+        } else {
+            signButtonText.text = "Войти или зарегистрироваться"
+        }
+
+        signButton.setOnClickListener {
+            if (viewModel.isSignedIn()) {
+                viewModel.logout()
+            }
             Navigation.findNavController(requireActivity(), R.id.host_global)
                 .navigate(R.id.action_settingsFragment_to_authFragment)
         }

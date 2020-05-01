@@ -11,7 +11,6 @@ import client.common.feature.rating.RatingState
 import client.common.feature.rating.RatingViewModel
 import kotlinx.android.synthetic.main.fragment_rating.*
 import org.koin.android.ext.android.get
-import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
 
@@ -21,7 +20,7 @@ class RatingFragment : Fragment(R.layout.fragment_rating) {
     private val viewModel: RatingViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val ratingAdapter = RatingAdapter(requireNotNull(loginSource.login))
+        val ratingAdapter = RatingAdapter(loginSource.login)
         recycler_view.adapter = ratingAdapter
 
         viewModel.state.platform.observe(viewLifecycleOwner) { state ->

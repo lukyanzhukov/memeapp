@@ -27,6 +27,7 @@ import ru.memebattle.model.toDto
 import ru.memebattle.repository.RateusersRepository
 import ru.memebattle.service.GameFactory
 import ru.memebattle.service.UserService
+import sun.rmi.runtime.Log
 
 class RoutingV1(
     private val userService: UserService,
@@ -70,7 +71,7 @@ class RoutingV1(
                     }
                 }
 
-                authenticate(BasicAuth.NAME, JwtAuth.NAME) {
+                authenticate(BasicAuth.NAME, JwtAuth.NAME, optional = true) {
                     route("/me") {
                         get {
                             call.respond(requireNotNull(me).toDto())
@@ -78,6 +79,10 @@ class RoutingV1(
                     }
 
                     webSocket {
+                        gameFactory.getStates().forEach {
+                            outgoing.send(Frame.Text(gson.toJson(it)))
+                        }
+
                         val memes = async {
                             for (memes in memeChannel.openSubscription()) {
                                 if (!outgoing.isClosedForSend) {
@@ -93,6 +98,7 @@ class RoutingV1(
                                         val user = call.authentication.principal<UserModel>()
                                         val memeRequest =
                                             gson.fromJson(frame.readText(), MemeRequest::class.java)
+                                        print("like $user")
                                         gameFactory.rateMeme(memeRequest, user)
                                     }
                                 }
