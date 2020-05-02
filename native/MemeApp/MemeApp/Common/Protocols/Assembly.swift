@@ -17,6 +17,6 @@ extension Assembly {
     }
     
     static func assemble<ViewController: UIViewController>(with model: TransitionModel) -> ViewController {
-        return assembleModule(with: model) as! ViewController
+        assembleModule(with: model) as! ViewController // swiftlint:disable:this force_cast
     }
 }

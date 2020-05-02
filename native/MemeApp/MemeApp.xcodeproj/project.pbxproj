@@ -13,21 +13,24 @@
 		C11AA5632445FD3700DB6398 /* ViewSpecificController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11AA5622445FD3700DB6398 /* ViewSpecificController.swift */; };
 		C11AA5652445FD6500DB6398 /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11AA5642445FD6500DB6398 /* Assembly.swift */; };
 		C11AA5672445FD8D00DB6398 /* TransitionHadler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11AA5662445FD8D00DB6398 /* TransitionHadler.swift */; };
-		C11F56CC244C9AAB00A6C3CD /* Nibless.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C11F56CB244C9AA500A6C3CD /* Nibless.framework */; };
-		C11F56CD244C9AAB00A6C3CD /* Nibless.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C11F56CB244C9AA500A6C3CD /* Nibless.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C14C83C2245D6DF700186D97 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14C83C1245D6DF700186D97 /* Settings.swift */; };
+		C156D0562454784700AC5EA2 /* Nibless.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C156D0552454783A00AC5EA2 /* Nibless.framework */; };
+		C156D0572454784700AC5EA2 /* Nibless.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C156D0552454783A00AC5EA2 /* Nibless.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C1F8B5D32454707F00AEF192 /* AuthAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F8B5D22454707F00AEF192 /* AuthAssembly.swift */; };
+		C1F8B5D7245470C500AEF192 /* AuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F8B5D6245470C500AEF192 /* AuthController.swift */; };
+		C1F8B5D9245470D200AEF192 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F8B5D8245470D200AEF192 /* AuthView.swift */; };
 		E53F4C902443601800933F56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E53F4C8F2443601800933F56 /* AppDelegate.swift */; };
 		E53F4C922443601800933F56 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E53F4C912443601800933F56 /* SceneDelegate.swift */; };
 		E53F4C942443601800933F56 /* SplashController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E53F4C932443601800933F56 /* SplashController.swift */; };
 		E53F4C992443601B00933F56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E53F4C982443601B00933F56 /* Assets.xcassets */; };
 		E53F4C9C2443601B00933F56 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E53F4C9A2443601B00933F56 /* LaunchScreen.storyboard */; };
-		E53F4CC22443705500933F56 /* ClientCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E53F4CC12443705500933F56 /* ClientCommon.framework */; };
 		E53F4CC32443705500933F56 /* ClientCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E53F4CC12443705500933F56 /* ClientCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C11F56CA244C9AA500A6C3CD /* PBXContainerItemProxy */ = {
+		C156D0542454783A00AC5EA2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C11F56C6244C9AA500A6C3CD /* Nibless.xcodeproj */;
+			containerPortal = C156D0502454783A00AC5EA2 /* Nibless.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = C100725C243CA5E2004CB175;
 			remoteInfo = Nibless;
@@ -42,7 +45,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				E53F4CC32443705500933F56 /* ClientCommon.framework in Embed Frameworks */,
-				C11F56CD244C9AAB00A6C3CD /* Nibless.framework in Embed Frameworks */,
+				C156D0572454784700AC5EA2 /* Nibless.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -56,8 +59,12 @@
 		C11AA5622445FD3700DB6398 /* ViewSpecificController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSpecificController.swift; sourceTree = "<group>"; };
 		C11AA5642445FD6500DB6398 /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		C11AA5662445FD8D00DB6398 /* TransitionHadler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionHadler.swift; sourceTree = "<group>"; };
-		C11F56C6244C9AA500A6C3CD /* Nibless.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nibless.xcodeproj; path = ../../../../../../swift/Frameworks/Nibless/Nibless.xcodeproj; sourceTree = "<group>"; };
 		C11F56CE244C9AD300A6C3CD /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		C14C83C1245D6DF700186D97 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		C156D0502454783A00AC5EA2 /* Nibless.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nibless.xcodeproj; path = ../../../../../../swift/Frameworks/Nibless/Nibless.xcodeproj; sourceTree = "<group>"; };
+		C1F8B5D22454707F00AEF192 /* AuthAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAssembly.swift; sourceTree = "<group>"; };
+		C1F8B5D6245470C500AEF192 /* AuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthController.swift; sourceTree = "<group>"; };
+		C1F8B5D8245470D200AEF192 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		E53F4C8C2443601800933F56 /* MemeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E53F4C8F2443601800933F56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E53F4C912443601800933F56 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -79,8 +86,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C11AA53A2445F2CB00DB6398 /* ClientCommon.framework in Frameworks */,
-				E53F4CC22443705500933F56 /* ClientCommon.framework in Frameworks */,
-				C11F56CC244C9AAB00A6C3CD /* Nibless.framework in Frameworks */,
+				C156D0562454784700AC5EA2 /* Nibless.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				C11AA53B2445FB0D00DB6398 /* Splash */,
+				C1F8B5D5245470B900AEF192 /* Auth */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -127,18 +134,10 @@
 		C11AA5532445FC9C00DB6398 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				C11AA55A2445FCB000DB6398 /* UI */,
+				C156D04F2454781D00AC5EA2 /* UI */,
 				C11AA5612445FD0100DB6398 /* Protocols */,
 			);
 			path = Common;
-			sourceTree = "<group>";
-		};
-		C11AA55A2445FCB000DB6398 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				C11F56C6244C9AA500A6C3CD /* Nibless.xcodeproj */,
-			);
-			path = UI;
 			sourceTree = "<group>";
 		};
 		C11AA5612445FD0100DB6398 /* Protocols */ = {
@@ -151,12 +150,38 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		C11F56C7244C9AA500A6C3CD /* Products */ = {
+		C14C83C4245D6E0100186D97 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				C11F56CB244C9AA500A6C3CD /* Nibless.framework */,
+				C14C83C1245D6DF700186D97 /* Settings.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		C156D04F2454781D00AC5EA2 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				C156D0502454783A00AC5EA2 /* Nibless.xcodeproj */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		C156D0512454783A00AC5EA2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C156D0552454783A00AC5EA2 /* Nibless.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C1F8B5D5245470B900AEF192 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				C1F8B5D22454707F00AEF192 /* AuthAssembly.swift */,
+				C1F8B5D6245470C500AEF192 /* AuthController.swift */,
+				C1F8B5D8245470D200AEF192 /* AuthView.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		E53F4C832443601700933F56 = {
@@ -168,6 +193,7 @@
 				E53F4CB02443601B00933F56 /* MemeAppUITests */,
 				E53F4C8D2443601800933F56 /* Products */,
 				E53F4CBF2443701400933F56 /* Frameworks */,
+				EDF72A0353DFEEACBEBE6BB3 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -183,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				C11AA5532445FC9C00DB6398 /* Common */,
+				C14C83C4245D6E0100186D97 /* Core */,
 				C11AA54A2445FBFF00DB6398 /* Modules */,
 				C11AA5492445FBEE00DB6398 /* Application layer */,
 				C11AA5482445FBE500DB6398 /* Support files */,
@@ -218,6 +245,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		EDF72A0353DFEEACBEBE6BB3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -226,6 +260,7 @@
 			buildConfigurationList = E53F4CB62443601B00933F56 /* Build configuration list for PBXNativeTarget "MemeApp" */;
 			buildPhases = (
 				E53F4C882443601700933F56 /* Sources */,
+				C1FFC5AE245D811E009D18C1 /* SwiftLint */,
 				E53F4C892443601700933F56 /* Frameworks */,
 				E53F4C8A2443601700933F56 /* Resources */,
 				E53F4CC42443705500933F56 /* Embed Frameworks */,
@@ -246,7 +281,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = MemeApp;
 				TargetAttributes = {
 					E53F4C8B2443601700933F56 = {
@@ -267,8 +302,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = C11F56C7244C9AA500A6C3CD /* Products */;
-					ProjectRef = C11F56C6244C9AA500A6C3CD /* Nibless.xcodeproj */;
+					ProductGroup = C156D0512454783A00AC5EA2 /* Products */;
+					ProjectRef = C156D0502454783A00AC5EA2 /* Nibless.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -279,11 +314,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		C11F56CB244C9AA500A6C3CD /* Nibless.framework */ = {
+		C156D0552454783A00AC5EA2 /* Nibless.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Nibless.framework;
-			remoteRef = C11F56CA244C9AA500A6C3CD /* PBXContainerItemProxy */;
+			remoteRef = C156D0542454783A00AC5EA2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -300,6 +335,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		C1FFC5AE245D811E009D18C1 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n  exit 1\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E53F4C882443601700933F56 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -308,10 +364,14 @@
 				C11AA5632445FD3700DB6398 /* ViewSpecificController.swift in Sources */,
 				E53F4C942443601800933F56 /* SplashController.swift in Sources */,
 				C11AA53D2445FB6400DB6398 /* SplashView.swift in Sources */,
+				C1F8B5D32454707F00AEF192 /* AuthAssembly.swift in Sources */,
 				C11AA5652445FD6500DB6398 /* Assembly.swift in Sources */,
 				C11AA5672445FD8D00DB6398 /* TransitionHadler.swift in Sources */,
+				C14C83C2245D6DF700186D97 /* Settings.swift in Sources */,
 				E53F4C902443601800933F56 /* AppDelegate.swift in Sources */,
+				C1F8B5D7245470C500AEF192 /* AuthController.swift in Sources */,
 				C11AA5472445FBCE00DB6398 /* SplashAssembly.swift in Sources */,
+				C1F8B5D9245470D200AEF192 /* AuthView.swift in Sources */,
 				E53F4C922443601800933F56 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

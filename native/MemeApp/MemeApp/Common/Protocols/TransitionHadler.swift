@@ -37,4 +37,4 @@ extension ModuleTransitionHandler {
 
 protocol TransitionModel { }
 
-extension UIViewController : ModuleTransitionHandler { }
+extension UIViewController: ModuleTransitionHandler { }
