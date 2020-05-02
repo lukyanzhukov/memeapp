@@ -36,4 +36,6 @@ class GameFactory(
         }
 
     suspend fun getAllMemes() = memeRepository.getAll()
+
+    suspend fun getMemesByMode(mode: GameMode) = memeRepository.getByMode(mode)
 }

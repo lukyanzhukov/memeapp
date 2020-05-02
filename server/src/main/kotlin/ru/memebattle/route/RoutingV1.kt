@@ -17,6 +17,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.BroadcastChannel
 import ru.memebattle.auth.BasicAuth
 import ru.memebattle.auth.JwtAuth
+import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.AuthenticationRequestDto
 import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
@@ -27,7 +28,6 @@ import ru.memebattle.model.toDto
 import ru.memebattle.repository.RateusersRepository
 import ru.memebattle.service.GameFactory
 import ru.memebattle.service.UserService
-import sun.rmi.runtime.Log
 
 class RoutingV1(
     private val userService: UserService,
@@ -67,6 +67,17 @@ class RoutingV1(
 
                     get("/memes") {
                         val response = gameFactory.getAllMemes()
+                        call.respond(response)
+                    }
+
+                    get("/chill") {
+                        val modeParameter = call.request.queryParameters["gameMode"]
+                        val response = if (modeParameter == null) {
+                            gameFactory.getAllMemes()
+                        } else {
+                            val mode = GameMode.valueOf(modeParameter)
+                            gameFactory.getMemesByMode(mode)
+                        }
                         call.respond(response)
                     }
                 }
