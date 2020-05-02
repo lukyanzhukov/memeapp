@@ -24,4 +24,9 @@
     <string name="share_app_btn_text">Рассказать о приложении</string>
     <string name="share_app_text">Скачал мужик MemeBattle, а он ему как раз https://play.google.com/store/apps/details?id=ru.memeapp</string>
     <string name="share_app_title">Поделиться с друзьями</string>
+    <string name="classic_mode_title">Classic Mode</string>
+    <string name="chill_mode_title">Chill Mode</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

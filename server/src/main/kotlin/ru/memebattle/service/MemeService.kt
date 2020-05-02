@@ -7,7 +7,7 @@ import kotlinx.coroutines.sync.withLock
 import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeResponse
-import ru.memebattle.model.MemeModel
+import ru.memebattle.common.dto.game.MemeModel
 import ru.memebattle.model.UserModel
 import ru.memebattle.repository.MemeRepository
 import ru.memebattle.repository.RateusersRepository

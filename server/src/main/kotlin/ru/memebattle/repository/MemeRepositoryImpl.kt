@@ -8,7 +8,7 @@ import ru.memebattle.common.GameMode
 import ru.memebattle.db.data.meme.Memes
 import ru.memebattle.db.data.meme.toMeme
 import ru.memebattle.db.dbQuery
-import ru.memebattle.model.MemeModel
+import ru.memebattle.common.dto.game.MemeModel
 
 class MemeRepositoryImpl : MemeRepository {
     override suspend fun save(meme: MemeModel) {

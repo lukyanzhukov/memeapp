@@ -40,7 +40,7 @@ android {
     }
 }
 
-tasks.withType<KotlinCompile> {
+tasks.withType < KotlinCompile > {
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -68,9 +68,9 @@ dependencies {
     implementation("io.ktor:ktor-client-websockets-jvm:1.3.2")
     implementation("io.ktor:ktor-client-cio:1.3.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5")
-    implementation ("com.airbnb.android:lottie:3.1.0")
+    implementation("com.airbnb.android:lottie:3.1.0")
     implementation(project(":common"))
-    implementation ("com.facebook.shimmer:shimmer:0.1.0@aar")
-    implementation (project(":client-common"))
+    implementation("com.facebook.shimmer:shimmer:0.1.0@aar")
+    implementation(project(":client-common"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.SERIALIZATION}")
 }
