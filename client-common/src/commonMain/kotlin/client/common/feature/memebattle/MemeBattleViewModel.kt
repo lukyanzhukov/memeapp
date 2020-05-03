@@ -1,17 +1,15 @@
 package client.common.feature.memebattle
 
-import client.common.data.TokenSource
-import client.common.data.socketHost
-import client.common.data.socketPort
+import client.common.data.*
 import client.common.presentation.LiveData
 import client.common.presentation.MutableLiveData
 import client.common.presentation.ViewModel
 import client.common.presentation.viewModelScope
 import client.uiDispatcher
 import io.ktor.client.HttpClient
-import io.ktor.client.features.websocket.wss
 import io.ktor.client.request.header
 import io.ktor.http.HttpMethod
+import io.ktor.http.URLProtocol
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.readText
 import kotlinx.coroutines.async
@@ -35,8 +33,8 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
     fun connect() {
         viewModelScope.launch {
             try {
-                // prod
-                client.wss(
+                client.memeSocket(
+                    protocol = URLProtocol.byName[socketProtocol()] ?: URLProtocol.WSS,
                     method = HttpMethod.Get,
                     host = socketHost(),
                     port = socketPort(),

@@ -5,17 +5,16 @@ import io.ktor.client.call.HttpClientCall
 import io.ktor.client.features.HttpClientFeature
 import io.ktor.client.features.websocket.ClientWebSocketSession
 import io.ktor.client.features.websocket.DefaultClientWebSocketSession
+import io.ktor.client.features.websocket.webSocket
 import io.ktor.client.request.ClientUpgradeContent
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.HttpRequestPipeline
 import io.ktor.client.statement.HttpResponseContainer
 import io.ktor.client.statement.HttpResponsePipeline
-import io.ktor.http.Headers
-import io.ktor.http.HeadersBuilder
-import io.ktor.http.HttpHeaders
+import io.ktor.http.*
 import io.ktor.http.cio.websocket.DefaultWebSocketSession
 import io.ktor.http.cio.websocket.FrameType
 import io.ktor.http.cio.websocket.WebSocketSession
-import io.ktor.http.isWebsocket
 import io.ktor.http.websocket.websocketServerAccept
 import io.ktor.util.AttributeKey
 import io.ktor.util.InternalAPI
@@ -115,3 +114,15 @@ fun generateNonce(size: Int): ByteArray = buildPacket {
 }.readBytes(size)
 
 expect fun generateNonce(): String
+
+suspend fun HttpClient.memeSocket(
+    method: HttpMethod = HttpMethod.Get, host: String = "localhost", port: Int = DEFAULT_PORT, path: String = "/", protocol: URLProtocol,
+    request: HttpRequestBuilder.() -> Unit = {}, block: suspend DefaultClientWebSocketSession.() -> Unit
+): Unit = webSocket(
+    method, host, port, path, request = {
+        url.protocol = protocol
+        url.port = port
+
+        request()
+    }, block = block
+)
