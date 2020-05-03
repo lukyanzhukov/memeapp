@@ -6,7 +6,7 @@ import io.ktor.client.engine.apache.Apache
 import io.ktor.client.request.get
 import kotlinx.coroutines.*
 import ru.memebattle.common.GameMode
-import ru.memebattle.model.MemeModel
+import ru.memebattle.common.dto.game.MemeModel
 import ru.memebattle.model.vk.model.VKResponse
 import ru.memebattle.model.vk.model.getMaxImage
 import ru.memebattle.repository.MemeRepository
@@ -46,7 +46,12 @@ class ParserService(
                             it.attachments?.firstOrNull()?.photo?.sizes?.getMaxImage()
                         }
                         urls?.forEach { url ->
-                            url?.let { memeRepository.save(MemeModel(url = url, mode = mode.key.name)) }
+                            url?.let { memeRepository.save(
+                                MemeModel(
+                                    url = url,
+                                    mode = mode.key.name
+                                )
+                            ) }
                         }
                     }
                 }

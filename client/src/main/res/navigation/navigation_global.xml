@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_mainFragment_action_to_memebattleFragment"
             app:destination="@+id/memebattleFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_memeChillFragment"
+            app:destination="@id/memeChillFragment" />
     </fragment>
     <fragment
         android:id="@+id/memebattleFragment"
@@ -41,4 +44,9 @@
             android:id="@+id/action_memebattleFragment_to_authFragment"
             app:destination="@id/authFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/memeChillFragment"
+        android:name="ru.memebattle.feature.MemeChillFragment"
+        android:label="fragment_meme_chill"
+        tools:layout="@layout/fragment_meme_chill" />
 </navigation>
