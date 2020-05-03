@@ -6,6 +6,7 @@ import client.common.data.*
 import client.common.feature.auth.AuthViewModel
 import client.common.feature.game.GameViewModel
 import client.common.feature.memebattle.MemeBattleViewModel
+import client.common.feature.memechill.MemeChillViewModel
 import client.common.feature.rating.RatingViewModel
 import client.common.feature.settings.SettingsViewModel
 import client.common.feature.splash.SplashViewModel
@@ -13,6 +14,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import ru.memebattle.feature.MemeChillFragment
 
 class App : Application() {
 
@@ -30,7 +32,8 @@ class App : Application() {
                     ratingModule,
                     gameModule,
                     settingsModule,
-                    memeBattleModule
+                    memeBattleModule,
+                    memeChillModule
                 )
             )
         }
@@ -76,6 +79,12 @@ val gameModule = module {
 val memeBattleModule = module {
     viewModel {
         MemeBattleViewModel(get(), get()).also(MemeBattleViewModel::connect)
+    }
+}
+
+val memeChillModule = module {
+    viewModel {
+        MemeChillViewModel(get())
     }
 }
 

@@ -31,9 +31,19 @@ class GameFragment : Fragment() {
         }
         // Сейчас проверяется и ставится только классический режим, в след. релизе будет чекаться каждый.
         if (viewModel.isGameModeUsed(GameMode.CLASSIC)) {
-            Navigation.findNavController(requireActivity(), R.id.host_global)
-                .navigate(R.id.action_mainFragment_action_to_memebattleFragment, bundle)
-            return@OnClickListener
+            when (mode_tabs.selectedTabPosition) {
+                CLASSIC_MODE_TAB_INDEX -> {
+                    Navigation.findNavController(requireActivity(), R.id.host_global)
+                        .navigate(R.id.action_mainFragment_action_to_memebattleFragment, bundle)
+                    return@OnClickListener
+                }
+                CHILL_MODE_TAB_INDEX -> {
+                    Navigation.findNavController(requireActivity(), R.id.host_global)
+                        .navigate(R.id.action_mainFragment_to_memeChillFragment, bundle)
+                    return@OnClickListener
+                }
+                else -> return@OnClickListener
+            }
         }
         openGameOnboardingDialog(GameOnboardingDialogListener {
             Navigation.findNavController(requireActivity(), R.id.host_global)
@@ -58,5 +68,10 @@ class GameFragment : Fragment() {
         science_game_mode_btn.setOnClickListener(gameModesClickListener)
         work_game_mode_btn.setOnClickListener(gameModesClickListener)
         study_game_mode_btn.setOnClickListener(gameModesClickListener)
+    }
+
+    companion object {
+        private const val CLASSIC_MODE_TAB_INDEX = 0
+        private const val CHILL_MODE_TAB_INDEX = 1
     }
 }

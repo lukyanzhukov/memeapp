@@ -1,7 +1,7 @@
 package ru.memebattle.repository
 
 import ru.memebattle.common.GameMode
-import ru.memebattle.model.MemeModel
+import ru.memebattle.common.dto.game.MemeModel
 
 interface MemeRepository {
     suspend fun save(meme: MemeModel)
