@@ -30,6 +30,13 @@ android {
         }
     }
 
+    flavorDimensions("api")
+
+    productFlavors {
+        create("develop") {}
+        create("prod") {}
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8

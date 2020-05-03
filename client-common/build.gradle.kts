@@ -22,6 +22,17 @@ android {
         }
     }
 
+    flavorDimensions("api")
+
+    productFlavors {
+        create("develop") {
+            buildConfigField("String", "BASE_URL", "\"https://memeapptest.herokuapp.com/api/v1/\"")
+        }
+        create("prod") {
+            buildConfigField("String", "BASE_URL", "\"https://memebattle.herokuapp.com/api/v1/\"")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8

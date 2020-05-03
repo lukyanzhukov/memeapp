@@ -33,7 +33,7 @@ fun MemeClient(tokenSource: TokenSource): HttpClient = HttpClient {
 }
 
 internal suspend fun HttpClient.signUp(authenticationRequestDto: AuthenticationRequestDto): AuthenticationResponseDto =
-    post("${BASE_URL}registration") {
+    post("${BuildConfig.BASE_URL}registration") {
         contentType(ContentType.Application.Json)
         body = authenticationRequestDto
     }
