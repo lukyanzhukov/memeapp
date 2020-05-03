@@ -1,16 +1,15 @@
 package client.common.feature.memebattle
 
-import client.common.data.TokenSource
+import client.common.data.*
 import client.common.presentation.LiveData
 import client.common.presentation.MutableLiveData
 import client.common.presentation.ViewModel
 import client.common.presentation.viewModelScope
 import client.uiDispatcher
 import io.ktor.client.HttpClient
-import io.ktor.client.features.websocket.ws
-import io.ktor.client.features.websocket.wss
 import io.ktor.client.request.header
 import io.ktor.http.HttpMethod
+import io.ktor.http.URLProtocol
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.readText
 import kotlinx.coroutines.async
@@ -34,29 +33,18 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
     fun connect() {
         viewModelScope.launch {
             try {
-                // prod
-                client.wss(
+                client.memeSocket(
+                    protocol = URLProtocol.byName[socketProtocol()] ?: URLProtocol.WSS,
                     method = HttpMethod.Get,
-                    host = "memebattle.herokuapp.com",
+                    host = socketHost(),
+                    port = socketPort(),
                     path = "/api/v1",
                     request = {
                         if (tokenSource.token != null) {
                             header("Authorization", "Bearer ${tokenSource.token}")
                         }
                     }
-                )
-                // local
-                /*client.ws(
-                    method = HttpMethod.Get,
-                    host = "192.168.0.6",
-                    port = 8888,
-                    path = "/api/v1",
-                    request = {
-                        if (tokenSource.token != null) {
-                            header("Authorization", "Bearer ${tokenSource.token}")
-                        }
-                    }
-                ) */{
+                ) {
                     val frames = async {
                         for (frame in incoming) {
                             when (frame) {

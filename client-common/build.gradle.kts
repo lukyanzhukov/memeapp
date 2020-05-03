@@ -22,6 +22,29 @@ android {
         }
     }
 
+    flavorDimensions("api")
+
+    productFlavors {
+        create("develop") {
+            buildConfigField("String", "BASE_URL", "\"https://memeapptest.herokuapp.com/api/v1/\"")
+            buildConfigField("String", "SOCKET_HOST", "\"memeapptest.herokuapp.com\"")
+            buildConfigField("int", "SOCKET_PORT", "443")
+            buildConfigField("String", "SOCKET_PROTOCOL", "\"wss\"")
+        }
+        create("prod") {
+            buildConfigField("String", "BASE_URL", "\"https://memebattle.herokuapp.com/api/v1/\"")
+            buildConfigField("String", "SOCKET_HOST", "\"memebattle.herokuapp.com\"")
+            buildConfigField("int", "SOCKET_PORT", "443")
+            buildConfigField("String", "SOCKET_PROTOCOL", "\"wss\"")
+        }
+        create("local") {
+            buildConfigField("String", "BASE_URL", "\"http://192.168.0.4:8888/api/v1/\"")
+            buildConfigField("String", "SOCKET_HOST", "\"192.168.0.4\"")
+            buildConfigField("int", "SOCKET_PORT", "8888")
+            buildConfigField("String", "SOCKET_PROTOCOL", "\"ws\"")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
