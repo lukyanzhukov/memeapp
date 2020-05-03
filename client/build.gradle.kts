@@ -35,6 +35,7 @@ android {
     productFlavors {
         create("develop") {}
         create("prod") {}
+        create("local") {}
     }
 
     compileOptions {

@@ -15,8 +15,6 @@ import ru.memebattle.common.dto.AuthenticationRequestDto
 import ru.memebattle.common.dto.AuthenticationResponseDto
 import ru.memebattle.common.model.RatingModel
 
-private const val BASE_URL = "https://memebattle.herokuapp.com/api/v1/"
-
 @Suppress("FunctionName")
 fun MemeClient(tokenSource: TokenSource): HttpClient = HttpClient {
     Json {
@@ -33,16 +31,16 @@ fun MemeClient(tokenSource: TokenSource): HttpClient = HttpClient {
 }
 
 internal suspend fun HttpClient.signUp(authenticationRequestDto: AuthenticationRequestDto): AuthenticationResponseDto =
-    post("${BuildConfig.BASE_URL}registration") {
+    post("${baseUrl()}registration") {
         contentType(ContentType.Application.Json)
         body = authenticationRequestDto
     }
 
 internal suspend fun HttpClient.signIn(authenticationRequestDto: AuthenticationRequestDto): AuthenticationResponseDto =
-    post("${BASE_URL}authentication") {
+    post("${baseUrl()}authentication") {
         contentType(ContentType.Application.Json)
         body = authenticationRequestDto
     }
 
 internal suspend fun HttpClient.getRating(): List<RatingModel> =
-    get("${BASE_URL}rating")
+    get("${baseUrl()}rating")
