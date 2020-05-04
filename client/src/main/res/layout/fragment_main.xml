@@ -13,8 +13,10 @@
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         app:navGraph="@navigation/navigation_main" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -22,7 +24,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:theme="@style/ButtonTheme"
+        app:itemBackground="@android:color/white"
+        app:itemIconTint="@color/slr_bottom_bar_item"
+        app:itemTextColor="@color/slr_bottom_bar_item"
         app:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

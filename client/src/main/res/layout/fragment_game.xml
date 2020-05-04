@@ -1,32 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/mode_tabs"
-        style="@style/Widget.MaterialComponents.TabLayout.Colored"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/classic_mode_title" />
-
-        <com.google.android.material.tabs.TabItem
+        <TextView
+            android:id="@+id/classic_mode_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chill_mode_title" />
+            android:layout_height="44dp"
+            android:background="@drawable/bg_selected_game_mode"
+            android:fontFamily="@font/ubuntu"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="7dp"
+            android:text="@string/classic_mode_title"
+            android:textSize="16sp" />
 
-    </com.google.android.material.tabs.TabLayout>
+        <TextView
+            android:id="@+id/chill_mode_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/ubuntu"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="7dp"
+            android:text="@string/chill_mode_title"
+            android:textSize="16sp"
+            tools:background="@drawable/bg_selected_game_mode" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="24dp">
 
         <LinearLayout
             android:id="@+id/memebattle"
@@ -34,205 +54,126 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/classic_game_mode_btn"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="8dp"
-                app:cardCornerRadius="5dp">
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <ru.memebattle.feature.game.GameModeItem
+                    android:id="@+id/classic_game_mode_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@drawable/meme_background"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="7.5dp"
+                    android:layout_weight="1"
+                    app:banner="@drawable/classic_game_mode_banner"
+                    app:title="classic"
+                    app:titleColor="#FF805E" />
+
+                <ru.memebattle.feature.game.GameModeItem
+                    android:id="@+id/senior_game_mode_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7.5dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="1"
                     android:orientation="vertical"
-                    android:paddingStart="20dp"
-                    android:paddingTop="5dp">
+                    app:banner="@drawable/senior_game_mode_banner"
+                    app:title="senior"
+                    app:titleColor="#4749A0" />
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="casual"
-                        android:text="classic"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/white"
-                        android:textSize="21dp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="160dp"
-                        android:src="@drawable/classic_game_mode_banner" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/senior_game_mode_btn"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="8dp"
-                app:cardCornerRadius="5dp">
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <ru.memebattle.feature.game.GameModeItem
+                    android:id="@+id/english_game_mode_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@drawable/senior_game_mode_banner"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="7.5dp"
+                    android:layout_weight="1"
+                    app:banner="@drawable/english_game_mode_banner"
+                    app:title="english"
+                    app:titleColor="#149E96" />
+
+                <ru.memebattle.feature.game.GameModeItem
+                    android:id="@+id/it_game_mode_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7.5dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="1"
                     android:orientation="vertical"
-                    android:paddingStart="20dp"
-                    android:paddingTop="5dp">
+                    app:banner="@drawable/it_game_mode_banner"
+                    app:title="it"
+                    app:titleColor="#FFCE83" />
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="casual"
-                        android:text="Senior"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/black"
-                        android:textSize="21dp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/english_game_mode_btn"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="8dp"
-                app:cardCornerRadius="5dp">
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <ru.memebattle.feature.game.GameModeItem
+                    android:id="@+id/science_game_mode_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@drawable/english_game_mode_banner"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="7.5dp"
+                    android:layout_weight="1"
+                    app:banner="@drawable/science_game_mode_banner"
+                    app:title="science"
+                    app:titleColor="#4749A0" />
+
+                <ru.memebattle.feature.game.GameModeItem
+                    android:id="@+id/work_game_mode_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7.5dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="1"
                     android:orientation="vertical"
-                    android:paddingStart="20dp"
-                    android:paddingTop="5dp">
+                    app:banner="@drawable/work_game_mode_banner"
+                    app:title="work"
+                    app:titleColor="#FF805E" />
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="casual"
-                        android:text="English"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/white"
-                        android:textSize="21dp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/it_game_mode_btn"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="8dp">
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <ru.memebattle.feature.game.GameModeItem
+                    android:id="@+id/study_game_mode_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@drawable/it_game_mode_banner"
-                    android:orientation="vertical"
-                    android:paddingStart="20dp"
-                    android:paddingTop="5dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="7.5dp"
+                    android:layout_weight="1"
+                    app:banner="@drawable/study_game_mode_banner"
+                    app:title="study"
+                    app:titleColor="#149E96" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="casual"
-                        android:text="IT"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/white"
-                        android:textSize="21dp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/science_game_mode_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="8dp"
-                app:cardCornerRadius="5dp">
-
-                <LinearLayout
+                <ru.memebattle.feature.game.GameModeItem
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@drawable/science_game_mode_banner"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7.5dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="1"
                     android:orientation="vertical"
-                    android:paddingStart="20dp"
-                    android:paddingTop="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="casual"
-                        android:text="Science"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/white"
-                        android:textSize="21dp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/work_game_mode_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="8dp"
-                app:cardCornerRadius="5dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@drawable/work_game_mode_banner"
-                    android:orientation="vertical"
-                    android:paddingStart="20dp"
-                    android:paddingTop="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="casual"
-                        android:text="Work"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/white"
-                        android:textSize="21dp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/study_game_mode_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginVertical="8dp"
-                app:cardCornerRadius="5dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@drawable/study_game_mode_banner"
-                    android:orientation="vertical"
-                    android:paddingStart="20dp"
-                    android:paddingTop="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="casual"
-                        android:text="Study"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/white"
-                        android:textSize="21dp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                    app:banner="@drawable/no_mode_banner"
+                    app:titleColor="#CED0D6" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

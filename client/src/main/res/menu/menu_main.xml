@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
-            android:id="@+id/gameFragment"
-            android:icon="@drawable/ic_game"
-            android:title="Memes" />
-
+        android:id="@+id/gameFragment"
+        android:icon="@drawable/ic_game"
+        android:title="Категории" />
     <item
-            android:id="@+id/ratingFragment"
-            android:icon="@drawable/ic_lrating"
-            android:title="Rating" />
-
+        android:id="@+id/ratingFragment"
+        android:icon="@drawable/ic_rating"
+        android:title="Рейтинг" />
     <item
         android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_settings_black_24dp"
-        android:title="Settings" />
-
+        android:icon="@drawable/ic_settings"
+        android:title="Настройки" />
 </menu>

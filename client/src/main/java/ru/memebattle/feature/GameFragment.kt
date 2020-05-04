@@ -17,6 +17,7 @@ import ru.memebattle.core.utils.openGameOnboardingDialog
 class GameFragment : Fragment() {
 
     private val viewModel: GameViewModel by viewModel()
+    private var selectedMode: Int = CLASSIC_MODE_TAB_INDEX
 
     private val gameModesClickListener = View.OnClickListener {
         val bundle = Bundle()
@@ -31,7 +32,7 @@ class GameFragment : Fragment() {
         }
         // Сейчас проверяется и ставится только классический режим, в след. релизе будет чекаться каждый.
         if (viewModel.isGameModeUsed(GameMode.CLASSIC)) {
-            when (mode_tabs.selectedTabPosition) {
+            when (selectedMode) {
                 CLASSIC_MODE_TAB_INDEX -> {
                     Navigation.findNavController(requireActivity(), R.id.host_global)
                         .navigate(R.id.action_mainFragment_action_to_memebattleFragment, bundle)
@@ -61,6 +62,16 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        classic_mode_btn.setOnClickListener {
+            classic_mode_btn.background = resources.getDrawable(R.drawable.bg_selected_game_mode)
+            chill_mode_btn.background = null
+            selectedMode = CLASSIC_MODE_TAB_INDEX
+        }
+        chill_mode_btn.setOnClickListener {
+            chill_mode_btn.background = resources.getDrawable(R.drawable.bg_selected_game_mode)
+            classic_mode_btn.background = null
+            selectedMode = CHILL_MODE_TAB_INDEX
+        }
         classic_game_mode_btn.setOnClickListener(gameModesClickListener)
         senior_game_mode_btn.setOnClickListener(gameModesClickListener)
         english_game_mode_btn.setOnClickListener(gameModesClickListener)
