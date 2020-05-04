@@ -43,16 +43,16 @@ class ParserService(
                         val posts = vkResponse.response?.items?.filter {
                             it.markedAsAds != 1
                         }
+                        val sourceId = vkResponse.response?.groups?.first()?.screenName ?: ""
+                        val sourceUrl = if (sourceId == "") {
+                            ""
+                        } else {
+                            "https://vk.com/${sourceId}"
+                        }
                         posts?.forEach { post ->
                             val url = post.attachments?.firstOrNull()?.photo?.sizes?.getMaxImage()
                             if (url != null) {
                                 val text = post.text ?: ""
-                                val sourceId = post.groups?.first()?.screenName ?: ""
-                                val sourceUrl = if (sourceId == "") {
-                                    ""
-                                } else {
-                                    "https://vk.com/${sourceId}"
-                                }
                                 memeRepository.save(
                                     MemeModel(
                                         url = url,
