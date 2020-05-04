@@ -38,20 +38,31 @@ class ParserService(
                 modes.forEach { mode ->
                     mode.value.forEach { groupId ->
                         val response =
-                            client.get<String>("https://api.vk.com/method/wall.get?owner_id=-$groupId&access_token=2f0935dcc011e41fdd54052842b577d80739bbca71728837395626c0a00c4fa68e6e2ecedc412cb0d1a40&v=5.103")
+                            client.get<String>("https://api.vk.com/method/wall.get?owner_id=-$groupId&access_token=2f0935dcc011e41fdd54052842b577d80739bbca71728837395626c0a00c4fa68e6e2ecedc412cb0d1a40&v=5.103&extended=1")
                         val vkResponse = Gson().fromJson(response, VKResponse::class.java)
-                        val urls = vkResponse.response?.items?.filter {
+                        val posts = vkResponse.response?.items?.filter {
                             it.markedAsAds != 1
-                        }?.map {
-                            it.attachments?.firstOrNull()?.photo?.sizes?.getMaxImage()
                         }
-                        urls?.forEach { url ->
-                            url?.let { memeRepository.save(
-                                MemeModel(
-                                    url = url,
-                                    mode = mode.key.name
+                        posts?.forEach { post ->
+                            val url = post.attachments?.firstOrNull()?.photo?.sizes?.getMaxImage()
+                            if (url != null) {
+                                val text = post.text ?: ""
+                                val sourceId = post.groups?.first()?.screenName ?: ""
+                                val sourceUrl = if (sourceId == "") {
+                                    ""
+                                } else {
+                                    "https://vk.com/${sourceId}"
+                                }
+                                memeRepository.save(
+                                    MemeModel(
+                                        url = url,
+                                        mode = mode.key.name,
+                                        text = text,
+                                        sourceId = sourceId,
+                                        sourceUrl = sourceUrl
+                                    )
                                 )
-                            ) }
+                            }
                         }
                     }
                 }

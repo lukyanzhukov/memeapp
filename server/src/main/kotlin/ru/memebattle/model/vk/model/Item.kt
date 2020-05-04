@@ -27,5 +27,6 @@ data class Item(
     @SerializedName("signer_id")
     val signerId: Int? = null,
     val text: String? = null,
-    val views: Views? = null
+    val views: Views? = null,
+    val groups: List<Group?>?
 )
