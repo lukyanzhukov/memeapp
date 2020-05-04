@@ -4,19 +4,27 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/gotham_pro_family</item>
+        <item name="colorPrimaryDark">@android:color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="backgroundColor">@android:color/white</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
         <item name="android:textColor">@color/textColor</item>
     </style>
 
     <style name="InputLayoutTheme" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="colorPrimary">@android:color/white</item>
     </style>
+
     <style name="ButtonTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">#0C2F39</item>
     </style>
+
     <style name="ProgressbarTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorAccent">#0C2F39</item>
+    </style>
+
+    <style name="GameModeTitleStyle">
+        <item name="android:textSize">16dp</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
     </style>
 </resources>

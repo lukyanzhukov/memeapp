@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="banner" format="reference" />
+    <attr name="title" format="string" />
+    <attr name="titleColor" format="color" />
+    <declare-styleable name="GameModeItemButton">
+        <attr name="banner" />
+        <attr name="title" />
+        <attr name="titleColor" />
+    </declare-styleable>
+</resources>
