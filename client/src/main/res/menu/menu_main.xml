@@ -6,7 +6,7 @@
         android:title="Категории" />
     <item
         android:id="@+id/ratingFragment"
-        android:icon="@drawable/ic_rating"
+        android:icon="@drawable/ic_rating_menu"
         android:title="Рейтинг" />
     <item
         android:id="@+id/settingsFragment"
