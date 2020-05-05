@@ -20,7 +20,11 @@
     </style>
 
     <style name="ProgressbarTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorAccent">#0C2F39</item>
+        <item name="colorAccent">#FF805E</item>
+    </style>
+
+    <style name="MemebattleProgressbarTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorAccent">#453885</item>
     </style>
 
     <style name="GameModeTitleStyle">

@@ -20,10 +20,10 @@ import ru.memebattle.R
 import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeResponse
-import ru.memebattle.core.utils.saveImage
-import ru.memebattle.core.utils.shareImage
 import ru.memebattle.core.utils.FirstWinDialogListener
 import ru.memebattle.core.utils.openFirstWinDialog
+import ru.memebattle.core.utils.saveImage
+import ru.memebattle.core.utils.shareImage
 import java.util.*
 
 class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
@@ -55,14 +55,12 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
     @UnstableDefault
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
         val mode = arguments?.getSerializable("GameMode") as? GameMode ?: GameMode.CLASSIC
+        toolbar.title = mode.name
         viewModel.setGameMode(mode)
 
         loadingMemesProgressBar.progress = 0
-        error_button.setOnClickListener {
-            viewModel.connect()
-        }
 
         viewModel.state.platform.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -71,13 +69,11 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                 }
 
                 is MemeBattleState.Error -> {
-                    progress.isVisible = false
-                    error_group.isVisible = true
+
                 }
 
                 MemeBattleState.Progress -> {
-                    error_group.isVisible = false
-                    progress.isVisible = true
+                    waitingProgressBar.isVisible = true
                 }
             }
         }
@@ -110,10 +106,8 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
     }
 
     private fun processState(memeResponse: MemeResponse) {
-        wait_next_round_text_view.isVisible = false
         memebattle_view.isVisible = true
-        progress.isVisible = false
-        error_group.isVisible = false
+        waitingProgressBar.isVisible = false
         when (memeResponse.state) {
             GameState.MEMES -> {
                 isButtonDisabled = false
@@ -123,8 +117,10 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                 secondWinAnimation.progress = ZERO_PROGRESS
                 like1.isVisible = false
                 like2.isVisible = false
-                result1.isVisible = false
-                result2.isVisible = false
+                shadowRes1.isVisible = false
+                shadowRes2.isVisible = false
+                res1.isVisible = false
+                res2.isVisible = false
                 save_first_meme_btn.isVisible = true
                 save_second_meme_btn.isVisible = true
                 share_first_meme_btn.isVisible = true
@@ -154,12 +150,14 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                 isButtonDisabled = true
                 like1.isVisible = false
                 like2.isVisible = false
-                save_first_meme_btn.isVisible = false
-                save_second_meme_btn.isVisible = false
-                share_first_meme_btn.isVisible = false
-                share_second_meme_btn.isVisible = false
-                result1.isVisible = true
-                result2.isVisible = true
+                save_first_meme_btn.visibility = View.INVISIBLE
+                save_second_meme_btn.visibility = View.INVISIBLE
+                share_first_meme_btn.visibility = View.INVISIBLE
+                share_second_meme_btn.visibility = View.INVISIBLE
+                shadowRes1.isVisible = true
+                shadowRes2.isVisible = true
+                res1.isVisible = true
+                res2.isVisible = true
                 res1.text = "${memeResponse.likes[0]} likes"
                 res2.text = "${memeResponse.likes[1]} likes"
                 if (memeResponse.likes[0] > memeResponse.likes[1]) {
@@ -182,9 +180,7 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
 
     private fun showFirstWinDialog() {
         if (viewModel.isFistWin()) {
-            openFirstWinDialog(FirstWinDialogListener({
-
-            }, {
+            openFirstWinDialog(FirstWinDialogListener({}, {
                 Navigation.findNavController(requireActivity(), R.id.host_global)
                     .navigate(R.id.action_memebattleFragment_to_authFragment)
             }))

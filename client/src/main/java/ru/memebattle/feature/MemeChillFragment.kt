@@ -11,11 +11,8 @@ import client.common.feature.memechill.MemeChillState
 import client.common.feature.memechill.MemeChillViewModel
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_meme_chill.*
-import kotlinx.android.synthetic.main.fragment_memebattle.*
 import kotlinx.android.synthetic.main.fragment_memebattle.image1
 import kotlinx.android.synthetic.main.fragment_memebattle.image2
-import kotlinx.android.synthetic.main.fragment_memebattle.like1
-import kotlinx.android.synthetic.main.fragment_memebattle.like2
 import kotlinx.android.synthetic.main.fragment_memebattle.save_first_meme_btn
 import kotlinx.android.synthetic.main.fragment_memebattle.save_second_meme_btn
 import kotlinx.android.synthetic.main.fragment_memebattle.share_first_meme_btn
@@ -29,7 +26,6 @@ import ru.memebattle.common.dto.game.MemeModel
 import ru.memebattle.core.utils.log
 import ru.memebattle.core.utils.saveImage
 import ru.memebattle.core.utils.shareImage
-import java.util.*
 
 /**
  * A simple [Fragment] subclass.
