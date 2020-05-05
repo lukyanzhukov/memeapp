@@ -102,6 +102,12 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
     }
 
     private fun onNextMemesPair(memesPair: Pair<MemeModel, MemeModel>) {
+        first_meme_text.isVisible = memesPair.first.text.isNotEmpty()
+        second_meme_text.isVisible = memesPair.second.text.isNotEmpty()
+        first_source_meme_text.text = "@${memesPair.first.sourceId}"
+        second_source_meme_text.text = "@${memesPair.second.sourceId}"
+        first_meme_text.text = memesPair.first.text
+        second_meme_text.text = memesPair.second.text
         isButtonDisabled = false
         memechill_view.isVisible = true
         waitingProgressBar.isVisible = false

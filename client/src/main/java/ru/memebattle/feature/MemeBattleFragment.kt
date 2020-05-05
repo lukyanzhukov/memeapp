@@ -110,6 +110,12 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
         waitingProgressBar.isVisible = false
         when (memeResponse.state) {
             GameState.MEMES -> {
+                first_meme_text.isVisible = memeResponse.memes[0].text.isNotEmpty()
+                second_meme_text.isVisible = memeResponse.memes[1].text.isNotEmpty()
+                first_meme_text.text = memeResponse.memes[0].text
+                second_meme_text.text = memeResponse.memes[1].text
+                first_source_meme_text.text = "@${memeResponse.memes[0].sourceId}"
+                second_source_meme_text.text = "@${memeResponse.memes[1].sourceId}"
                 isButtonDisabled = false
                 firstWinAnimation.isVisible = false
                 firstWinAnimation.progress = ZERO_PROGRESS
@@ -137,11 +143,11 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                     }
                 }
                 Glide.with(requireActivity())
-                    .load(memeResponse.memes[0])
+                    .load(memeResponse.memes[0].url)
                     .placeholder(resources.getDrawable(R.drawable.wait_image))
                     .into(image1)
                 Glide.with(requireActivity())
-                    .load(memeResponse.memes[1])
+                    .load(memeResponse.memes[1].url)
                     .placeholder(resources.getDrawable(R.drawable.wait_image))
                     .into(image2)
             }
