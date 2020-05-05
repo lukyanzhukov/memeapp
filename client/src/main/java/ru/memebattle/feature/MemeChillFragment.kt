@@ -12,22 +12,13 @@ import client.common.feature.memechill.MemeChillViewModel
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.error_loading_view.*
 import kotlinx.android.synthetic.main.fragment_meme_chill.*
-import kotlinx.android.synthetic.main.fragment_meme_chill.first_meme_text
-import kotlinx.android.synthetic.main.fragment_meme_chill.first_source_meme_text
-import kotlinx.android.synthetic.main.fragment_meme_chill.like1
-import kotlinx.android.synthetic.main.fragment_meme_chill.like2
-import kotlinx.android.synthetic.main.fragment_meme_chill.second_meme_text
-import kotlinx.android.synthetic.main.fragment_meme_chill.second_source_meme_text
-import kotlinx.android.synthetic.main.fragment_meme_chill.shadowRes1
-import kotlinx.android.synthetic.main.fragment_meme_chill.shadowRes2
-import kotlinx.android.synthetic.main.fragment_meme_chill.toolbar
-import kotlinx.android.synthetic.main.fragment_meme_chill.waitingProgressBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
 import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.MemeModel
+import ru.memebattle.core.utils.openUrl
 import ru.memebattle.core.utils.saveImage
 import ru.memebattle.core.utils.shareImage
 
@@ -37,6 +28,8 @@ import ru.memebattle.core.utils.shareImage
 class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
 
     private var isButtonDisabled = true
+    private var firstMemeSourceUrl = ""
+    private var secondMemeSourceUrl = ""
     private val viewModel: MemeChillViewModel by viewModel()
     private val onSaveClickListener: (v: View) -> Unit = {
         when (it.id) {
@@ -105,6 +98,12 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
         retry_loading_button.setOnClickListener {
             viewModel.getMemesPair()
         }
+        first_source_meme_text.setOnClickListener {
+            openUrl(firstMemeSourceUrl)
+        }
+        second_source_meme_text.setOnClickListener {
+            openUrl(secondMemeSourceUrl)
+        }
         save_first_meme_btn.setOnClickListener(onSaveClickListener)
         save_second_meme_btn.setOnClickListener(onSaveClickListener)
         share_first_meme_btn.setOnClickListener(onShareClickListener)
@@ -115,6 +114,8 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
     private fun onNextMemesPair(memesPair: Pair<MemeModel, MemeModel>) {
         first_meme_text.isVisible = memesPair.first.text.isNotEmpty()
         second_meme_text.isVisible = memesPair.second.text.isNotEmpty()
+        firstMemeSourceUrl = memesPair.first.sourceUrl
+        secondMemeSourceUrl = memesPair.second.sourceUrl
         first_source_meme_text.text = "@${memesPair.first.sourceId}"
         second_source_meme_text.text = "@${memesPair.second.sourceId}"
         first_meme_text.text = memesPair.first.text
