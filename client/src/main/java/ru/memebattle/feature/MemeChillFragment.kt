@@ -23,7 +23,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
 import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.MemeModel
-import ru.memebattle.core.utils.log
 import ru.memebattle.core.utils.saveImage
 import ru.memebattle.core.utils.shareImage
 
@@ -58,15 +57,17 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
     @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
         val mode = arguments?.getSerializable("GameMode") as? GameMode ?: GameMode.CLASSIC
+        toolbar.title = mode.name
         viewModel.setGameMode(mode)
         viewModel.state.platform.observe(viewLifecycleOwner) { state ->
             when (state) {
                 MemeChillState.Loading -> {
-                    log("loading")
+                    waitingProgressBar.isVisible = true
                 }
                 is MemeChillState.Error -> {
-                    log(state.error.toString())
+                    waitingProgressBar.isVisible = false
                 }
                 is MemeChillState.SuccessMemePair -> {
                     onNextMemesPair(state.memes)
@@ -75,8 +76,8 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
         }
 
         image1.setOnClickListener {
-            result_view1.isVisible = true
-            result_view2.isVisible = true
+            shadowRes1.isVisible = true
+            shadowRes2.isVisible = true
             like1.isVisible = true
             lifecycleScope.launch {
                 delay(RESULT_DELAY)
@@ -85,8 +86,8 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
         }
 
         image2.setOnClickListener {
-            result_view1.isVisible = true
-            result_view2.isVisible = true
+            shadowRes1.isVisible = true
+            shadowRes2.isVisible = true
             like2.isVisible = true
             lifecycleScope.launch {
                 delay(RESULT_DELAY)
@@ -102,8 +103,10 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
 
     private fun onNextMemesPair(memesPair: Pair<MemeModel, MemeModel>) {
         isButtonDisabled = false
-        result_view1.isVisible = false
-        result_view2.isVisible = false
+        memechill_view.isVisible = true
+        waitingProgressBar.isVisible = false
+        shadowRes1.isVisible = false
+        shadowRes2.isVisible = false
         like1.isVisible = false
         like2.isVisible = false
         save_first_meme_btn.isVisible = true
