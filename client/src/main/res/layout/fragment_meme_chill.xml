@@ -21,6 +21,11 @@
         android:theme="@style/MemebattleProgressbarTheme"
         tool:visibility="gone" />
 
+    <include
+        android:id="@+id/error_loading_view"
+        layout="@layout/error_loading_view"
+        android:visibility="gone" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/memechill_view"
         android:layout_width="match_parent"
@@ -108,6 +113,7 @@
             app:layout_constraintStart_toStartOf="@+id/image1"
             app:layout_constraintTop_toTopOf="@+id/image1"
             app:srcCompat="@drawable/ic_like" />
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/firstWinAnimation"
             android:layout_width="0dp"

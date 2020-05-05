@@ -11,7 +11,28 @@ import androidx.navigation.Navigation
 import client.common.feature.memebattle.MemeBattleState
 import client.common.feature.memebattle.MemeBattleViewModel
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.error_loading_view.*
 import kotlinx.android.synthetic.main.fragment_memebattle.*
+import kotlinx.android.synthetic.main.fragment_memebattle.error_loading_view
+import kotlinx.android.synthetic.main.fragment_memebattle.firstWinAnimation
+import kotlinx.android.synthetic.main.fragment_memebattle.first_meme_text
+import kotlinx.android.synthetic.main.fragment_memebattle.first_source_meme_text
+import kotlinx.android.synthetic.main.fragment_memebattle.image1
+import kotlinx.android.synthetic.main.fragment_memebattle.image2
+import kotlinx.android.synthetic.main.fragment_memebattle.like1
+import kotlinx.android.synthetic.main.fragment_memebattle.like2
+import kotlinx.android.synthetic.main.fragment_memebattle.loadingMemesProgressBar
+import kotlinx.android.synthetic.main.fragment_memebattle.save_first_meme_btn
+import kotlinx.android.synthetic.main.fragment_memebattle.save_second_meme_btn
+import kotlinx.android.synthetic.main.fragment_memebattle.secondWinAnimation
+import kotlinx.android.synthetic.main.fragment_memebattle.second_meme_text
+import kotlinx.android.synthetic.main.fragment_memebattle.second_source_meme_text
+import kotlinx.android.synthetic.main.fragment_memebattle.shadowRes1
+import kotlinx.android.synthetic.main.fragment_memebattle.shadowRes2
+import kotlinx.android.synthetic.main.fragment_memebattle.share_first_meme_btn
+import kotlinx.android.synthetic.main.fragment_memebattle.share_second_meme_btn
+import kotlinx.android.synthetic.main.fragment_memebattle.toolbar
+import kotlinx.android.synthetic.main.fragment_memebattle.waitingProgressBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.UnstableDefault
@@ -20,10 +41,7 @@ import ru.memebattle.R
 import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeResponse
-import ru.memebattle.core.utils.FirstWinDialogListener
-import ru.memebattle.core.utils.openFirstWinDialog
-import ru.memebattle.core.utils.saveImage
-import ru.memebattle.core.utils.shareImage
+import ru.memebattle.core.utils.*
 import java.util.*
 
 class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
@@ -44,10 +62,10 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
     private val onShareClickListener: (v: View) -> Unit = {
         when (it.id) {
             R.id.share_first_meme_btn -> {
-                shareImage(image1.drawable.toBitmap())
+                shareImage(image1.drawable.toBitmap(), first_meme_text.text.toString())
             }
             R.id.share_second_meme_btn -> {
-                shareImage(image2.drawable.toBitmap())
+                shareImage(image2.drawable.toBitmap(), second_meme_text.text.toString())
             }
         }
     }
@@ -69,11 +87,14 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                 }
 
                 is MemeBattleState.Error -> {
-
+                    memebattle_view.isVisible = false
+                    waitingProgressBar.isVisible = false
+                    error_loading_view.isVisible = true
                 }
 
                 MemeBattleState.Progress -> {
                     waitingProgressBar.isVisible = true
+                    error_loading_view.isVisible = false
                 }
             }
         }
@@ -92,6 +113,9 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                 like2.isVisible = true
             }
             sendLike(1)
+        }
+        retry_loading_button.setOnClickListener {
+            viewModel.connect()
         }
         save_first_meme_btn.setOnClickListener(onSaveClickListener)
         save_second_meme_btn.setOnClickListener(onSaveClickListener)
@@ -127,10 +151,6 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                 shadowRes2.isVisible = false
                 res1.isVisible = false
                 res2.isVisible = false
-                save_first_meme_btn.isVisible = true
-                save_second_meme_btn.isVisible = true
-                share_first_meme_btn.isVisible = true
-                share_second_meme_btn.isVisible = true
                 val currentDate = Date()
                 val endDate = Date(memeResponse.timeEnd)
                 val time =
@@ -156,10 +176,6 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                 isButtonDisabled = true
                 like1.isVisible = false
                 like2.isVisible = false
-                save_first_meme_btn.visibility = View.INVISIBLE
-                save_second_meme_btn.visibility = View.INVISIBLE
-                share_first_meme_btn.visibility = View.INVISIBLE
-                share_second_meme_btn.visibility = View.INVISIBLE
                 shadowRes1.isVisible = true
                 shadowRes2.isVisible = true
                 res1.isVisible = true

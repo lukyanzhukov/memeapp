@@ -21,6 +21,11 @@
         android:theme="@style/MemebattleProgressbarTheme"
         tool:visibility="gone" />
 
+    <include
+        android:id="@+id/error_loading_view"
+        layout="@layout/error_loading_view"
+        android:visibility="gone" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/memebattle_view"
         android:layout_width="match_parent"

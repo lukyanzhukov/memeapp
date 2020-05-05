@@ -22,7 +22,8 @@ import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
 
-class MemeBattleViewModel(private val client: HttpClient, private val tokenSource: TokenSource) : ViewModel() {
+class MemeBattleViewModel(private val client: HttpClient, private val tokenSource: TokenSource) :
+    ViewModel() {
 
     private lateinit var mode: GameMode
     private val memeChannel = Channel<MemeRequest>()
@@ -31,6 +32,7 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
         get() = _state
 
     fun connect() {
+        _state.value = MemeBattleState.Progress
         viewModelScope.launch {
             try {
                 client.memeSocket(
@@ -51,7 +53,7 @@ class MemeBattleViewModel(private val client: HttpClient, private val tokenSourc
                                 is Frame.Text -> {
                                     @Suppress("EXPERIMENTAL_API_USAGE")
                                     val memeResponse: MemeResponse =
-                                            Json.parse(MemeResponse.serializer(), frame.readText())
+                                        Json.parse(MemeResponse.serializer(), frame.readText())
                                     if (memeResponse.gameMode == mode) {
                                         if (!(memeResponse.state == GameState.RESULT && _state.value == null)) {
                                             withContext(uiDispatcher()) {

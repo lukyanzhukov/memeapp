@@ -10,13 +10,18 @@ import androidx.lifecycle.observe
 import client.common.feature.memechill.MemeChillState
 import client.common.feature.memechill.MemeChillViewModel
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.error_loading_view.*
 import kotlinx.android.synthetic.main.fragment_meme_chill.*
-import kotlinx.android.synthetic.main.fragment_memebattle.image1
-import kotlinx.android.synthetic.main.fragment_memebattle.image2
-import kotlinx.android.synthetic.main.fragment_memebattle.save_first_meme_btn
-import kotlinx.android.synthetic.main.fragment_memebattle.save_second_meme_btn
-import kotlinx.android.synthetic.main.fragment_memebattle.share_first_meme_btn
-import kotlinx.android.synthetic.main.fragment_memebattle.share_second_meme_btn
+import kotlinx.android.synthetic.main.fragment_meme_chill.first_meme_text
+import kotlinx.android.synthetic.main.fragment_meme_chill.first_source_meme_text
+import kotlinx.android.synthetic.main.fragment_meme_chill.like1
+import kotlinx.android.synthetic.main.fragment_meme_chill.like2
+import kotlinx.android.synthetic.main.fragment_meme_chill.second_meme_text
+import kotlinx.android.synthetic.main.fragment_meme_chill.second_source_meme_text
+import kotlinx.android.synthetic.main.fragment_meme_chill.shadowRes1
+import kotlinx.android.synthetic.main.fragment_meme_chill.shadowRes2
+import kotlinx.android.synthetic.main.fragment_meme_chill.toolbar
+import kotlinx.android.synthetic.main.fragment_meme_chill.waitingProgressBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -46,10 +51,10 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
     private val onShareClickListener: (v: View) -> Unit = {
         when (it.id) {
             R.id.share_first_meme_btn -> {
-                shareImage(image1.drawable.toBitmap())
+                shareImage(image1.drawable.toBitmap(), first_meme_text.text.toString())
             }
             R.id.share_second_meme_btn -> {
-                shareImage(image2.drawable.toBitmap())
+                shareImage(image2.drawable.toBitmap(), second_meme_text.text.toString())
             }
         }
     }
@@ -65,9 +70,12 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
             when (state) {
                 MemeChillState.Loading -> {
                     waitingProgressBar.isVisible = true
+                    error_loading_view.isVisible = false
                 }
                 is MemeChillState.Error -> {
+                    memechill_view.isVisible = false
                     waitingProgressBar.isVisible = false
+                    error_loading_view.isVisible = true
                 }
                 is MemeChillState.SuccessMemePair -> {
                     onNextMemesPair(state.memes)
@@ -93,6 +101,9 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
                 delay(RESULT_DELAY)
                 viewModel.getMemesPair()
             }
+        }
+        retry_loading_button.setOnClickListener {
+            viewModel.getMemesPair()
         }
         save_first_meme_btn.setOnClickListener(onSaveClickListener)
         save_second_meme_btn.setOnClickListener(onSaveClickListener)
