@@ -20,19 +20,19 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         super.onViewCreated(view, savedInstanceState)
 
         if (viewModel.isSignedIn()) {
-            signButtonText.text = "Выйти из аккаунта"
-        } else {
-            signButtonText.text = "Войти или зарегистрироваться"
+            buttonSignUp.text = "Выйти из аккаунта"
+            buttonSignIn.visibility = View.GONE
         }
 
-        signButton.setOnClickListener {
-            if (viewModel.isSignedIn()) {
-                viewModel.logout()
-            }
-            Navigation.findNavController(requireActivity(), R.id.host_global)
-                .navigate(R.id.action_settingsFragment_to_authFragment)
+        buttonSignIn.setOnClickListener {
+            onSignInUpClick()
         }
-        memebattle_button.setOnClickListener {
+
+        buttonSignUp.setOnClickListener {
+            onSignInUpClick()
+        }
+
+        cardMemesTeam.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("https://vk.com/memsbattle")
             intent.resolveActivity(checkNotNull(context).packageManager)?.let {
@@ -40,7 +40,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
         }
 
-        rateApp.setOnClickListener {
+        cardRate.setOnClickListener {
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
@@ -48,8 +48,16 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 )
             )
         }
-        share_app_btn.setOnClickListener {
+        cardShare.setOnClickListener {
             shareApp()
         }
+    }
+
+    private fun onSignInUpClick() {
+        if (viewModel.isSignedIn()) {
+            viewModel.logout()
+        }
+        Navigation.findNavController(requireActivity(), R.id.host_global)
+            .navigate(R.id.action_settingsFragment_to_authFragment)
     }
 }
