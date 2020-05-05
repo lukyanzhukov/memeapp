@@ -1,6 +1,5 @@
 package ru.memebattle.feature.rating
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,20 +32,12 @@ class RatingAdapter(
 
    inner class RatingViewHolder(ratingView: View) : RecyclerView.ViewHolder(ratingView) {
 
-        private val playerNameTextView = ratingView.findViewById<TextView>(R.id.playerName)
-        private val playerScoreTextView = ratingView.findViewById<TextView>(R.id.playerScore)
-        private val placeTextView = ratingView.findViewById<TextView>(R.id.place)
+       private val playerNameTextView = ratingView.findViewById<TextView>(R.id.name)
+       private val playerScoreTextView = ratingView.findViewById<TextView>(R.id.points)
 
         fun bind(ratingModel: RatingModel, position: Int) {
-            if (currentPlayerName == ratingModel.playerName) {
-                playerNameTextView.setTextColor(Color.BLUE)
-                playerScoreTextView.setTextColor(Color.BLUE)
-                placeTextView.setTextColor(Color.BLUE)
-            }
-
-            playerNameTextView.text = ratingModel.playerName
+            playerNameTextView.text = "${position}.  ${ratingModel.playerName}".substringBefore('@')
             playerScoreTextView.text = ratingModel.score.toString()
-            placeTextView.text = "#${position}"
         }
     }
 }
