@@ -30,8 +30,10 @@ class MemeChillViewModel(private val client: HttpClient) : ViewModel() {
             if (memePairs.isEmpty()) {
                 loadMemes()
             }
-            _state.value = MemeChillState.SuccessMemePair(memePairs.first())
-            memePairs.removeFirst()
+            if (memePairs.isNotEmpty()) {
+                _state.value = MemeChillState.SuccessMemePair(memePairs.first())
+                memePairs.removeFirst()
+            }
         }
     }
 

@@ -10,26 +10,26 @@ import androidx.lifecycle.observe
 import client.common.feature.memechill.MemeChillState
 import client.common.feature.memechill.MemeChillViewModel
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.error_loading_view.*
 import kotlinx.android.synthetic.main.fragment_meme_chill.*
-import kotlinx.android.synthetic.main.fragment_memebattle.*
-import kotlinx.android.synthetic.main.fragment_memebattle.image1
-import kotlinx.android.synthetic.main.fragment_memebattle.image2
-import kotlinx.android.synthetic.main.fragment_memebattle.like1
-import kotlinx.android.synthetic.main.fragment_memebattle.like2
-import kotlinx.android.synthetic.main.fragment_memebattle.save_first_meme_btn
-import kotlinx.android.synthetic.main.fragment_memebattle.save_second_meme_btn
-import kotlinx.android.synthetic.main.fragment_memebattle.share_first_meme_btn
-import kotlinx.android.synthetic.main.fragment_memebattle.share_second_meme_btn
+import kotlinx.android.synthetic.main.fragment_meme_chill.first_meme_text
+import kotlinx.android.synthetic.main.fragment_meme_chill.first_source_meme_text
+import kotlinx.android.synthetic.main.fragment_meme_chill.like1
+import kotlinx.android.synthetic.main.fragment_meme_chill.like2
+import kotlinx.android.synthetic.main.fragment_meme_chill.second_meme_text
+import kotlinx.android.synthetic.main.fragment_meme_chill.second_source_meme_text
+import kotlinx.android.synthetic.main.fragment_meme_chill.shadowRes1
+import kotlinx.android.synthetic.main.fragment_meme_chill.shadowRes2
+import kotlinx.android.synthetic.main.fragment_meme_chill.toolbar
+import kotlinx.android.synthetic.main.fragment_meme_chill.waitingProgressBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
 import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.MemeModel
-import ru.memebattle.core.utils.log
 import ru.memebattle.core.utils.saveImage
 import ru.memebattle.core.utils.shareImage
-import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -51,10 +51,10 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
     private val onShareClickListener: (v: View) -> Unit = {
         when (it.id) {
             R.id.share_first_meme_btn -> {
-                shareImage(image1.drawable.toBitmap())
+                shareImage(image1.drawable.toBitmap(), first_meme_text.text.toString())
             }
             R.id.share_second_meme_btn -> {
-                shareImage(image2.drawable.toBitmap())
+                shareImage(image2.drawable.toBitmap(), second_meme_text.text.toString())
             }
         }
     }
@@ -62,15 +62,20 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
     @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
         val mode = arguments?.getSerializable("GameMode") as? GameMode ?: GameMode.CLASSIC
+        toolbar.title = mode.name
         viewModel.setGameMode(mode)
         viewModel.state.platform.observe(viewLifecycleOwner) { state ->
             when (state) {
                 MemeChillState.Loading -> {
-                    log("loading")
+                    waitingProgressBar.isVisible = true
+                    error_loading_view.isVisible = false
                 }
                 is MemeChillState.Error -> {
-                    log(state.error.toString())
+                    memechill_view.isVisible = false
+                    waitingProgressBar.isVisible = false
+                    error_loading_view.isVisible = true
                 }
                 is MemeChillState.SuccessMemePair -> {
                     onNextMemesPair(state.memes)
@@ -79,8 +84,8 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
         }
 
         image1.setOnClickListener {
-            result_view1.isVisible = true
-            result_view2.isVisible = true
+            shadowRes1.isVisible = true
+            shadowRes2.isVisible = true
             like1.isVisible = true
             lifecycleScope.launch {
                 delay(RESULT_DELAY)
@@ -89,13 +94,16 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
         }
 
         image2.setOnClickListener {
-            result_view1.isVisible = true
-            result_view2.isVisible = true
+            shadowRes1.isVisible = true
+            shadowRes2.isVisible = true
             like2.isVisible = true
             lifecycleScope.launch {
                 delay(RESULT_DELAY)
                 viewModel.getMemesPair()
             }
+        }
+        retry_loading_button.setOnClickListener {
+            viewModel.getMemesPair()
         }
         save_first_meme_btn.setOnClickListener(onSaveClickListener)
         save_second_meme_btn.setOnClickListener(onSaveClickListener)
@@ -105,9 +113,17 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
     }
 
     private fun onNextMemesPair(memesPair: Pair<MemeModel, MemeModel>) {
+        first_meme_text.isVisible = memesPair.first.text.isNotEmpty()
+        second_meme_text.isVisible = memesPair.second.text.isNotEmpty()
+        first_source_meme_text.text = "@${memesPair.first.sourceId}"
+        second_source_meme_text.text = "@${memesPair.second.sourceId}"
+        first_meme_text.text = memesPair.first.text
+        second_meme_text.text = memesPair.second.text
         isButtonDisabled = false
-        result_view1.isVisible = false
-        result_view2.isVisible = false
+        memechill_view.isVisible = true
+        waitingProgressBar.isVisible = false
+        shadowRes1.isVisible = false
+        shadowRes2.isVisible = false
         like1.isVisible = false
         like2.isVisible = false
         save_first_meme_btn.isVisible = true

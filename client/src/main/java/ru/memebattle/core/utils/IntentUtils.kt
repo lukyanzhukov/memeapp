@@ -14,14 +14,17 @@ private const val SAVED_IMAGE_TYPE = "image/jpeg"
 private const val SHARE_LINK_TEXT_TYPE = "text/plain"
 
 /** Позволяет поделиться bitmap изображением с помощью системного sharing-диалога. */
-fun Fragment.shareImage(bitmap: Bitmap) {
+fun Fragment.shareImage(bitmap: Bitmap, imageText: String) {
     val title = Date().time.toString() + IMAGE_TITLE_SUFFIX
     val bitmapPath: String =
         MediaStore.Images.Media.insertImage(requireActivity().contentResolver, bitmap, title, null)
     val bitmapUri = Uri.parse(bitmapPath)
     val intent = Intent().apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT, requireActivity().getString(R.string.share_image_text))
+        putExtra(
+            Intent.EXTRA_TEXT,
+            requireActivity().getString(R.string.share_image_text, imageText)
+        )
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         putExtra(Intent.EXTRA_STREAM, bitmapUri)
         type = SAVED_IMAGE_TYPE

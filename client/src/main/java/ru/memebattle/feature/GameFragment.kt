@@ -62,6 +62,17 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        when (selectedMode) {
+            CLASSIC_MODE_TAB_INDEX -> {
+                classic_mode_btn.background =
+                    resources.getDrawable(R.drawable.bg_selected_game_mode)
+                chill_mode_btn.background = null
+            }
+            CHILL_MODE_TAB_INDEX -> {
+                chill_mode_btn.background = resources.getDrawable(R.drawable.bg_selected_game_mode)
+                classic_mode_btn.background = null
+            }
+        }
         classic_mode_btn.setOnClickListener {
             classic_mode_btn.background = resources.getDrawable(R.drawable.bg_selected_game_mode)
             chill_mode_btn.background = null
