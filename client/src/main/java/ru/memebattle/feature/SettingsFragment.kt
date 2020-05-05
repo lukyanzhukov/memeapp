@@ -10,6 +10,7 @@ import client.common.feature.settings.SettingsViewModel
 import kotlinx.android.synthetic.main.fragment_settings.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
+import ru.memebattle.core.utils.openUrl
 import ru.memebattle.core.utils.shareApp
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -33,11 +34,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
 
         cardMemesTeam.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://vk.com/memsbattle")
-            intent.resolveActivity(checkNotNull(context).packageManager)?.let {
-                checkNotNull(context).startActivity(intent)
-            }
+            openUrl("https://vk.com/memsbattle")
         }
 
         cardRate.setOnClickListener {

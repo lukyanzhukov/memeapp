@@ -1,6 +1,5 @@
 package ru.memebattle.core.utils
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -34,6 +33,14 @@ fun Fragment.shareImage(bitmap: Bitmap, imageText: String) {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
     )
+}
+
+fun Fragment.openUrl(url: String) {
+    val intent = Intent(Intent.ACTION_VIEW)
+    intent.data = Uri.parse(url)
+    intent.resolveActivity(checkNotNull(context).packageManager)?.let {
+        checkNotNull(context).startActivity(intent)
+    }
 }
 
 /** Позволяет сохранить изображение. */

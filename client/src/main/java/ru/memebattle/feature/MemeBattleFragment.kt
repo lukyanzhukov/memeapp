@@ -13,26 +13,6 @@ import client.common.feature.memebattle.MemeBattleViewModel
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.error_loading_view.*
 import kotlinx.android.synthetic.main.fragment_memebattle.*
-import kotlinx.android.synthetic.main.fragment_memebattle.error_loading_view
-import kotlinx.android.synthetic.main.fragment_memebattle.firstWinAnimation
-import kotlinx.android.synthetic.main.fragment_memebattle.first_meme_text
-import kotlinx.android.synthetic.main.fragment_memebattle.first_source_meme_text
-import kotlinx.android.synthetic.main.fragment_memebattle.image1
-import kotlinx.android.synthetic.main.fragment_memebattle.image2
-import kotlinx.android.synthetic.main.fragment_memebattle.like1
-import kotlinx.android.synthetic.main.fragment_memebattle.like2
-import kotlinx.android.synthetic.main.fragment_memebattle.loadingMemesProgressBar
-import kotlinx.android.synthetic.main.fragment_memebattle.save_first_meme_btn
-import kotlinx.android.synthetic.main.fragment_memebattle.save_second_meme_btn
-import kotlinx.android.synthetic.main.fragment_memebattle.secondWinAnimation
-import kotlinx.android.synthetic.main.fragment_memebattle.second_meme_text
-import kotlinx.android.synthetic.main.fragment_memebattle.second_source_meme_text
-import kotlinx.android.synthetic.main.fragment_memebattle.shadowRes1
-import kotlinx.android.synthetic.main.fragment_memebattle.shadowRes2
-import kotlinx.android.synthetic.main.fragment_memebattle.share_first_meme_btn
-import kotlinx.android.synthetic.main.fragment_memebattle.share_second_meme_btn
-import kotlinx.android.synthetic.main.fragment_memebattle.toolbar
-import kotlinx.android.synthetic.main.fragment_memebattle.waitingProgressBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.UnstableDefault
@@ -49,6 +29,8 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
     private var isButtonDisabled = true
     private var chosenMeme = -1
     private val viewModel: MemeBattleViewModel by viewModel()
+    private var firstMemeSourceUrl = ""
+    private var secondMemeSourceUrl = ""
     private val onSaveClickListener: (v: View) -> Unit = {
         when (it.id) {
             R.id.save_first_meme_btn -> {
@@ -117,6 +99,12 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
         retry_loading_button.setOnClickListener {
             viewModel.connect()
         }
+        first_source_meme_text.setOnClickListener {
+            openUrl(firstMemeSourceUrl)
+        }
+        second_source_meme_text.setOnClickListener {
+            openUrl(secondMemeSourceUrl)
+        }
         save_first_meme_btn.setOnClickListener(onSaveClickListener)
         save_second_meme_btn.setOnClickListener(onSaveClickListener)
         share_first_meme_btn.setOnClickListener(onShareClickListener)
@@ -136,6 +124,8 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
             GameState.MEMES -> {
                 first_meme_text.isVisible = memeResponse.memes[0].text.isNotEmpty()
                 second_meme_text.isVisible = memeResponse.memes[1].text.isNotEmpty()
+                firstMemeSourceUrl = memeResponse.memes[0].sourceUrl
+                secondMemeSourceUrl = memeResponse.memes[1].sourceUrl
                 first_meme_text.text = memeResponse.memes[0].text
                 second_meme_text.text = memeResponse.memes[1].text
                 first_source_meme_text.text = "@${memeResponse.memes[0].sourceId}"
