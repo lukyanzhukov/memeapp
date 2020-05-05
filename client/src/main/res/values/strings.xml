@@ -11,7 +11,7 @@
     <string name="password_hint_text">Пароль</string>
     <string name="sign_in_button_text">Вход</string>
     <string name="sign_up_button_text">Регистрация</string>
-    <string name="onboarding_text">У тебя есть всего 15 секунд на выбор самой смешной картинки из пары. \n\nПомоги смешным мемам выиграть эту битву и получи за это очки.</string>
+    <string name="onboarding_text">У тебя есть всего 15 секунд на выбор самой смешной картинки из пары.\nПомоги смешным мемам выиграть эту битву и получи за это очки.</string>
     <string name="onboarding_title">В первый раз?</string>
     <string name="onboarding_ok_btn_text">Погнали</string>
     <string name="wait_next_round_text">Ждём начала следующего раунда...</string>
@@ -30,4 +30,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="error_loading_text">Ошибка загрузки</string>
+    <string name="first_win_auth_text">Войти</string>
+    <string name="first_win_skip_text">В другой раз</string>
+    <string name="first_win_second_text">Пройди авторизацию, чтобы мы могли начислять тебе призовые очки</string>
+    <string name="first_win_first_text">Это твоя первая победа в MemeApp.</string>
+    <string name="first_win_title">Поздравляем!</string>
 </resources>
