@@ -16,6 +16,9 @@ class MemeRepositoryImpl : MemeRepository {
             Memes.insert { insertStatement ->
                 insertStatement[url] = meme.url
                 insertStatement[mode] = meme.mode
+                insertStatement[text] = meme.text
+                insertStatement[source_id] = meme.sourceId
+                insertStatement[source_url] = meme.sourceUrl
             }
         }
     }
