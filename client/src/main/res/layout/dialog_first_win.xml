@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
-    android:background="@drawable/bg_alert"
+    android:background="@drawable/bg_bottom_sheet_dialog"
     android:orientation="vertical">
 
     <ImageView
@@ -23,59 +23,62 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="32dp"
+        android:fontFamily="@font/ubuntu_medium"
         android:gravity="center"
-        android:text="Поздравляем!"
+        android:text="@string/first_win_title"
+        android:textColor="#FF805E"
         android:textSize="24sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/feature_definition_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="14dp"
         android:layout_marginRight="32dp"
-        android:text="Это твоя первая победа в MemeBattle. Пройди авторизацию, чтобы мы могли начислить тебе призовые очки"
+        android:fontFamily="@font/ubuntu_medium"
+        android:text="@string/first_win_first_text"
         android:textAlignment="center"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="32dp"
+        android:fontFamily="@font/ubuntu"
+        android:text="@string/first_win_second_text"
+        android:textAlignment="center"
+        android:textColor="#666666"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/auth_button"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="32dp"
-        android:background="@drawable/bg_onboarding_ok_btn"
+        android:layout_height="48dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/bg_settings_sign_up_button"
         android:gravity="center"
-        android:text="Авторизация"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
-        android:textSize="14dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="@string/first_win_auth_text"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/skip_button"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/bg_onboarding_skip_btn"
+        android:layout_height="48dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/bg_settings_sign_in_button"
         android:gravity="center"
-        android:text="В другой раз"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
-        android:textSize="14dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="@string/first_win_skip_text"
+        android:textSize="16sp" />
 
 </LinearLayout>
