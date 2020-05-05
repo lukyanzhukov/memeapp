@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -12,9 +9,9 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="24dp"
             app:srcCompat="@drawable/ic_settings_logo" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/bg_settings_rate">
 
@@ -158,17 +155,22 @@
                 app:srcCompat="@drawable/ic_settings_arrow" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/buttonSignIn"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_settings_sign_in_button"
-            android:gravity="center"
-            android:text="Войти"
-            android:textSize="16sp" />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/buttonSignIn"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_settings_sign_in_button"
+        android:gravity="center"
+        android:text="Войти"
+        android:textSize="16sp" />
 
         <TextView
             android:id="@+id/buttonSignUp"
@@ -185,4 +187,3 @@
             android:textSize="16sp" />
 
     </LinearLayout>
-</ScrollView>
