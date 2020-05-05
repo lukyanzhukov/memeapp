@@ -6,7 +6,7 @@ import ru.memebattle.common.GameMode
 @Serializable
 data class MemeResponse(
     val state: GameState,
-    val memes: List<String>,
+    val memes: List<MemeModel>,
     val likes: List<Int>,
     val timeEnd: Long,
     val gameMode: GameMode

@@ -20,7 +20,7 @@ class MemeService(
     private val gameMode: GameMode
 ) {
 
-    private var currentMemes: List<String> = emptyList()
+    private var currentMemes: List<MemeModel> = emptyList()
     private var currentLikes: MutableList<Int> = mutableListOf(
         0, 0
     )
@@ -55,17 +55,17 @@ class MemeService(
         withContext(Dispatchers.Default) {
 
             while (true) {
-                val photos = getMemeModels().map { it.url }
+                val memes = getMemeModels()
 
-                if (photos.isEmpty()) {
+                if (memes.isEmpty()) {
                     delay(10000)
                 }
 
                 val pairs = mutex.withLock {
-                    val pairs: MutableList<Pair<String, String>> = mutableListOf()
-                    for (s in 0..photos.size step 2) {
-                        if (s.inc() <= photos.lastIndex) {
-                            pairs.add(photos[s] to photos[s.inc()])
+                    val pairs: MutableList<Pair<MemeModel, MemeModel>> = mutableListOf()
+                    for (s in 0..memes.size step 2) {
+                        if (s.inc() <= memes.lastIndex) {
+                            pairs.add(memes[s] to memes[s.inc()])
                         }
                     }
                     pairs
