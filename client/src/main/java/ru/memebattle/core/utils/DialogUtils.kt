@@ -1,10 +1,12 @@
 package ru.memebattle.core.utils
 
+import android.app.Activity
 import android.graphics.Outline
 import android.view.View
 import android.view.ViewOutlineProvider
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.dialog_fatal_error.view.*
 import kotlinx.android.synthetic.main.dialog_first_win.view.*
 import kotlinx.android.synthetic.main.dialog_game_onboarding.view.*
 import kotlinx.android.synthetic.main.dialog_game_onboarding.view.onboarding_banner_view
@@ -12,9 +14,32 @@ import kotlinx.android.synthetic.main.dialog_permission_request_block.view.ok_bu
 import ru.memebattle.R
 
 
+data class FatalErrorDialogListener(val onCloseDialog: () -> Unit)
+
 data class GameOnboardingDialogListener(val onCloseDialog: () -> Unit)
 
 data class FirstWinDialogListener(val onCloseDialog: () -> Unit, val onAuthClick: () -> Unit)
+
+fun Activity.openFatalErrorDialog(listener: FatalErrorDialogListener) {
+    val layoutId = R.layout.dialog_fatal_error
+    val dialogView = layoutInflater.inflate(layoutId, null, false)
+    val dialog = BottomSheetDialog(this)
+    dialog.setContentView(dialogView)
+    dialog.setOnShowListener {
+        val dialog = it as BottomSheetDialog
+        val bottomSheet = dialog.findViewById<View>(R.id.design_bottom_sheet)
+        bottomSheet?.let { sheet ->
+            dialog.behavior.peekHeight = sheet.height
+            sheet.parent.parent.requestLayout()
+        }
+        dialogView.back_button.setOnClickListener {
+            dialog.dismiss()
+            listener.onCloseDialog()
+        }
+    }
+    dialog.setCancelable(false)
+    dialog.show()
+}
 
 fun Fragment.openGameOnboardingDialog(listener: GameOnboardingDialogListener) {
     val layoutId = R.layout.dialog_game_onboarding
