@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">#453885</item>
         <item name="colorPrimaryDark">@android:color/white</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="backgroundColor">@android:color/white</item>
@@ -20,8 +20,8 @@
         <item name="android:background">@drawable/bg_bottom_sheet_dialog</item>
     </style>
 
-    <style name="InputLayoutTheme" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="colorPrimary">@android:color/white</item>
+    <style name="AuthInputTextTheme" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="colorAccent">#4749A0</item>
     </style>
 
     <style name="ButtonTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
