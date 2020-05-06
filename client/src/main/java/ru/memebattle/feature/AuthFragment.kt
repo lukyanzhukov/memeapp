@@ -2,23 +2,25 @@ package ru.memebattle.feature
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import client.common.feature.auth.AuthResult
 import client.common.feature.auth.AuthViewModel
 import kotlinx.android.synthetic.main.fragment_auth.*
-import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
 import ru.memebattle.common.feature.auth.AuthValidator
 import ru.memebattle.core.utils.toast
+
 
 class AuthFragment : Fragment(R.layout.fragment_auth) {
 
     private val authViewModel: AuthViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requireActivity().window.statusBarColor = resources.getColor(R.color.authStatusBarColor)
         initView()
     }
 
@@ -96,14 +98,12 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     }
 
     private fun showProgress() {
-        progressBar.visibility = View.VISIBLE
-        signUpButton.isEnabled = false
-        signInButton.isEnabled = false
+        progressBar.isVisible = true
+        auth_view.isVisible = false
     }
 
     private fun hideProgress() {
-        progressBar.visibility = View.GONE
-        signUpButton.isEnabled = true
-        signInButton.isEnabled = true
+        progressBar.isVisible = false
+        auth_view.isVisible = true
     }
 }

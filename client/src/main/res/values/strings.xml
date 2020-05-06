@@ -9,8 +9,8 @@
     <string name="auth_netword_error_message">Проблемы с сетью</string>
     <string name="login_hint_text">Логин</string>
     <string name="password_hint_text">Пароль</string>
-    <string name="sign_in_button_text">Вход</string>
-    <string name="sign_up_button_text">Регистрация</string>
+    <string name="sign_in_button_text">Войти</string>
+    <string name="sign_up_button_text">Зарегистрироваться</string>
     <string name="onboarding_text">У тебя есть всего 15 секунд на выбор самой смешной картинки из пары.\nПомоги смешным мемам выиграть эту битву и получи за это очки.</string>
     <string name="onboarding_title">В первый раз?</string>
     <string name="onboarding_ok_btn_text">Погнали</string>

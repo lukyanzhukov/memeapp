@@ -5,4 +5,5 @@
     <color name="colorAccent">@android:color/white</color>
     <color name="textColor">#000000</color>
     <color name="background">#dddddd</color>
+    <color name="authStatusBarColor">#EBF6FF</color>
 </resources>
