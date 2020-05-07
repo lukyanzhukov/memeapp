@@ -10,6 +10,8 @@ import client.common.feature.settings.SettingsViewModel
 import kotlinx.android.synthetic.main.fragment_settings.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
+import ru.memebattle.core.utils.TrySignOutDialogListener
+import ru.memebattle.core.utils.openTrySignOutDialog
 import ru.memebattle.core.utils.openUrl
 import ru.memebattle.core.utils.shareApp
 
@@ -52,7 +54,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun onSignInUpClick() {
         if (viewModel.isSignedIn()) {
-            viewModel.logout()
+            openTrySignOutDialog(TrySignOutDialogListener {
+                viewModel.logout()
+                Navigation.findNavController(requireActivity(), R.id.host_global)
+                    .navigate(R.id.action_settingsFragment_to_authFragment)
+            })
+            return
         }
         Navigation.findNavController(requireActivity(), R.id.host_global)
             .navigate(R.id.action_settingsFragment_to_authFragment)

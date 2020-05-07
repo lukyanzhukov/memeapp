@@ -9,10 +9,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_fatal_error.view.*
 import kotlinx.android.synthetic.main.dialog_first_win.view.*
 import kotlinx.android.synthetic.main.dialog_game_onboarding.view.*
+import kotlinx.android.synthetic.main.dialog_game_onboarding.view.close_onboarding_dialog_btn
 import kotlinx.android.synthetic.main.dialog_game_onboarding.view.onboarding_banner_view
-import kotlinx.android.synthetic.main.dialog_permission_request_block.view.ok_button
+import kotlinx.android.synthetic.main.dialog_try_sign_out.view.*
 import ru.memebattle.R
 
+
+data class TrySignOutDialogListener(val onSignOutClick: () -> Unit)
 
 data class FatalErrorDialogListener(val onCloseDialog: () -> Unit)
 
@@ -38,6 +41,30 @@ fun Activity.openFatalErrorDialog(listener: FatalErrorDialogListener) {
         }
     }
     dialog.setCancelable(false)
+    dialog.show()
+}
+
+fun Fragment.openTrySignOutDialog(listener: TrySignOutDialogListener) {
+    val layoutId = R.layout.dialog_try_sign_out
+    val dialogView = layoutInflater.inflate(layoutId, null, false)
+    val dialog = BottomSheetDialog(requireContext())
+    dialog.setContentView(dialogView)
+    dialog.setOnShowListener {
+        val dialog = it as BottomSheetDialog
+        val bottomSheet = dialog.findViewById<View>(R.id.design_bottom_sheet)
+        bottomSheet?.let { sheet ->
+            dialog.behavior.peekHeight = sheet.height
+            sheet.parent.parent.requestLayout()
+        }
+        dialogView.close_onboarding_dialog_btn.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogView.sign_out_btn.setOnClickListener {
+            dialog.dismiss()
+            listener.onSignOutClick()
+        }
+    }
+    dialog.setCancelable(true)
     dialog.show()
 }
 
