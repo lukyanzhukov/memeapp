@@ -1,4 +1,4 @@
-package ru.memebattle.feature
+package ru.memebattle.feature.game
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,7 +17,8 @@ import ru.memebattle.core.utils.openGameOnboardingDialog
 class GameFragment : Fragment() {
 
     private val viewModel: GameViewModel by viewModel()
-    private var selectedMode: Int = CLASSIC_MODE_TAB_INDEX
+    private var selectedMode: Int =
+        CLASSIC_MODE_TAB_INDEX
 
     private val gameModesClickListener = View.OnClickListener {
         val bundle = Bundle()
@@ -76,12 +77,14 @@ class GameFragment : Fragment() {
         classic_mode_btn.setOnClickListener {
             classic_mode_btn.background = resources.getDrawable(R.drawable.bg_selected_game_mode)
             chill_mode_btn.background = null
-            selectedMode = CLASSIC_MODE_TAB_INDEX
+            selectedMode =
+                CLASSIC_MODE_TAB_INDEX
         }
         chill_mode_btn.setOnClickListener {
             chill_mode_btn.background = resources.getDrawable(R.drawable.bg_selected_game_mode)
             classic_mode_btn.background = null
-            selectedMode = CHILL_MODE_TAB_INDEX
+            selectedMode =
+                CHILL_MODE_TAB_INDEX
         }
         classic_game_mode_btn.setOnClickListener(gameModesClickListener)
         senior_game_mode_btn.setOnClickListener(gameModesClickListener)

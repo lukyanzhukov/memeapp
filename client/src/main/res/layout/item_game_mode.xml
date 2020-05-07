@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_game_mode_item"
+            android:tint="@color/slr_game_mode_tint"
             android:scaleType="centerCrop"
             tools:srcCompat="@drawable/classic_game_mode_banner" />
     </androidx.cardview.widget.CardView>

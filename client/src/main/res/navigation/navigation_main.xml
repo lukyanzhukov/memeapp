@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/gameFragment"
-        android:name="ru.memebattle.feature.GameFragment"
+        android:name="ru.memebattle.feature.game.GameFragment"
         android:label="GameFragment" />
 
     <fragment
