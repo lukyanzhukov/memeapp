@@ -3,24 +3,21 @@
     android:height="40dp"
     android:viewportWidth="40"
     android:viewportHeight="40">
-  <path
-      android:strokeWidth="1"
-      android:pathData="M15,0.5L25,0.5A14.5,14.5 0,0 1,39.5 15L39.5,25A14.5,14.5 0,0 1,25 39.5L15,39.5A14.5,14.5 0,0 1,0.5 25L0.5,15A14.5,14.5 0,0 1,15 0.5z"
-      android:fillColor="#00000000"
-      android:strokeColor="#D7D9DD"/>
-  <path
-      android:pathData="M20,12L20,21"
-      android:strokeWidth="2"
-      android:fillColor="#00000000"
-      android:strokeColor="#453885"/>
-  <path
-      android:pathData="M25,26H15"
-      android:strokeWidth="2"
-      android:fillColor="#00000000"
-      android:strokeColor="#453885"/>
-  <path
-      android:pathData="M16,18L20,21L24,18"
-      android:strokeWidth="2"
-      android:fillColor="#00000000"
-      android:strokeColor="#453885"/>
+    <path
+        android:fillColor="@color/slr_first_meme_button_color"
+        android:pathData="M15,0.5L25,0.5A14.5,14.5 0,0 1,39.5 15L39.5,25A14.5,14.5 0,0 1,25 39.5L15,39.5A14.5,14.5 0,0 1,0.5 25L0.5,15A14.5,14.5 0,0 1,15 0.5z"
+        android:strokeWidth="1"
+        android:strokeColor="#D7D9DD" />
+    <path
+        android:pathData="M20,12L20,21"
+        android:strokeWidth="2"
+        android:strokeColor="@color/slr_second_meme_button_color" />
+    <path
+        android:pathData="M25,26H15"
+        android:strokeWidth="2"
+        android:strokeColor="@color/slr_second_meme_button_color" />
+    <path
+        android:pathData="M16,18L20,21L24,18"
+        android:strokeWidth="2"
+        android:strokeColor="@color/slr_second_meme_button_color" />
 </vector>

@@ -31,26 +31,6 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
     private var firstMemeSourceUrl = ""
     private var secondMemeSourceUrl = ""
     private val viewModel: MemeChillViewModel by viewModel()
-    private val onSaveClickListener: (v: View) -> Unit = {
-        when (it.id) {
-            R.id.save_first_meme_btn -> {
-                saveImage(image1.drawable.toBitmap())
-            }
-            R.id.save_second_meme_btn -> {
-                saveImage(image2.drawable.toBitmap())
-            }
-        }
-    }
-    private val onShareClickListener: (v: View) -> Unit = {
-        when (it.id) {
-            R.id.share_first_meme_btn -> {
-                shareImage(image1.drawable.toBitmap(), first_meme_text.text.toString())
-            }
-            R.id.share_second_meme_btn -> {
-                shareImage(image2.drawable.toBitmap(), second_meme_text.text.toString())
-            }
-        }
-    }
 
     @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,6 +57,8 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
         }
 
         image1.setOnClickListener {
+            if (isButtonDisabled) return@setOnClickListener
+            isButtonDisabled = true
             shadowRes1.isVisible = true
             shadowRes2.isVisible = true
             like1.isVisible = true
@@ -87,6 +69,8 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
         }
 
         image2.setOnClickListener {
+            if (isButtonDisabled) return@setOnClickListener
+            isButtonDisabled = true
             shadowRes1.isVisible = true
             shadowRes2.isVisible = true
             like2.isVisible = true
@@ -104,10 +88,18 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
         second_source_meme_text.setOnClickListener {
             openUrl(secondMemeSourceUrl)
         }
-        save_first_meme_btn.setOnClickListener(onSaveClickListener)
-        save_second_meme_btn.setOnClickListener(onSaveClickListener)
-        share_first_meme_btn.setOnClickListener(onShareClickListener)
-        share_second_meme_btn.setOnClickListener(onShareClickListener)
+        save_first_meme_btn.setOnClickListener {
+            saveImage(image1.drawable.toBitmap())
+        }
+        save_second_meme_btn.setOnClickListener {
+            saveImage(image2.drawable.toBitmap())
+        }
+        share_first_meme_btn.setOnClickListener {
+            shareImage(image1.drawable.toBitmap(), first_meme_text.text.toString())
+        }
+        share_second_meme_btn.setOnClickListener {
+            shareImage(image2.drawable.toBitmap(), second_meme_text.text.toString())
+        }
         viewModel.getMemesPair()
     }
 

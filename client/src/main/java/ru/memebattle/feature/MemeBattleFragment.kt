@@ -31,26 +31,6 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
     private val viewModel: MemeBattleViewModel by viewModel()
     private var firstMemeSourceUrl = ""
     private var secondMemeSourceUrl = ""
-    private val onSaveClickListener: (v: View) -> Unit = {
-        when (it.id) {
-            R.id.save_first_meme_btn -> {
-                saveImage(image1.drawable.toBitmap())
-            }
-            R.id.save_second_meme_btn -> {
-                saveImage(image2.drawable.toBitmap())
-            }
-        }
-    }
-    private val onShareClickListener: (v: View) -> Unit = {
-        when (it.id) {
-            R.id.share_first_meme_btn -> {
-                shareImage(image1.drawable.toBitmap(), first_meme_text.text.toString())
-            }
-            R.id.share_second_meme_btn -> {
-                shareImage(image2.drawable.toBitmap(), second_meme_text.text.toString())
-            }
-        }
-    }
 
     @UnstableDefault
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -105,10 +85,18 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
         second_source_meme_text.setOnClickListener {
             openUrl(secondMemeSourceUrl)
         }
-        save_first_meme_btn.setOnClickListener(onSaveClickListener)
-        save_second_meme_btn.setOnClickListener(onSaveClickListener)
-        share_first_meme_btn.setOnClickListener(onShareClickListener)
-        share_second_meme_btn.setOnClickListener(onShareClickListener)
+        save_first_meme_btn.setOnClickListener {
+            saveImage(image1.drawable.toBitmap())
+        }
+        save_second_meme_btn.setOnClickListener {
+            saveImage(image2.drawable.toBitmap())
+        }
+        share_first_meme_btn.setOnClickListener {
+            shareImage(image1.drawable.toBitmap(), first_meme_text.text.toString())
+        }
+        share_second_meme_btn.setOnClickListener {
+            shareImage(image2.drawable.toBitmap(), second_meme_text.text.toString())
+        }
     }
 
     private fun sendLike(num: Int) {
