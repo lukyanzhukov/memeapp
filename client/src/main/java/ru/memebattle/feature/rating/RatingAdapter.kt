@@ -1,9 +1,11 @@
 package ru.memebattle.feature.rating
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import ru.memebattle.R
 import ru.memebattle.common.model.RatingModel
@@ -30,14 +32,25 @@ class RatingAdapter(
         holder.bind(ratingModels[position], position + 1)
     }
 
-   inner class RatingViewHolder(ratingView: View) : RecyclerView.ViewHolder(ratingView) {
+    inner class RatingViewHolder(private val ratingView: View) :
+        RecyclerView.ViewHolder(ratingView) {
 
-       private val playerNameTextView = ratingView.findViewById<TextView>(R.id.name)
-       private val playerScoreTextView = ratingView.findViewById<TextView>(R.id.points)
+        private val layoutView = ratingView.findViewById<ConstraintLayout>(R.id.item_view)
+        private val playerNameTextView = ratingView.findViewById<TextView>(R.id.name)
+        private val playerScoreTextView = ratingView.findViewById<TextView>(R.id.points)
 
         fun bind(ratingModel: RatingModel, position: Int) {
             playerNameTextView.text = "${position}.  ${ratingModel.playerName}".substringBefore('@')
             playerScoreTextView.text = ratingModel.score.toString()
+            if (currentPlayerName == ratingModel.playerName) {
+                layoutView.background =
+                    ratingView.resources.getDrawable(R.drawable.bg_rating_current_user)
+                playerNameTextView.setTextColor(Color.WHITE)
+                return
+            }
+            layoutView.background =
+                ratingView.resources.getDrawable(R.drawable.bg_rating_user)
+            playerNameTextView.setTextColor(Color.BLACK)
         }
     }
 }
