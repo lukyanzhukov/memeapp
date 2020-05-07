@@ -35,4 +35,7 @@
     <string name="first_win_second_text">Пройди авторизацию, чтобы мы могли начислять тебе призовые очки</string>
     <string name="first_win_first_text">Это твоя первая победа в MemeApp.</string>
     <string name="first_win_title">Поздравляем!</string>
+    <string name="fatal_error_dialog_text">Ошибка интернет-соединения</string>
+    <string name="fatal_error_dialog_btn_text">Вернуться</string>
+    <string name="sign_out_dialog_btn_text">Выйти</string>
 </resources>
