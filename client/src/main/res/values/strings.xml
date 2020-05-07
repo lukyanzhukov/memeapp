@@ -1,41 +1,5 @@
 <resources>
-    <string name="app_name">meme app</string>
-    <string name="auth_password_not_valid_field_error_message">Пароль должен содержать строчные и прописные латинские буквы и цифры</string>
-    <string name="auth_login_not_valid_field_error_message">Логин должен состоять из латинских букв или цифр.</string>
-    <string name="auth_wrong_login_error_message">Неправильный логин</string>
-    <string name="auth_wrong_password_error_message">Неправильный пароль</string>
-    <string name="auth_not_user_error_message">Вы не зарегистрированы</string>
-    <string name="auth_user_exist_error_message">Вы уже зарегистрированы</string>
-    <string name="auth_netword_error_message">Проблемы с сетью</string>
-    <string name="login_hint_text">Логин</string>
-    <string name="password_hint_text">Пароль</string>
-    <string name="sign_in_button_text">Войти</string>
-    <string name="sign_up_button_text">Зарегистрироваться</string>
-    <string name="onboarding_text">У тебя есть всего 15 секунд на выбор самой смешной картинки из пары.\nПомоги смешным мемам выиграть эту битву и получи за это очки.</string>
-    <string name="onboarding_title">В первый раз?</string>
-    <string name="onboarding_ok_btn_text">Погнали</string>
-    <string name="wait_next_round_text">Ждём начала следующего раунда...</string>
-    <string name="share_image_text">Я нашёл этот мемасик в Memebattle, заходи поорём: https://play.google.com/store/apps/details?id=ru.memeapp \n\n%s</string>
-    <string name="permission_dialog_title">Настройте разрешения</string>
-    <string name="permission_dialog_text">Включите разрешение в настройках приложения, чтобы сохранять понравивишиеся вам мемы.</string>
-    <string name="permission_dialog_btn_text">Настроить</string>
-    <string name="save_image_text">"Saved as %s"</string>
-    <string name="memebattle_team_text">#MEMEBATTLE</string>
-    <string name="share_app_btn_text">Рассказать о приложении</string>
-    <string name="share_app_text">Скачал мужик MemeBattle, а он ему как раз https://play.google.com/store/apps/details?id=ru.memeapp</string>
-    <string name="share_app_title">Поделиться с друзьями</string>
-    <string name="classic_mode_title">Классика</string>
-    <string name="chill_mode_title">Чил</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="error_loading_text">Ошибка загрузки</string>
-    <string name="first_win_auth_text">Войти</string>
-    <string name="first_win_skip_text">В другой раз</string>
-    <string name="first_win_second_text">Пройди авторизацию, чтобы мы могли начислять тебе призовые очки</string>
-    <string name="first_win_first_text">Это твоя первая победа в MemeApp.</string>
-    <string name="first_win_title">Поздравляем!</string>
-    <string name="fatal_error_dialog_text">Ошибка интернет-соединения</string>
-    <string name="fatal_error_dialog_btn_text">Вернуться</string>
-    <string name="sign_out_dialog_btn_text">Выйти</string>
+    <string name="app_name">MemeBattle</string>
+    <string name="splash_network_error_message">Проблемы с сетью</string>
+    <string name="splash_retry">Повторить</string>
 </resources>

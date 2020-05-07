@@ -2,11 +2,13 @@ package ru.memebattle.feature
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
+import client.common.feature.localization.LocalizationViewModel
 import client.common.feature.memechill.MemeChillState
 import client.common.feature.memechill.MemeChillViewModel
 import com.bumptech.glide.Glide
@@ -19,6 +21,7 @@ import ru.memebattle.R
 import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.MemeModel
 import ru.memebattle.core.utils.openUrl
+import ru.memebattle.common.feature.localization.Localization
 import ru.memebattle.core.utils.saveImage
 import ru.memebattle.core.utils.shareImage
 
@@ -27,6 +30,8 @@ import ru.memebattle.core.utils.shareImage
  */
 class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
 
+    private val localizationViewModel: LocalizationViewModel by viewModel()
+
     private var isButtonDisabled = true
     private var firstMemeSourceUrl = ""
     private var secondMemeSourceUrl = ""
@@ -34,7 +39,15 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
 
     @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        localizationViewModel.locale.platform.observe(viewLifecycleOwner) { locale ->
+            errorTextView.text = locale[Localization.ERROR_LOADING_TEXT]
+            retry_loading_button.text = locale[Localization.ERROR_LOADING_BUTTON_TEXT]
+
+            val saveText = locale.getValue(Localization.GAME_SAVE_IMAGE_TEXT)
+            setSaveClickListener(save_first_meme_btn, image1, saveText)
+            setSaveClickListener(save_second_meme_btn, image2, saveText)
+        }
+
         toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
         val mode = arguments?.getSerializable("GameMode") as? GameMode ?: GameMode.CLASSIC
         toolbar.title = mode.name
@@ -88,17 +101,15 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
         second_source_meme_text.setOnClickListener {
             openUrl(secondMemeSourceUrl)
         }
-        save_first_meme_btn.setOnClickListener {
-            saveImage(image1.drawable.toBitmap())
-        }
-        save_second_meme_btn.setOnClickListener {
-            saveImage(image2.drawable.toBitmap())
-        }
         share_first_meme_btn.setOnClickListener {
-            shareImage(image1.drawable.toBitmap(), first_meme_text.text.toString())
+            lifecycleScope.launch {
+                shareImage(image1.drawable.toBitmap(), first_meme_text.text.toString())
+            }
         }
         share_second_meme_btn.setOnClickListener {
-            shareImage(image2.drawable.toBitmap(), second_meme_text.text.toString())
+            lifecycleScope.launch {
+                shareImage(image2.drawable.toBitmap(), second_meme_text.text.toString())
+            }
         }
         viewModel.getMemesPair()
     }
@@ -131,6 +142,14 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
             .load(memesPair.second.url)
             .placeholder(resources.getDrawable(R.drawable.wait_image))
             .into(image2)
+    }
+
+    private fun setSaveClickListener(button: View, imageView: ImageView, saveText: String) {
+        button.setOnClickListener {
+            lifecycleScope.launch {
+                saveImage(imageView.drawable.toBitmap(), saveText)
+            }
+        }
     }
 
     companion object {

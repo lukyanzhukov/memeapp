@@ -2,11 +2,13 @@ package ru.memebattle.feature
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
+import client.common.feature.localization.LocalizationViewModel
 import androidx.navigation.Navigation
 import client.common.feature.memebattle.MemeBattleState
 import client.common.feature.memebattle.MemeBattleViewModel
@@ -15,13 +17,15 @@ import kotlinx.android.synthetic.main.error_loading_view.*
 import kotlinx.android.synthetic.main.fragment_memebattle.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.serialization.UnstableDefault
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
 import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeResponse
+import ru.memebattle.common.feature.localization.Localization
 import ru.memebattle.core.utils.*
+import ru.memebattle.feature.firstwin.FirstWinDialogFragment
+import ru.memebattle.feature.firstwin.FirstWinViewModel
 import java.util.*
 
 class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
@@ -31,12 +35,23 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
     private val viewModel: MemeBattleViewModel by viewModel()
     private var firstMemeSourceUrl = ""
     private var secondMemeSourceUrl = ""
+    private val localizationViewModel: LocalizationViewModel by viewModel()
+    private val firstWinViewModel: FirstWinViewModel by viewModel()
 
-    @UnstableDefault
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        localizationViewModel.locale.platform.observe(viewLifecycleOwner) { locale ->
+            errorTextView.text = locale[Localization.ERROR_LOADING_TEXT]
+            retry_loading_button.text = locale[Localization.ERROR_LOADING_BUTTON_TEXT]
+
+            val sharingText = locale.getValue(Localization.GAME_SHARE_IMAGE_TEXT)
+            setShareClickListener(share_first_meme_btn, image1, sharingText)
+            setShareClickListener(share_second_meme_btn, image2, sharingText)
+            val saveText = locale.getValue(Localization.GAME_SAVE_IMAGE_TEXT)
+            setSaveClickListener(save_first_meme_btn, image1, saveText)
+            setSaveClickListener(save_second_meme_btn, image2, saveText)
+        }
         toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
-        val mode = arguments?.getSerializable("GameMode") as? GameMode ?: GameMode.CLASSIC
+        val mode = arguments?.gameMode ?: GameMode.CLASSIC
         toolbar.title = mode.name
         viewModel.setGameMode(mode)
 
@@ -79,23 +94,33 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
         retry_loading_button.setOnClickListener {
             viewModel.connect()
         }
+
+        firstWinViewModel.authEvent.observe(viewLifecycleOwner) {
+            Navigation.findNavController(requireActivity(), R.id.host_global)
+                .navigate(R.id.action_memebattleFragment_to_authFragment)
+        }
+
         first_source_meme_text.setOnClickListener {
             openUrl(firstMemeSourceUrl)
         }
         second_source_meme_text.setOnClickListener {
             openUrl(secondMemeSourceUrl)
         }
-        save_first_meme_btn.setOnClickListener {
-            saveImage(image1.drawable.toBitmap())
+     }
+
+    private fun setShareClickListener(button: View, imageView: ImageView, sharingText: String) {
+        button.setOnClickListener {
+            lifecycleScope.launch {
+                shareImage(imageView.drawable.toBitmap(), sharingText)
+            }
         }
-        save_second_meme_btn.setOnClickListener {
-            saveImage(image2.drawable.toBitmap())
-        }
-        share_first_meme_btn.setOnClickListener {
-            shareImage(image1.drawable.toBitmap(), first_meme_text.text.toString())
-        }
-        share_second_meme_btn.setOnClickListener {
-            shareImage(image2.drawable.toBitmap(), second_meme_text.text.toString())
+    }
+
+    private fun setSaveClickListener(button: View, imageView: ImageView, saveText: String) {
+        button.setOnClickListener {
+            lifecycleScope.launch {
+                saveImage(imageView.drawable.toBitmap(), saveText)
+            }
         }
     }
 
@@ -158,8 +183,8 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                 shadowRes2.isVisible = true
                 res1.isVisible = true
                 res2.isVisible = true
-                res1.text = "${memeResponse.likes[0]} likes"
-                res2.text = "${memeResponse.likes[1]} likes"
+                res1.text = memeResponse.firstLikesText
+                res2.text = memeResponse.secondLikesText
                 if (memeResponse.likes[0] > memeResponse.likes[1]) {
                     if (chosenMeme == 0) {
                         firstWinAnimation.isVisible = true
@@ -180,10 +205,7 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
 
     private fun showFirstWinDialog() {
         if (viewModel.isFistWin()) {
-            openFirstWinDialog(FirstWinDialogListener({}, {
-                Navigation.findNavController(requireActivity(), R.id.host_global)
-                    .navigate(R.id.action_memebattleFragment_to_authFragment)
-            }))
+            FirstWinDialogFragment().show(childFragmentManager, null)
         }
     }
 

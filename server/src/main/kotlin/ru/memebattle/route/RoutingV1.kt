@@ -19,14 +19,18 @@ import ru.memebattle.auth.BasicAuth
 import ru.memebattle.auth.JwtAuth
 import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.AuthenticationRequestDto
+import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.common.dto.user.UserRegisterRequestDto
 import ru.memebattle.common.model.RatingModel
+import ru.memebattle.exception.LanguageNotFoundException
+import ru.memebattle.localization.getLikes
 import ru.memebattle.model.UserModel
 import ru.memebattle.model.toDto
 import ru.memebattle.repository.RateusersRepository
 import ru.memebattle.service.GameFactory
+import ru.memebattle.service.LocaleService
 import ru.memebattle.service.UserService
 
 class RoutingV1(
@@ -34,6 +38,7 @@ class RoutingV1(
     private val gameFactory: GameFactory,
     private val rateusersRepository: RateusersRepository,
     private val memeChannel: BroadcastChannel<MemeResponse>,
+    private val localeService: LocaleService,
     private val gson: Gson
 ) {
     fun setup(configuration: Routing) {
@@ -97,7 +102,28 @@ class RoutingV1(
                         val memes = async {
                             for (memes in memeChannel.openSubscription()) {
                                 if (!outgoing.isClosedForSend) {
-                                    outgoing.send(Frame.Text(gson.toJson(memes)))
+
+                                    if (memes.state == GameState.RESULT) {
+                                        val (language, country) = locale()
+
+                                        val firstLikesText =
+                                            getLikes(memes.likes[0], language, country)
+                                        val secondLikesText =
+                                            getLikes(memes.likes[1], language, country)
+
+                                        outgoing.send(
+                                            Frame.Text(
+                                                gson.toJson(
+                                                    memes.copy(
+                                                        firstLikesText = firstLikesText,
+                                                        secondLikesText = secondLikesText
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    } else {
+                                        outgoing.send(Frame.Text(gson.toJson(memes)))
+                                    }
                                 }
                             }
                         }
@@ -118,6 +144,21 @@ class RoutingV1(
 
                         memes.await()
                         frames.await()
+                    }
+                }
+
+                route("/locale") {
+                    get {
+                        val (language, country) = locale()
+
+                        language ?: throw LanguageNotFoundException()
+
+                        call.respond(
+                            localeService.getLocale(
+                                language = language,
+                                country = country
+                            )
+                        )
                     }
                 }
             }

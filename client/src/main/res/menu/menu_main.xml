@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
     <item
-        android:id="@+id/gameFragment"
-        android:icon="@drawable/ic_game"
-        android:title="Категории" />
+            android:id="@+id/gameFragment"
+            android:icon="@drawable/ic_game"
+            android:title="@null"
+            tools:title="Memes" />
+
     <item
-        android:id="@+id/ratingFragment"
-        android:icon="@drawable/ic_rating_menu"
-        android:title="Рейтинг" />
+            android:id="@+id/ratingFragment"
+            android:icon="@drawable/ic_rating_menu"
+            android:title="@null"
+            tools:title="Rating" />
+
     <item
-        android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_settings"
-        android:title="Настройки" />
+            android:id="@+id/settingsFragment"
+            android:icon="@drawable/ic_settings"
+            android:title="@null"
+            tools:title="Settings" />
+
 </menu>

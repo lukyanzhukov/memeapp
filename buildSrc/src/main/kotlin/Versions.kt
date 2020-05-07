@@ -5,5 +5,5 @@ object Versions {
 	const val KOTLIN = "1.3.71"
 	const val ANDROID_GRADLE_PLUGIN = "3.6.2"
 	const val COROUTINES = "1.3.5"
-	const val PREFERENCES = "1.2.0"
+	const val SQL_DELIGHT = "1.3.0"
 }

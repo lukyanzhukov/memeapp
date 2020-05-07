@@ -64,6 +64,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.0")
     testImplementation("org.testcontainers:postgresql:1.13.0")
     implementation(project(":common"))
+    implementation("com.ibm.icu:icu4j:58.2")
 }
 
 tasks.withType<Test> {

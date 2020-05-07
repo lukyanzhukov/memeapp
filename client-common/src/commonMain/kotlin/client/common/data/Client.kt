@@ -8,6 +8,7 @@ import io.ktor.client.features.logging.DEFAULT
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
 import io.ktor.client.request.get
+import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
@@ -15,6 +16,7 @@ import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.AuthenticationRequestDto
 import ru.memebattle.common.dto.AuthenticationResponseDto
 import ru.memebattle.common.dto.game.MemeModel
+import ru.memebattle.common.feature.localization.Localization
 import ru.memebattle.common.model.RatingModel
 
 @Suppress("FunctionName")
@@ -49,3 +51,9 @@ internal suspend fun HttpClient.getRating(): List<RatingModel> =
 
 internal suspend fun HttpClient.getChillMemes(mode: GameMode): List<MemeModel> =
     get("${baseUrl()}chill?gameMode=${mode.name}")
+
+internal suspend fun HttpClient.getLocale(language: String, country: String?): Map<Localization, String> =
+    get("${baseUrl()}locale") {
+        header("language", language)
+        header("country", country)
+    }

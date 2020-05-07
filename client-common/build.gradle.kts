@@ -4,6 +4,14 @@ plugins {
     id("com.android.library")
     kotlin("multiplatform")
     kotlin("plugin.serialization") version Versions.KOTLIN
+    id("com.squareup.sqldelight")
+}
+
+sqldelight {
+    database("LocalizationDb") {
+        packageName = "ru.memebattle"
+        sourceFolders = listOf("sqldelight")
+    }
 }
 
 android {
@@ -38,9 +46,11 @@ android {
             buildConfigField("String", "SOCKET_PROTOCOL", "\"wss\"")
         }
         create("local") {
-            buildConfigField("String", "BASE_URL", "\"http://192.168.0.4:8888/api/v1/\"")
-            buildConfigField("String", "SOCKET_HOST", "\"192.168.0.4\"")
-            buildConfigField("int", "SOCKET_PORT", "8888")
+            val localIp = "192.168.0.4"
+            val port = "8888"
+            buildConfigField("String", "BASE_URL", "\"http://$localIp:$port/api/v1/\"")
+            buildConfigField("String", "SOCKET_HOST", "\"$localIp\"")
+            buildConfigField("int", "SOCKET_PORT", port)
             buildConfigField("String", "SOCKET_PROTOCOL", "\"ws\"")
         }
     }
@@ -90,6 +100,7 @@ kotlin {
         implementation("io.ktor:ktor-client-logging:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-serialization:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-auth:${Versions.KTOR}")
+        implementation("com.squareup.sqldelight:coroutines-extensions:1.2.1")
         implementation(project(":common"))
     }
 
@@ -109,6 +120,7 @@ kotlin {
         implementation("androidx.appcompat:appcompat:1.1.0")
         implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
         implementation("androidx.core:core-ktx:1.2.0")
+        implementation("com.squareup.sqldelight:android-driver:${Versions.SQL_DELIGHT}")
     }
 
     sourceSets["iosMain"].dependencies {
@@ -121,6 +133,7 @@ kotlin {
         implementation("io.ktor:ktor-client-auth-native:${Versions.KTOR}")
         implementation("io.ktor:ktor-client-logging-native:${Versions.KTOR}")
         implementation("io.ktor:ktor-utils-native:${Versions.KTOR}")
+        implementation("com.squareup.sqldelight:native-driver:${Versions.SQL_DELIGHT}")
     }
 }
 

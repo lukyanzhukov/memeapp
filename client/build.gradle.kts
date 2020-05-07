@@ -81,4 +81,7 @@ dependencies {
     implementation("com.facebook.shimmer:shimmer:0.1.0@aar")
     implementation(project(":client-common"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.SERIALIZATION}")
+    implementation("com.squareup.sqldelight:android-driver:${Versions.SQL_DELIGHT}")
+    implementation("com.louiscad.splitties:splitties-alertdialog-appcompat:3.0.0-alpha06")
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.2")
 }

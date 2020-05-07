@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:id="@+id/errorImageView"
@@ -20,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/ubuntu"
-        android:text="@string/error_loading_text"
+        tools:text="@tools:sample/lorem"
         android:textColor="#FF9A62"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +38,7 @@
         android:background="@drawable/bg_retry_error_loading_btn"
         android:fontFamily="@font/ubuntu"
         android:gravity="center"
-        android:text="Обновить"
+        tools:text="Обновить"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"

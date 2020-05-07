@@ -9,5 +9,7 @@ data class MemeResponse(
     val memes: List<MemeModel>,
     val likes: List<Int>,
     val timeEnd: Long,
-    val gameMode: GameMode
+    val gameMode: GameMode,
+    val firstLikesText: String? = null,
+    val secondLikesText: String? = null
 )

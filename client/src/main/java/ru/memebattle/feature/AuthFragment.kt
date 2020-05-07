@@ -8,16 +8,18 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import client.common.feature.auth.AuthResult
 import client.common.feature.auth.AuthViewModel
+import client.common.feature.localization.LocalizationViewModel
 import kotlinx.android.synthetic.main.fragment_auth.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
 import ru.memebattle.common.feature.auth.AuthValidator
+import ru.memebattle.common.feature.localization.Localization
 import ru.memebattle.core.utils.toast
-
 
 class AuthFragment : Fragment(R.layout.fragment_auth) {
 
     private val authViewModel: AuthViewModel by viewModel()
+    private val localizationViewModel: LocalizationViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().window.statusBarColor = resources.getColor(R.color.authStatusBarColor)
@@ -25,6 +27,28 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     }
 
     private fun initView() {
+        localizationViewModel.locale.platform.observe(viewLifecycleOwner) { locale ->
+            signUpButton.text = locale[Localization.AUTH_SIGN_UP_BUTTON_TEXT]
+            signInButton.text = locale[Localization.AUTH_SIGN_IN_BUTTON_TEXT]
+            loginTextInputLayout.hint = locale[Localization.AUTH_LOGIN_HINT_TEXT]
+            passwordTextInputLayout.hint = locale[Localization.AUTH_PASSWORD_HINT_TEXT]
+
+            signUpButton.setOnClickListener {
+                loginTextInputLayout.isErrorEnabled = false
+                passwordTextInputLayout.isErrorEnabled = false
+
+                if (!isFieldsValid(
+                        loginNotValidError = locale.getValue(Localization.AUTH_LOGIN_NOT_VALID_FIELD_ERROR),
+                        passwordNotValidError = locale.getValue(Localization.AUTH_PASSWORD_NOT_VALID_FIELD_ERROR)
+                    )) return@setOnClickListener
+
+                authViewModel.register(
+                    loginInput.text.toString(),
+                    passwordInput.text.toString()
+                )
+            }
+        }
+
         authViewModel.loading.platform.observe(viewLifecycleOwner) { loading ->
             if (loading) {
                 showProgress()
@@ -37,22 +61,15 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             when (authResult) {
                 AuthResult.Success -> findNavController()
                     .navigate(R.id.action_authFragment_to_mainFragment)
-                AuthResult.Fail.InvalidPassword -> {
-
-                    loginTextInputLayout.error = getString(R.string.auth_wrong_login_error_message)
-                }
-                AuthResult.Fail.InvalidLogin -> {
-                    passwordTextInputLayout.error =
-                        getString(R.string.auth_wrong_password_error_message)
-                }
-                AuthResult.Fail.UserNotFound ->
-                    toast(getString(R.string.auth_not_user_error_message))
-                AuthResult.Fail.UserAlreadyRegistered ->
-                    toast(getString(R.string.auth_user_exist_error_message))
-                AuthResult.Fail.NetworkError ->
-                    toast(getString(R.string.auth_netword_error_message))
-                AuthResult.Fail.EmptyPassword -> passwordTextInputLayout.error =
-                    getString(R.string.auth_password_not_valid_field_error_message)
+                is AuthResult.Fail.InvalidPassword -> loginTextInputLayout.error =
+                    authResult.message
+                is AuthResult.Fail.InvalidLogin -> passwordTextInputLayout.error =
+                    authResult.message
+                is AuthResult.Fail.UserNotFound -> toast(authResult.message)
+                is AuthResult.Fail.UserAlreadyRegistered -> toast(authResult.message)
+                is AuthResult.Fail.NetworkError -> toast(authResult.message)
+                is AuthResult.Fail.EmptyPassword -> passwordTextInputLayout.error =
+                    authResult.message
             }
         }
 
@@ -65,33 +82,19 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                 passwordInput.text.toString()
             )
         }
-
-        signUpButton.setOnClickListener {
-            loginTextInputLayout.isErrorEnabled = false
-            passwordTextInputLayout.isErrorEnabled = false
-
-            if (!isFieldsValid()) return@setOnClickListener
-
-            authViewModel.register(
-                loginInput.text.toString(),
-                passwordInput.text.toString()
-            )
-        }
     }
 
-    private fun isFieldsValid(): Boolean {
+    private fun isFieldsValid(loginNotValidError: String, passwordNotValidError: String): Boolean {
         val isLoginValid = if (AuthValidator.isLoginValid(loginInput.text.toString())) {
             true
         } else {
-            loginTextInputLayout.error =
-                getString(R.string.auth_login_not_valid_field_error_message)
+            loginTextInputLayout.error = loginNotValidError
             false
         }
         val isPasswordValid = if (AuthValidator.isPasswordValid(passwordInput.text.toString())) {
             true
         } else {
-            passwordTextInputLayout.error =
-                getString(R.string.auth_password_not_valid_field_error_message)
+            passwordTextInputLayout.error = passwordNotValidError
             false
         }
         return isLoginValid && isPasswordValid

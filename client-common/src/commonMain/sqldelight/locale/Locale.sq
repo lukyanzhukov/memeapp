@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS localization (
+key TEXT NOT NULL PRIMARY KEY,
+value TEXT NOT NULL
+);
+
+getLocale:
+SELECT * FROM localization;
+
+insertLocale:
+INSERT OR REPLACE INTO localization(key, value)
+VALUES (?, ?);
+
+getCount:
+SELECT count(*) FROM localization;
