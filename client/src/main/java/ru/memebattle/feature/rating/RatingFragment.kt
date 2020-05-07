@@ -28,16 +28,19 @@ class RatingFragment : Fragment(R.layout.fragment_rating) {
         viewModel.state.platform.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is RatingState.Success -> {
+                    imageView3.isVisible = true
                     waitingProgressBar.isVisible = false
                     ratingAdapter.ratingModels = state.rating
                 }
 
                 RatingState.Fail -> {
+                    imageView3.isVisible = false
                     waitingProgressBar.isVisible = false
                     error_loading_view.isVisible = true
                 }
 
                 RatingState.Progress -> {
+                    imageView3.isVisible = true
                     waitingProgressBar.isVisible = true
                     error_loading_view.isVisible = false
                 }
