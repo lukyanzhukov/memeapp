@@ -1,6 +1,8 @@
 package ru.memebattle.feature
 
 import android.os.Bundle
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
@@ -69,29 +71,41 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
             }
         }
 
-        image1.setOnClickListener {
-            if (isButtonDisabled) return@setOnClickListener
-            isButtonDisabled = true
-            shadowRes1.isVisible = true
-            shadowRes2.isVisible = true
-            like1.isVisible = true
-            lifecycleScope.launch {
-                delay(RESULT_DELAY)
-                viewModel.getMemesPair()
+        image1.setOnDoubleTapListener(object : GestureDetector.OnDoubleTapListener {
+            override fun onDoubleTap(e: MotionEvent?): Boolean {
+                if (isButtonDisabled) return true
+                isButtonDisabled = true
+                shadowRes1.isVisible = true
+                shadowRes2.isVisible = true
+                like1.isVisible = true
+                lifecycleScope.launch {
+                    delay(RESULT_DELAY)
+                    viewModel.getMemesPair()
+                }
+                return true
             }
-        }
 
-        image2.setOnClickListener {
-            if (isButtonDisabled) return@setOnClickListener
-            isButtonDisabled = true
-            shadowRes1.isVisible = true
-            shadowRes2.isVisible = true
-            like2.isVisible = true
-            lifecycleScope.launch {
-                delay(RESULT_DELAY)
-                viewModel.getMemesPair()
+            override fun onDoubleTapEvent(e: MotionEvent?): Boolean = true
+            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean = true
+        })
+
+        image2.setOnDoubleTapListener(object : GestureDetector.OnDoubleTapListener {
+            override fun onDoubleTap(e: MotionEvent?): Boolean {
+                if (isButtonDisabled) return true
+                isButtonDisabled = true
+                shadowRes1.isVisible = true
+                shadowRes2.isVisible = true
+                like2.isVisible = true
+                lifecycleScope.launch {
+                    delay(RESULT_DELAY)
+                    viewModel.getMemesPair()
+                }
+                return true
             }
-        }
+
+            override fun onDoubleTapEvent(e: MotionEvent?): Boolean = true
+            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean = true
+        })
         retry_loading_button.setOnClickListener {
             viewModel.getMemesPair()
         }

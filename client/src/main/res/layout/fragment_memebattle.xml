@@ -44,7 +44,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <ru.memebattle.core.utils.TouchImageView
             android:id="@+id/image1"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -163,7 +163,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loadingMemesProgressBar" />
 
-        <ImageView
+        <ru.memebattle.core.utils.TouchImageView
             android:id="@+id/image2"
             android:layout_width="0dp"
             android:layout_height="0dp"

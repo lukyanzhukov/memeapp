@@ -1,6 +1,8 @@
 package ru.memebattle.feature
 
 import android.os.Bundle
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
@@ -76,21 +78,34 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
             }
         }
 
-        image1.setOnClickListener {
-            if (isButtonDisabled) return@setOnClickListener
-            if (like1.visibility == View.GONE && like2.visibility == View.GONE) {
-                like1.isVisible = true
+        image1.setOnDoubleTapListener(object : GestureDetector.OnDoubleTapListener {
+            override fun onDoubleTap(e: MotionEvent?): Boolean {
+                if (isButtonDisabled) return true
+                if (like1.visibility == View.GONE && like2.visibility == View.GONE) {
+                    like1.isVisible = true
+                }
+                sendLike(0)
+                return true
             }
-            sendLike(0)
-        }
 
-        image2.setOnClickListener {
-            if (isButtonDisabled) return@setOnClickListener
-            if (like1.visibility == View.GONE && like2.visibility == View.GONE) {
-                like2.isVisible = true
+            override fun onDoubleTapEvent(e: MotionEvent?): Boolean = true
+            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean = true
+        })
+
+        image2.setOnDoubleTapListener(object : GestureDetector.OnDoubleTapListener {
+            override fun onDoubleTap(e: MotionEvent?): Boolean {
+                if (isButtonDisabled) return true
+                if (like1.visibility == View.GONE && like2.visibility == View.GONE) {
+                    like2.isVisible = true
+                }
+                sendLike(1)
+                return true
             }
-            sendLike(1)
-        }
+
+            override fun onDoubleTapEvent(e: MotionEvent?): Boolean = true
+            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean = true
+        })
+
         retry_loading_button.setOnClickListener {
             viewModel.connect()
         }
