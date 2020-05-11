@@ -3,7 +3,7 @@ import UIKit.UIViewController
 
 final class SplashAssembly: Assembly {
     static func assembleModule() -> UIViewController {
-        let tokenSource = SettingsTokenSource(settings: AppleSettings(name: nil))
+        let tokenSource = Settings.tokenSource
         let viewModel = SplashViewModel(tokenSource: tokenSource)
         
         let view = SplashController()

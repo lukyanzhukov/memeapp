@@ -11,14 +11,14 @@ final class SplashController: UIViewController, ViewSpecificController {
         view = SplashView()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         let route = viewModel.getRoute()
         
         switch route {
         case _ as SplashNavigation.ToAuth:
-            print("Go to auth")
+            present(moduleType: AuthAssembly.self)
         case _ as SplashNavigation.ToMain:
             print("Go to main")
         default:
