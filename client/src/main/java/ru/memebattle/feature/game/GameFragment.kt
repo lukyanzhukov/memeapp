@@ -23,7 +23,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private var selectedGameMode: GameMode? = null
 
     private val gameModesClickListener = View.OnClickListener {
-        val bundle = Bundle()
         when (it.id) {
             R.id.classic_game_mode_btn -> selectedGameMode = GameMode.CLASSIC
             R.id.senior_game_mode_btn -> selectedGameMode = GameMode.SENIOR
@@ -32,6 +31,9 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             R.id.science_game_mode_btn -> selectedGameMode = GameMode.SCIENCE
             R.id.work_game_mode_btn -> selectedGameMode = GameMode.WORK
             R.id.study_game_mode_btn -> selectedGameMode = GameMode.STUDY
+        }
+        val bundle = Bundle().apply {
+            gameMode = selectedGameMode
         }
         // Сейчас проверяется и ставится только классический режим, в след. релизе будет чекаться каждый.
         if (viewModel.isGameModeUsed(GameMode.CLASSIC)) {
