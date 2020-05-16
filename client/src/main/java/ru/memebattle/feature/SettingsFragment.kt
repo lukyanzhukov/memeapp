@@ -28,7 +28,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         localizationViewModel.locale.platform.observe(viewLifecycleOwner) { locale ->
             text_memes_team.text = locale[Localization.SETTINGS_HASH_TAG_TEXT]
             text_rate.text = locale[Localization.SETTINGS_RATE_TEXT]
-            text_share.text = locale[Localization.SETTINGS_LOGOUT_TEXT]
+            text_share.text = locale[Localization.SETTINGS_SHARE_TEXT]
             buttonSignIn.text = locale[Localization.SETTINGS_SIGN_IN_BUTTON]
             buttonSignUp.text = locale[Localization.SETTINGS_SIGN_UP_BUTTON]
 
