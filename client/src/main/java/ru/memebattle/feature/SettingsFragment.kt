@@ -33,6 +33,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             buttonSignUp.text = locale[Localization.SETTINGS_SIGN_UP_BUTTON]
 
             if (viewModel.isSignedIn()) {
+                buttonSignUp.text = locale[Localization.SETTINGS_LOGOUT_TEXT]
                 buttonSignIn.visibility = View.GONE
             }
 
