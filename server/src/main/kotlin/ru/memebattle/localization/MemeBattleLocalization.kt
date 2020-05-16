@@ -29,7 +29,7 @@ class MemeBattleLocalization : ListResourceBundle() {
         Localization.SETTINGS_LOGOUT_TEXT to "Выйти из аккаунта",
         Localization.SETTINGS_RATE_TEXT to "Оценить приложение",
         Localization.SETTINGS_SHARE_TEXT to "Поделиться приложением",
-        Localization.SETTINGS_HASH_TAG_TEXT to "#MEMEBATTLE",
+        Localization.SETTINGS_HASH_TAG_TEXT to "#memes_team",
         Localization.SETTINGS_SIGN_UP_BUTTON to "Зарегистрироваться",
         Localization.SETTINGS_SIGN_IN_BUTTON to "Войти",
         Localization.MAIN_MENU_MEMES to "Memes",
