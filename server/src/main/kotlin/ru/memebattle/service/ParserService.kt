@@ -27,7 +27,7 @@ class ParserService(
                 memeRepository.removeAll()
                 val client = HttpClient(Apache)
                 val modes = mapOf(
-                    GameMode.CLASSIC to listOf("25089415", "57846937", "45045130"),
+                    GameMode.CLASSIC to listOf("154306815"),
                     GameMode.SENIOR to listOf("169651616", "183402030"),
                     GameMode.ENGLISH to listOf("150550417", "120254617", "121642448", "154906069"),
                     GameMode.IT to listOf("174299957", "72495085", "80799846", "76746437"),
@@ -53,6 +53,7 @@ class ParserService(
                             val url = post.attachments?.firstOrNull()?.photo?.sizes?.getMaxImage()
                             if (url != null) {
                                 val text = post.text ?: ""
+                                val likes = post.likes?.count ?: 0
                                 if (text.length <= 100) {
                                     memeRepository.save(
                                         MemeModel(
@@ -60,7 +61,8 @@ class ParserService(
                                             mode = mode.key.name,
                                             text = text,
                                             sourceId = sourceId,
-                                            sourceUrl = sourceUrl
+                                            sourceUrl = sourceUrl,
+                                            likes = likes
                                         )
                                     )
                                 }

@@ -10,4 +10,5 @@ object Memes : Table() {
     val text: Column<String> = Memes.varchar("text", 150)
     val source_id: Column<String> = Memes.varchar("source_id", 50)
     val source_url: Column<String> = Memes.varchar("source_url", 150)
+    val likes: Column<Int> = Memes.integer("likes")
 }
