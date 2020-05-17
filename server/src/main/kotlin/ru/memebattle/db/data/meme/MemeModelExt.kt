@@ -9,5 +9,6 @@ fun ResultRow.toMeme() = MemeModel(
     mode = this[Memes.mode],
     text = this[Memes.text],
     sourceId = this[Memes.source_id],
-    sourceUrl = this[Memes.source_url]
+    sourceUrl = this[Memes.source_url],
+    likes = this[Memes.likes]
 )

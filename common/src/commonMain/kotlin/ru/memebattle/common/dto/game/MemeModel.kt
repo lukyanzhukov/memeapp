@@ -9,5 +9,6 @@ data class MemeModel(
     val mode: String,
     val text: String,
     val sourceId: String,
-    val sourceUrl: String
+    val sourceUrl: String,
+    val likes: Int = 0
 )
