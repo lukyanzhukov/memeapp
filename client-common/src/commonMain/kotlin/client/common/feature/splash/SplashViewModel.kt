@@ -1,12 +1,10 @@
 package client.common.feature.splash
 
-import client.common.data.TokenSource
 import client.common.data.getLocale
 import client.common.feature.localization.DeviceLocaleSource
 import client.common.feature.localization.LastLocaleStore
 import client.common.presentation.*
 import io.ktor.client.HttpClient
-import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -62,7 +60,7 @@ class SplashViewModel(
                 } else {
                     _navigation.call()
                 }
-            } catch (e: IOException) {
+            } catch (e: Exception) {
                 _state.value = SplashState.Error
             }
         }

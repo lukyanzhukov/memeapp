@@ -2,8 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:tools="http://schemas.android.com/tools">
+        android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/errorImageView"
@@ -21,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/ubuntu"
-        tools:text="@tools:sample/lorem"
+        android:text="@string/splash_network_error_message"
         android:textColor="#FF9A62"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +37,7 @@
         android:background="@drawable/bg_retry_error_loading_btn"
         android:fontFamily="@font/ubuntu"
         android:gravity="center"
-        tools:text="Обновить"
+        android:text="@string/splash_retry"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"

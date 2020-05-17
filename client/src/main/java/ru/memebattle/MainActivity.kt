@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             findNavController(this@MainActivity, R.id.host_global)
                 .navigate(R.id.mainFragment)
         }
-        catchFuckingException()
+        // catchFuckingException()
     }
 
     private fun catchFuckingException() {

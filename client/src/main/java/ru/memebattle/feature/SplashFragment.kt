@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import client.common.feature.splash.SplashViewModel
 import androidx.lifecycle.observe
 import client.common.feature.splash.SplashState
+import kotlinx.android.synthetic.main.error_loading_view.*
 import kotlinx.android.synthetic.main.fragment_splash.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
@@ -17,10 +18,6 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     private val viewModel: SplashViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        retryButton.setOnClickListener {
-            viewModel.loadLocale()
-        }
-
         viewModel.navigation.platform.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
         }
@@ -28,15 +25,21 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         viewModel.state.platform.observe(viewLifecycleOwner) { state ->
             when (state) {
                 SplashState.Progress -> {
-                    errorGroup.isVisible = false
-                    progress.isVisible = true
+                    error_loading_view.isVisible = false
+                    textView.isVisible = true
+                    imageView2.isVisible = true
                 }
 
                 SplashState.Error -> {
-                    errorGroup.isVisible = true
-                    progress.isVisible = false
+                    error_loading_view.isVisible = true
+                    textView.isVisible = false
+                    imageView2.isVisible = false
                 }
             }
+        }
+
+        retry_loading_button.setOnClickListener {
+            viewModel.loadLocale()
         }
     }
 }
