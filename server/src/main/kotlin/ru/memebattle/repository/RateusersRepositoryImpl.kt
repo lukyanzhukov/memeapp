@@ -30,7 +30,7 @@ class RateusersRepositoryImpl : RateusersRepository {
         dbQuery {
             val rateUser = Rateusers.select {
                 Rateusers.id eq userId
-                Rateusers.gameMode eq gameMode.name
+                Rateusers.mode eq gameMode.name
             }.singleOrNull()?.toRateUser()
             if (rateUser == null) {
                 Rateusers.insert {
