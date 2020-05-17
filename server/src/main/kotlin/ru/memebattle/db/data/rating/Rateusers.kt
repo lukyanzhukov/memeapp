@@ -7,4 +7,5 @@ object Rateusers : Table() {
     val id: Column<Long> = Rateusers.long("id")
     val name: Column<String> = Rateusers.varchar("name", 100)
     val likes: Column<Long> = Rateusers.long("likes")
+    val gameMode: Column<String> = Rateusers.varchar("gameMode", 100)
 }

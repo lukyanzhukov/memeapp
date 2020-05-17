@@ -1,18 +1,37 @@
 package ru.memebattle.repository
 
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
-import org.jetbrains.exposed.sql.update
+import org.jetbrains.exposed.sql.*
+import ru.memebattle.common.GameMode
 import ru.memebattle.db.data.rating.Rateusers
 import ru.memebattle.db.data.rating.toRateUser
 import ru.memebattle.db.dbQuery
 import ru.memebattle.model.RateuserModel
 
 class RateusersRepositoryImpl : RateusersRepository {
-    override suspend fun add(userId: Long, userName: String) {
+    override suspend fun add(
+        userId: Long,
+        userName: String,
+        gameMode: GameMode
+    ) {
+        rateByMode(userId, userName, gameMode)
+        rateByMode(userId, userName, GameMode.ALL)
+    }
+
+    override suspend fun getAll(): List<RateuserModel> =
         dbQuery {
-            val rateUser = Rateusers.select { Rateusers.id eq userId }.singleOrNull()?.toRateUser()
+            Rateusers.selectAll().map { it.toRateUser() }.sortedBy { it.likes }.reversed()
+        }
+
+    private suspend fun rateByMode(
+        userId: Long,
+        userName: String,
+        gameMode: GameMode
+    ) {
+        dbQuery {
+            val rateUser = Rateusers.select {
+                Rateusers.id eq userId
+                Rateusers.gameMode eq gameMode.name
+            }.singleOrNull()?.toRateUser()
             if (rateUser == null) {
                 Rateusers.insert {
                     it[id] = userId
@@ -26,9 +45,4 @@ class RateusersRepositoryImpl : RateusersRepository {
             }
         }
     }
-
-    override suspend fun getAll(): List<RateuserModel> =
-        dbQuery {
-            Rateusers.selectAll().map { it.toRateUser() }.sortedBy { it.likes }.reversed()
-        }
 }

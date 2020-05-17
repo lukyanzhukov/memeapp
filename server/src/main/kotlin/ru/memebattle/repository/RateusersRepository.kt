@@ -1,8 +1,13 @@
 package ru.memebattle.repository
 
+import ru.memebattle.common.GameMode
 import ru.memebattle.model.RateuserModel
 
 interface RateusersRepository {
-    suspend fun add(userId: Long, userName: String)
+    suspend fun add(
+        userId: Long,
+        userName: String,
+        gameMode: GameMode
+    )
     suspend fun getAll(): List<RateuserModel>
 }

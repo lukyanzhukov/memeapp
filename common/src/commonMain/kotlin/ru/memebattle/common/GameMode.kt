@@ -7,5 +7,6 @@ enum class GameMode {
     IT,
     SCIENCE,
     STUDY,
-    WORK
+    WORK,
+    ALL
 }
