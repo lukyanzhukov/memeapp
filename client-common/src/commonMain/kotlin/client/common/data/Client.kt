@@ -22,7 +22,7 @@ import ru.memebattle.common.model.RatingModel
 @Suppress("FunctionName")
 fun MemeClient(tokenSource: TokenSource): HttpClient = HttpClient {
     Json {
-        serializer = KotlinxSerializer()
+        serializer = KotlinxSerializer(kotlinx.serialization.json.Json.nonstrict)
     }
     Auth {
         bearer(tokenSource)

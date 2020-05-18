@@ -40,6 +40,7 @@ class RateusersRepositoryImpl : RateusersRepository {
                     it[id] = userId
                     it[name] = userName
                     it[likes] = 0
+                    it[gmode] = gameMode.name
                 }
             } else {
                 Rateusers.update({ Rateusers.id eq userId }) {
