@@ -9,7 +9,7 @@ fun ResultRow.toRateUser() = RateuserModel(
     name = this[Rateusers.name],
     id = this[Rateusers.id],
     mode = try {
-        GameMode.valueOf(this[Rateusers.mode])
+        GameMode.valueOf(this[Rateusers.gmode])
     } catch (e: Exception) {
         GameMode.ALL
     }
