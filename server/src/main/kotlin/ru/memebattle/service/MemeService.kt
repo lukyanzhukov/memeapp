@@ -94,13 +94,13 @@ class MemeService(
 
                         if (currentLikes[0] > currentLikes[1]) {
                             firstLikes.forEach {
-                                rateusersRepository.add(it.id, it.username)
+                                rateusersRepository.add(it.id, it.username, gameMode)
                             }
                         }
 
                         if (currentLikes[1] > currentLikes[0]) {
                             secondLikes.forEach {
-                                rateusersRepository.add(it.id, it.username)
+                                rateusersRepository.add(it.id, it.username, gameMode)
                             }
                         }
                     }

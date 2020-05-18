@@ -46,7 +46,7 @@ android {
             buildConfigField("String", "SOCKET_PROTOCOL", "\"wss\"")
         }
         create("local") {
-            val localIp = "192.168.0.4"
+            val localIp = "192.168.0.7"
             val port = "8888"
             buildConfigField("String", "BASE_URL", "\"http://$localIp:$port/api/v1/\"")
             buildConfigField("String", "SOCKET_HOST", "\"$localIp\"")

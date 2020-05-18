@@ -18,7 +18,9 @@ class RatingViewModel(private val httpClient: HttpClient) : ViewModel() {
         viewModelScope.launch {
             try {
                 _state.value = RatingState.Progress
-                _state.value = RatingState.Success(httpClient.getRating())
+                val rating = httpClient.getRating()
+                print(rating)
+                _state.value = RatingState.Success(rating)
             } catch (e: Exception) {
                 _state.value = RatingState.Fail
             }
