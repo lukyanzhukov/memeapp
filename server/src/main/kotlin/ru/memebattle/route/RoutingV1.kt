@@ -59,12 +59,14 @@ class RoutingV1(
                     }
 
                     get("/rating") {
-                        val response = rateusersRepository.getAll()
+                        val modeParameter = call.request.queryParameters["gameMode"] ?: GameMode.ALL.name
+                        val response = rateusersRepository.getByMode(GameMode.valueOf(modeParameter))
                             .mapIndexed { index, rateuserModel ->
                                 RatingModel(
                                     rateuserModel.name,
                                     rateuserModel.likes,
-                                    index.toLong()
+                                    index.toLong(),
+                                    rateuserModel.mode
                                 )
                             }
                         call.respond(response)

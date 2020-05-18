@@ -9,5 +9,5 @@ interface RateusersRepository {
         userName: String,
         gameMode: GameMode
     )
-    suspend fun getAll(): List<RateuserModel>
+    suspend fun getByMode(gameMode: GameMode): List<RateuserModel>
 }

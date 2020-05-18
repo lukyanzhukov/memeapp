@@ -1,6 +1,9 @@
 package ru.memebattle.repository
 
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.update
 import ru.memebattle.common.GameMode
 import ru.memebattle.db.data.rating.Rateusers
 import ru.memebattle.db.data.rating.toRateUser
@@ -17,9 +20,17 @@ class RateusersRepositoryImpl : RateusersRepository {
         rateByMode(userId, userName, GameMode.ALL)
     }
 
-    override suspend fun getAll(): List<RateuserModel> =
+    override suspend fun getByMode(gameMode: GameMode): List<RateuserModel> =
         dbQuery {
-            Rateusers.selectAll().map { it.toRateUser() }.sortedBy { it.likes }.reversed()
+            Rateusers.selectAll()
+                .map {
+                    it.toRateUser()
+                }
+                .filter {
+                    it.mode == gameMode
+                }.sortedBy {
+                    it.likes
+                }.reversed()
         }
 
     private suspend fun rateByMode(
