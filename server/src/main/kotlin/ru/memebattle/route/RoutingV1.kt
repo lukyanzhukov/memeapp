@@ -17,7 +17,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.BroadcastChannel
 import ru.memebattle.auth.BasicAuth
 import ru.memebattle.auth.JwtAuth
-import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.AuthenticationRequestDto
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeRequest
@@ -59,8 +58,8 @@ class RoutingV1(
                     }
 
                     get("/rating") {
-                        val modeParameter = call.request.queryParameters["gameMode"] ?: GameMode.ALL.name
-                        val response = rateusersRepository.getByMode(GameMode.valueOf(modeParameter))
+                        val modeParameter = call.request.queryParameters["gameMode"] ?: "ALL"
+                        val response = rateusersRepository.getByMode(modeParameter)
                             .mapIndexed { index, rateuserModel ->
                                 RatingModel(
                                     rateuserModel.name,
@@ -82,8 +81,7 @@ class RoutingV1(
                         val response = if (modeParameter == null) {
                             gameFactory.getAllMemes()
                         } else {
-                            val mode = GameMode.valueOf(modeParameter)
-                            gameFactory.getMemesByMode(mode)
+                            gameFactory.getMemesByMode(modeParameter)
                         }
                         call.respond(response)
                     }
