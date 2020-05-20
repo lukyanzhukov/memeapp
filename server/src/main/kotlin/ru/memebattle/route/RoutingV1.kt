@@ -29,6 +29,7 @@ import ru.memebattle.repository.GameModeRepository
 import ru.memebattle.repository.RateusersRepository
 import ru.memebattle.service.GameFactory
 import ru.memebattle.service.LocaleService
+import ru.memebattle.service.ParserService
 import ru.memebattle.service.UserService
 
 class RoutingV1(
@@ -38,7 +39,8 @@ class RoutingV1(
     private val memeChannel: BroadcastChannel<MemeResponse>,
     private val localeService: LocaleService,
     private val gson: Gson,
-    private val gameModeRepository: GameModeRepository
+    private val gameModeRepository: GameModeRepository,
+    private val parserService: ParserService
 ) {
     fun setup(configuration: Routing) {
         with(configuration) {
@@ -107,6 +109,13 @@ class RoutingV1(
                         delete {
                             val id = call.request.queryParameters["id"]?.toLong() ?: return@delete
                             gameModeRepository.delete(id)
+                            call.respond("ok")
+                        }
+                    }
+
+                    route("parser") {
+                        get {
+                            parserService.startParser()
                             call.respond("ok")
                         }
                     }

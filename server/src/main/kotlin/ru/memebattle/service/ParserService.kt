@@ -22,7 +22,7 @@ class ParserService(
         }
     }
 
-    private suspend fun startParser() {
+    suspend fun startParser() {
         withContext(Dispatchers.Default) {
             while (true) {
                 memeRepository.removeAll()
