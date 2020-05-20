@@ -8,16 +8,14 @@ import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.readText
 import io.ktor.request.receive
 import io.ktor.response.respond
-import io.ktor.routing.Routing
-import io.ktor.routing.get
-import io.ktor.routing.post
-import io.ktor.routing.route
+import io.ktor.routing.*
 import io.ktor.websocket.webSocket
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.BroadcastChannel
 import ru.memebattle.auth.BasicAuth
 import ru.memebattle.auth.JwtAuth
 import ru.memebattle.common.dto.AuthenticationRequestDto
+import ru.memebattle.common.dto.game.GameModeModel
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
@@ -27,6 +25,7 @@ import ru.memebattle.exception.LanguageNotFoundException
 import ru.memebattle.localization.getLikes
 import ru.memebattle.model.UserModel
 import ru.memebattle.model.toDto
+import ru.memebattle.repository.GameModeRepository
 import ru.memebattle.repository.RateusersRepository
 import ru.memebattle.service.GameFactory
 import ru.memebattle.service.LocaleService
@@ -38,7 +37,8 @@ class RoutingV1(
     private val rateusersRepository: RateusersRepository,
     private val memeChannel: BroadcastChannel<MemeResponse>,
     private val localeService: LocaleService,
-    private val gson: Gson
+    private val gson: Gson,
+    private val gameModeRepository: GameModeRepository
 ) {
     fun setup(configuration: Routing) {
         with(configuration) {
@@ -84,6 +84,31 @@ class RoutingV1(
                             gameFactory.getMemesByMode(modeParameter)
                         }
                         call.respond(response)
+                    }
+
+                    route("/gameMode") {
+                        get {
+                            val response = gameModeRepository.getAll()
+                            call.respond(response)
+                        }
+
+                        post {
+                            val input = call.receive<GameModeModel>()
+                            gameModeRepository.add(input)
+                            call.respond("ok")
+                        }
+
+                        put {
+                            val input = call.receive<GameModeModel>()
+                            gameModeRepository.update(input)
+                            call.respond("ok")
+                        }
+
+                        delete {
+                            val id = call.request.queryParameters["id"]?.toLong() ?: return@delete
+                            gameModeRepository.delete(id)
+                            call.respond("ok")
+                        }
                     }
                 }
 
