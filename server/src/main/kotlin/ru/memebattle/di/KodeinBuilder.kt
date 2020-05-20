@@ -60,6 +60,7 @@ class KodeinBuilder(private val environment: ApplicationEnvironment) {
                     instance(),
                     instance("memes"),
                     instance(),
+                    instance(),
                     instance()
                 )
             }
