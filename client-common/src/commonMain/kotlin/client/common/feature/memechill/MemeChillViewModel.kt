@@ -7,7 +7,6 @@ import client.common.presentation.ViewModel
 import client.common.presentation.viewModelScope
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.launch
-import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.MemeModel
 
 class MemeChillViewModel(private val client: HttpClient) : ViewModel() {
@@ -15,12 +14,12 @@ class MemeChillViewModel(private val client: HttpClient) : ViewModel() {
     val state: LiveData<MemeChillState>
         get() = _state
 
-    private lateinit var mode: GameMode
+    private lateinit var mode: String
     private val _state = MutableLiveData<MemeChillState>()
     private var memePairs: ArrayList<Pair<MemeModel, MemeModel>> = arrayListOf()
 
 
-    fun setGameMode(mode: GameMode) {
+    fun setGameMode(mode: String) {
         this.mode = mode
     }
 

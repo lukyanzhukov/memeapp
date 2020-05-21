@@ -20,7 +20,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
-import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.MemeModel
 import ru.memebattle.core.utils.openUrl
 import ru.memebattle.common.feature.localization.Localization
@@ -51,8 +50,8 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
         }
 
         toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
-        val mode = arguments?.getSerializable("GameMode") as? GameMode ?: GameMode.CLASSIC
-        toolbar.title = mode.name
+        val mode = arguments?.gameMode ?: "CLASSIC"
+        toolbar.title = mode
         viewModel.setGameMode(mode)
         viewModel.state.platform.observe(viewLifecycleOwner) { state ->
             when (state) {

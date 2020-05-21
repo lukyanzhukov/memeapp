@@ -1,15 +1,13 @@
 package client.common.data
 
-import ru.memebattle.common.GameMode
-
 interface GameModeSource {
-    fun isGameModeUsed(gameMode: GameMode): Boolean
-    fun setGameModeUsed(gameMode: GameMode)
+    fun isGameModeUsed(gameMode: String): Boolean
+    fun setGameModeUsed(gameMode: String)
 }
 
 class SettingsGameModeSource(val settings: Settings) : GameModeSource {
-    override fun isGameModeUsed(gameMode: GameMode) = settings.getBoolean(gameMode.name) ?: false
-    override fun setGameModeUsed(gameMode: GameMode) {
-        settings.setBoolean(gameMode.name, true)
+    override fun isGameModeUsed(gameMode: String) = settings.getBoolean(gameMode) ?: false
+    override fun setGameModeUsed(gameMode: String) {
+        settings.setBoolean(gameMode, true)
     }
 }
