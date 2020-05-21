@@ -48,9 +48,10 @@ class KodeinBuilder(private val environment: ApplicationEnvironment) {
             }
             bind<Gson>() with eagerSingleton { Gson() }
             bind<RateusersRepository>() with eagerSingleton { RateusersRepositoryImpl() }
-            bind<GameFactory>() with eagerSingleton { GameFactory(instance<BroadcastChannel<MemeResponse>>("memes"), instance(), instance()) }
+            bind<GameModeRepository>() with eagerSingleton { GameModeRepositoryImpl() }
+            bind<GameFactory>() with eagerSingleton { GameFactory(instance<BroadcastChannel<MemeResponse>>("memes"), instance(), instance(), instance()) }
             bind<MemeRepository>() with eagerSingleton { MemeRepositoryImpl() }
-            bind<ParserService>() with eagerSingleton { ParserService(instance()) }
+            bind<ParserService>() with eagerSingleton { ParserService(instance(), instance()) }
             bind<UserService>() with eagerSingleton { UserService(instance(), instance(), instance()) }
             bind<RoutingV1>() with eagerSingleton {
                 RoutingV1(
@@ -58,6 +59,8 @@ class KodeinBuilder(private val environment: ApplicationEnvironment) {
                     instance(),
                     instance(),
                     instance("memes"),
+                    instance(),
+                    instance(),
                     instance(),
                     instance()
                 )

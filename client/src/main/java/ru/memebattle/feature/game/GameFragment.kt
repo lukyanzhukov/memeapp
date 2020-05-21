@@ -9,7 +9,6 @@ import client.common.feature.game.GameViewModel
 import kotlinx.android.synthetic.main.fragment_game.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
-import ru.memebattle.common.GameMode
 import ru.memebattle.feature.gameMode
 import ru.memebattle.feature.onboarding.OnboardingDialogFragment
 import ru.memebattle.feature.onboarding.OnboardingViewModel
@@ -20,23 +19,23 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private val onboardingViewModel: OnboardingViewModel by viewModel()
 
     private var selectedMode: Int = CLASSIC_MODE_TAB_INDEX
-    private var selectedGameMode: GameMode? = null
+    private var selectedGameMode: String? = null
 
     private val gameModesClickListener = View.OnClickListener {
         when (it.id) {
-            R.id.classic_game_mode_btn -> selectedGameMode = GameMode.CLASSIC
-            R.id.senior_game_mode_btn -> selectedGameMode = GameMode.SENIOR
-            R.id.english_game_mode_btn -> selectedGameMode = GameMode.ENGLISH
-            R.id.it_game_mode_btn -> selectedGameMode = GameMode.IT
-            R.id.science_game_mode_btn -> selectedGameMode = GameMode.SCIENCE
-            R.id.work_game_mode_btn -> selectedGameMode = GameMode.WORK
-            R.id.study_game_mode_btn -> selectedGameMode = GameMode.STUDY
+            R.id.classic_game_mode_btn -> selectedGameMode = "CLASSIC"
+            R.id.senior_game_mode_btn -> selectedGameMode = "SENIOR"
+            R.id.english_game_mode_btn -> selectedGameMode = "ENGLISH"
+            R.id.it_game_mode_btn -> selectedGameMode = "IT"
+            R.id.science_game_mode_btn -> selectedGameMode = "SCIENCE"
+            R.id.work_game_mode_btn -> selectedGameMode = "WORK"
+            R.id.study_game_mode_btn -> selectedGameMode = "STUDY"
         }
         val bundle = Bundle().apply {
             gameMode = selectedGameMode
         }
         // Сейчас проверяется и ставится только классический режим, в след. релизе будет чекаться каждый.
-        if (viewModel.isGameModeUsed(GameMode.CLASSIC)) {
+        if (viewModel.isGameModeUsed("CLASSIC")) {
             when (selectedMode) {
                 CLASSIC_MODE_TAB_INDEX -> {
                     Navigation.findNavController(requireActivity(), R.id.host_global)

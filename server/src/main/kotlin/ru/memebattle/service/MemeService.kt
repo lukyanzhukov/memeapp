@@ -4,7 +4,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.common.dto.game.MemeModel
@@ -17,7 +16,7 @@ class MemeService(
     private val sendResponse: SendChannel<MemeResponse>,
     private val memeRepository: MemeRepository,
     private val rateusersRepository: RateusersRepository,
-    private val gameMode: GameMode
+    private val gameMode: String
 ) {
 
     private var currentMemes: List<MemeModel> = emptyList()

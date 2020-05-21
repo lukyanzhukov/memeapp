@@ -4,7 +4,6 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.update
-import ru.memebattle.common.GameMode
 import ru.memebattle.db.data.rating.Rateusers
 import ru.memebattle.db.data.rating.toRateUser
 import ru.memebattle.db.dbQuery
@@ -14,13 +13,13 @@ class RateusersRepositoryImpl : RateusersRepository {
     override suspend fun add(
         userId: Long,
         userName: String,
-        gameMode: GameMode
+        gameMode: String
     ) {
         rateByMode(userId, userName, gameMode)
-        rateByMode(userId, userName, GameMode.ALL)
+        rateByMode(userId, userName, "ALL")
     }
 
-    override suspend fun getByMode(gameMode: GameMode): List<RateuserModel> =
+    override suspend fun getByMode(gameMode: String): List<RateuserModel> =
         dbQuery {
             Rateusers.selectAll()
                 .map {
@@ -36,7 +35,7 @@ class RateusersRepositoryImpl : RateusersRepository {
     private suspend fun rateByMode(
         userId: Long,
         userName: String,
-        gameMode: GameMode
+        gameMode: String
     ) {
         dbQuery {
             val rateUser = Rateusers.select {
@@ -51,7 +50,7 @@ class RateusersRepositoryImpl : RateusersRepository {
                     it[id] = userId
                     it[name] = userName
                     it[likes] = 0
-                    it[gmode] = gameMode.name
+                    it[gmode] = gameMode
                 }
             } else {
                 Rateusers.update({ Rateusers.id eq userId }) {

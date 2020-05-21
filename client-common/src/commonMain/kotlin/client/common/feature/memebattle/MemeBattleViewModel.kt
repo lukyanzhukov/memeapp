@@ -19,7 +19,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
@@ -30,7 +29,7 @@ class MemeBattleViewModel(
     private val deviceLocaleSource: DeviceLocaleSource
 ) : ViewModel() {
 
-    private lateinit var mode: GameMode
+    private lateinit var mode: String
     private val memeChannel = Channel<MemeRequest>()
     private val _state = MutableLiveData<MemeBattleState>()
     val state: LiveData<MemeBattleState>
@@ -61,7 +60,7 @@ class MemeBattleViewModel(
                                     @Suppress("EXPERIMENTAL_API_USAGE")
                                     val memeResponse: MemeResponse =
                                         Json.parse(MemeResponse.serializer(), frame.readText())
-                                    if (memeResponse.gameMode == mode) {
+                                    if (memeResponse.gameMode.toLowerCase() == mode.toLowerCase()) {
                                         if (!(memeResponse.state == GameState.RESULT && _state.value == null)) {
                                             withContext(uiDispatcher()) {
                                                 _state.value = MemeBattleState.Meme(memeResponse)
@@ -95,7 +94,7 @@ class MemeBattleViewModel(
         }
     }
 
-    fun setGameMode(mode: GameMode) {
+    fun setGameMode(mode: String) {
         this.mode = mode
     }
 

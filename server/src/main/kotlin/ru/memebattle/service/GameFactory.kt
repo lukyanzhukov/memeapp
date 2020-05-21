@@ -1,28 +1,33 @@
 package ru.memebattle.service
 
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.SendChannel
-import ru.memebattle.common.GameMode
+import kotlinx.coroutines.launch
 import ru.memebattle.common.dto.game.MemeRequest
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.model.UserModel
+import ru.memebattle.repository.GameModeRepository
 import ru.memebattle.repository.MemeRepository
 import ru.memebattle.repository.RateusersRepository
 
 class GameFactory(
     private val sendResponse: SendChannel<MemeResponse>,
     private val memeRepository: MemeRepository,
-    private val rateusersRepository: RateusersRepository
+    private val rateusersRepository: RateusersRepository,
+    private val gameModeRepository: GameModeRepository
 ) {
-    private val mapOfMemeServices = mutableMapOf<GameMode, MemeService>()
+    private val mapOfMemeServices = mutableMapOf<String, MemeService>()
 
     init {
-        createMemeServices()
+        GlobalScope.launch {
+            createMemeServices()
+        }
     }
 
-    private fun createMemeServices() {
-        GameMode.values().forEach {
-            mapOfMemeServices[it] =
-                MemeService(sendResponse, memeRepository, rateusersRepository, it)
+    private suspend fun createMemeServices() {
+        gameModeRepository.getAll().forEach { gameMode ->
+            mapOfMemeServices[gameMode.name] =
+                MemeService(sendResponse, memeRepository, rateusersRepository, gameMode.name)
         }
     }
 
@@ -37,5 +42,5 @@ class GameFactory(
 
     suspend fun getAllMemes() = memeRepository.getAll()
 
-    suspend fun getMemesByMode(mode: GameMode) = memeRepository.getByMode(mode)
+    suspend fun getMemesByMode(mode: String) = memeRepository.getByMode(mode)
 }

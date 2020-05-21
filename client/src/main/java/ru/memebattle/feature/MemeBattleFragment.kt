@@ -21,7 +21,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
-import ru.memebattle.common.GameMode
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.common.feature.localization.Localization
@@ -53,8 +52,8 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
             setSaveClickListener(save_second_meme_btn, image2, saveText)
         }
         toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
-        val mode = arguments?.gameMode ?: GameMode.CLASSIC
-        toolbar.title = mode.name
+        val mode = arguments?.gameMode ?: "CLASSIC"
+        toolbar.title = mode
         viewModel.setGameMode(mode)
 
         loadingMemesProgressBar.progress = 0

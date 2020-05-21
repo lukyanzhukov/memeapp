@@ -4,7 +4,6 @@ import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
-import ru.memebattle.common.GameMode
 import ru.memebattle.db.data.meme.Memes
 import ru.memebattle.db.data.meme.toMeme
 import ru.memebattle.db.dbQuery
@@ -29,10 +28,10 @@ class MemeRepositoryImpl : MemeRepository {
             Memes.selectAll().map { it.toMeme() }
         }
 
-    override suspend fun getByMode(mode: GameMode): List<MemeModel> =
+    override suspend fun getByMode(mode: String): List<MemeModel> =
         dbQuery {
             Memes.select {
-                Memes.mode.eq(mode.name)
+                Memes.mode.eq(mode)
             }.map { it.toMeme() }
         }
 
