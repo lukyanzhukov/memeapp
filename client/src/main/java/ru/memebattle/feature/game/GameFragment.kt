@@ -10,13 +10,13 @@ import kotlinx.android.synthetic.main.fragment_game.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
 import ru.memebattle.feature.gameMode
-import ru.memebattle.feature.onboarding.OnboardingDialogFragment
-import ru.memebattle.feature.onboarding.OnboardingViewModel
+import ru.memebattle.feature.gameonboarding.GameOnboardingDialogFragment
+import ru.memebattle.feature.gameonboarding.GameOnboardingViewModel
 
 class GameFragment : Fragment(R.layout.fragment_game) {
 
     private val viewModel: GameViewModel by viewModel()
-    private val onboardingViewModel: OnboardingViewModel by viewModel()
+    private val gameOnboardingViewModel: GameOnboardingViewModel by viewModel()
 
     private var selectedMode: Int = CLASSIC_MODE_TAB_INDEX
     private var selectedGameMode: String? = null
@@ -51,7 +51,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             }
         }
 
-        OnboardingDialogFragment().show(childFragmentManager, null)
+        GameOnboardingDialogFragment().show(childFragmentManager, null)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +61,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        onboardingViewModel.closeDialogEvent.observe(viewLifecycleOwner) {
+        gameOnboardingViewModel.closeDialogEvent.observe(viewLifecycleOwner) {
             Navigation.findNavController(requireActivity(), R.id.host_global)
                 .navigate(R.id.action_mainFragment_action_to_memebattleFragment, Bundle().apply {
                     gameMode = selectedGameMode

@@ -1,5 +1,13 @@
 <resources>
-    <string name="app_name">MemeBattle</string>
+    <string name="app_name">Meme App</string>
     <string name="splash_network_error_message">Проблемы с сетью</string>
     <string name="splash_retry">Повторить</string>
+    <string name="first_page_title">Что такое Meme App?</string>
+    <string name="first_page_description">Приложение, в котором ты сможешь быстро и с удовольствием насладиться отборными мемами</string>
+    <string name="second_page_title">Оценивай в реальном времени</string>
+    <string name="second_page_description">Выбирай лучший из двух предложенных мемов за раунд одновременно с другими игроками</string>
+    <string name="fourth_page_title">Выбирай любимые темы!</string>
+    <string name="fourth_page_description">В приложении ты сможешь найти множество мемов на разные тематики</string>
+    <string name="third_page_title">Не торопись</string>
+    <string name="third_page_description">Просматривай любимые мемасы в своё удовольствие в режиме Чил</string>
 </resources>

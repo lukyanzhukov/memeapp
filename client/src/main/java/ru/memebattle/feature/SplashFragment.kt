@@ -7,11 +7,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import client.common.feature.splash.SplashViewModel
 import androidx.lifecycle.observe
+import client.common.feature.splash.NavState
 import client.common.feature.splash.SplashState
 import kotlinx.android.synthetic.main.error_loading_view.*
 import kotlinx.android.synthetic.main.fragment_splash.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
+import ru.memebattle.core.utils.log
 
 class SplashFragment : Fragment(R.layout.fragment_splash) {
 
@@ -19,7 +21,10 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.navigation.platform.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
+            when (it) {
+                NavState.Main -> findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
+                NavState.Onboarding -> findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
+            }
         }
 
         viewModel.state.platform.observe(viewLifecycleOwner) { state ->

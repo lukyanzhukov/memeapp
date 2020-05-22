@@ -1,10 +1,10 @@
-package ru.memebattle.feature.onboarding
+package ru.memebattle.feature.gameonboarding
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import client.common.presentation.PlatformSingleLiveEvent
 
-class OnboardingViewModel : ViewModel() {
+class GameOnboardingViewModel : ViewModel() {
 
     private val _closeDialogEvent = PlatformSingleLiveEvent<Unit>()
     val closeDialogEvent: LiveData<Unit>
