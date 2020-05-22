@@ -1,5 +1,6 @@
 package client.common.feature.splash
 
+import client.common.data.BaseSettingsSource
 import client.common.data.getLocale
 import client.common.feature.localization.DeviceLocaleSource
 import client.common.feature.localization.LastLocaleStore
@@ -14,11 +15,12 @@ class SplashViewModel(
     private val localeQueries: LocaleQueries,
     private val client: HttpClient,
     private val deviceLocaleSource: DeviceLocaleSource,
-    private val lastLocaleStore: LastLocaleStore
+    private val lastLocaleStore: LastLocaleStore,
+    private val settingsSource: BaseSettingsSource
 ) : ViewModel() {
 
-    private val _navigation = SingleLiveEvent<Unit>()
-    val navigation: LiveData<Unit>
+    private val _navigation = SingleLiveEvent<NavState>()
+    val navigation: LiveData<NavState>
         get() = _navigation
 
     private val _state = MutableLiveData<SplashState>()
@@ -56,14 +58,23 @@ class SplashViewModel(
                         }
                     }
 
-                    _navigation.call()
+                    checkLaunch()
                 } else {
-                    _navigation.call()
+                    checkLaunch()
                 }
             } catch (e: Exception) {
                 _state.value = SplashState.Error
             }
         }
+    }
+
+    private fun checkLaunch() {
+        _navigation.value = if (!settingsSource.notFirstLaunch) {
+            NavState.Onboarding
+        } else {
+            NavState.Main
+        }
+        settingsSource.notFirstLaunch = true
     }
 
     private fun setDifferentLanguage(): Boolean =

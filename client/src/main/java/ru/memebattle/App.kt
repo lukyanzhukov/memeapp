@@ -20,8 +20,8 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import ru.memebattle.feature.fatal.FatalViewModel
 import ru.memebattle.feature.firstwin.FirstWinViewModel
+import ru.memebattle.feature.gameonboarding.GameOnboardingViewModel
 import ru.memebattle.feature.locale.AndroidDeviceLocaleSource
-import ru.memebattle.feature.onboarding.OnboardingViewModel
 import ru.memebattle.feature.signout.TrySignOutViewModel
 
 class App : Application() {
@@ -43,7 +43,7 @@ class App : Application() {
                     settingsModule,
                     memeBattleModule,
                     localizationModule,
-                    onboardingModule,
+                    gameOnboardingModule,
                     memeChillModule,
                     firstWinModule,
                     fatalModule,
@@ -70,8 +70,11 @@ val networkModule = module {
 }
 
 private val splashModule = module {
+    single<BaseSettingsSource> {
+        BaseSettingsSourceImpl(get())
+    }
     viewModel {
-        SplashViewModel(get(), get(), AndroidDeviceLocaleSource, get())
+        SplashViewModel(get(), get(), AndroidDeviceLocaleSource, get(), get())
     }
 }
 
@@ -98,7 +101,11 @@ private val gameModule = module {
 
 private val memeBattleModule = module {
     viewModel {
-        MemeBattleViewModel(get(), get(), AndroidDeviceLocaleSource).also(MemeBattleViewModel::connect)
+        MemeBattleViewModel(
+            get(),
+            get(),
+            AndroidDeviceLocaleSource
+        ).also(MemeBattleViewModel::connect)
     }
 }
 
@@ -137,9 +144,9 @@ private val localizationModule = module {
     }
 }
 
-private val onboardingModule = module {
+private val gameOnboardingModule = module {
     viewModel {
-        OnboardingViewModel()
+        GameOnboardingViewModel()
     }
 }
 

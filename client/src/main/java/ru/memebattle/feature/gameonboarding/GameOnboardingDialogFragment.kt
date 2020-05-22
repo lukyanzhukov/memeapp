@@ -1,4 +1,4 @@
-package ru.memebattle.feature.onboarding
+package ru.memebattle.feature.gameonboarding
 
 import android.app.Dialog
 import android.graphics.Outline
@@ -18,9 +18,9 @@ import kotlinx.android.synthetic.main.dialog_game_onboarding.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.common.feature.localization.Localization
 
-class OnboardingDialogFragment : DialogFragment() {
+class GameOnboardingDialogFragment : DialogFragment() {
 
-    private val onboardingViewModel: OnboardingViewModel by sharedViewModel(from = {
+    private val gameOnboardingViewModel: GameOnboardingViewModel by sharedViewModel(from = {
         requireParentFragment()
     })
     private val localizationViewModel: LocalizationViewModel by viewModel()
@@ -36,11 +36,11 @@ class OnboardingDialogFragment : DialogFragment() {
             }
             dialogView.onboarding_banner_view.outlineProvider = provider
             dialogView.ok_button.setOnClickListener {
-                onboardingViewModel.onCloseDialog()
+                gameOnboardingViewModel.onCloseDialog()
                 dismiss()
             }
 
-            localizationViewModel.locale.platform.observe(this@OnboardingDialogFragment) { locale ->
+            localizationViewModel.locale.platform.observe(this@GameOnboardingDialogFragment) { locale ->
                 dialogView.feature_title.text = locale[Localization.ONBOARDING_TITLE]
                 dialogView.feature_definition_text.text = locale[Localization.ONBOARDING_TEXT]
                 dialogView.ok_button.text = locale[Localization.ONBOARDING_OK_BTN_TEXT]
@@ -50,6 +50,6 @@ class OnboardingDialogFragment : DialogFragment() {
             val bg = ContextCompat.getDrawable(requireContext(), R.drawable.bg_alert)
             val margins = resources.getDimensionPixelOffset(R.dimen.alert_margins)
             window?.setBackgroundDrawable(InsetDrawable(bg, margins))
-            this@OnboardingDialogFragment.isCancelable = false
+            this@GameOnboardingDialogFragment.isCancelable = false
         }
 }
