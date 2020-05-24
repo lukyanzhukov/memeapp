@@ -78,19 +78,50 @@
             app:layout_constraintEnd_toStartOf="@+id/save_first_meme_btn"
             app:srcCompat="@drawable/ic_share_meme" />
 
-        <TextView
-            android:id="@+id/first_source_meme_text"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="21dp"
-            android:fontFamily="@font/ubuntu_medium"
-            android:textColor="#4749A0"
-            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/loadingMemesProgressBar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image1" />
+            app:layout_constraintTop_toBottomOf="@+id/image1">
+
+            <TextView
+                android:id="@+id/first_source_meme_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="21dp"
+                android:fontFamily="@font/ubuntu_medium"
+                android:textColor="#4749A0"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/vk_likes_first"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="21dp"
+                android:fontFamily="@font/ubuntu_medium"
+                android:textColor="#4749A0"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/vk_badge_first"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="21dp"
+                android:paddingTop="2dp"
+                app:srcCompat="@drawable/ic_vk" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/like1"
@@ -197,19 +228,51 @@
             app:layout_constraintEnd_toStartOf="@+id/save_second_meme_btn"
             app:srcCompat="@drawable/ic_share_meme" />
 
-        <TextView
-            android:id="@+id/second_source_meme_text"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="21dp"
-            android:fontFamily="@font/ubuntu_medium"
-            android:textColor="#4749A0"
-            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image2" />
+            app:layout_constraintTop_toBottomOf="@+id/image2">
+
+            <TextView
+                android:id="@+id/second_source_meme_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="21dp"
+                android:fontFamily="@font/ubuntu_medium"
+                android:textColor="#4749A0"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/vk_likes_second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="21dp"
+                android:fontFamily="@font/ubuntu_medium"
+                android:textColor="#4749A0"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/vk_badge_second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="21dp"
+                android:paddingTop="2dp"
+                app:srcCompat="@drawable/ic_vk" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/like2"

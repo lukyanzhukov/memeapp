@@ -21,8 +21,8 @@ import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
 import ru.memebattle.common.dto.game.MemeModel
-import ru.memebattle.core.utils.openUrl
 import ru.memebattle.common.feature.localization.Localization
+import ru.memebattle.core.utils.openUrl
 import ru.memebattle.core.utils.saveImage
 import ru.memebattle.core.utils.shareImage
 
@@ -73,14 +73,8 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
         image1.setOnDoubleTapListener(object : GestureDetector.OnDoubleTapListener {
             override fun onDoubleTap(e: MotionEvent?): Boolean {
                 if (isButtonDisabled) return true
-                isButtonDisabled = true
-                shadowRes1.isVisible = true
-                shadowRes2.isVisible = true
                 like1.isVisible = true
-                lifecycleScope.launch {
-                    delay(RESULT_DELAY)
-                    viewModel.getMemesPair()
-                }
+                toNextPair()
                 return true
             }
 
@@ -91,14 +85,8 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
         image2.setOnDoubleTapListener(object : GestureDetector.OnDoubleTapListener {
             override fun onDoubleTap(e: MotionEvent?): Boolean {
                 if (isButtonDisabled) return true
-                isButtonDisabled = true
-                shadowRes1.isVisible = true
-                shadowRes2.isVisible = true
                 like2.isVisible = true
-                lifecycleScope.launch {
-                    delay(RESULT_DELAY)
-                    viewModel.getMemesPair()
-                }
+                toNextPair()
                 return true
             }
 
@@ -128,6 +116,12 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
     }
 
     private fun onNextMemesPair(memesPair: Pair<MemeModel, MemeModel>) {
+        vk_badge_first.isVisible = false
+        vk_badge_second.isVisible = false
+        vk_likes_first.isVisible = false
+        vk_likes_second.isVisible = false
+        vk_likes_first.text = memesPair.first.likes.toString()
+        vk_likes_second.text = memesPair.second.likes.toString()
         first_meme_text.isVisible = memesPair.first.text.isNotEmpty()
         second_meme_text.isVisible = memesPair.second.text.isNotEmpty()
         firstMemeSourceUrl = memesPair.first.sourceUrl
@@ -165,7 +159,22 @@ class MemeChillFragment : Fragment(R.layout.fragment_meme_chill) {
         }
     }
 
+    @ExperimentalStdlibApi
+    private fun toNextPair() {
+        isButtonDisabled = true
+        shadowRes1.isVisible = true
+        shadowRes2.isVisible = true
+        lifecycleScope.launch {
+            vk_badge_first.isVisible = true
+            vk_badge_second.isVisible = true
+            vk_likes_first.isVisible = true
+            vk_likes_second.isVisible = true
+            delay(RESULT_DELAY)
+            viewModel.getMemesPair()
+        }
+    }
+
     companion object {
-        private const val RESULT_DELAY = 500L
+        private const val RESULT_DELAY = 750L
     }
 }
