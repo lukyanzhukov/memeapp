@@ -45,13 +45,16 @@ internal suspend fun HttpClient.signIn(authenticationRequestDto: AuthenticationR
         body = authenticationRequestDto
     }
 
-internal suspend fun HttpClient.getRating(): List<RatingModel> =
-    get("${baseUrl()}rating")
+internal suspend fun HttpClient.getRating(name: String): List<RatingModel> =
+    get("${baseUrl()}rating?gameMode=${name}")
 
 internal suspend fun HttpClient.getChillMemes(mode: String): List<MemeModel> =
     get("${baseUrl()}chill?gameMode=${mode}")
 
-internal suspend fun HttpClient.getLocale(language: String, country: String?): Map<Localization, String> =
+internal suspend fun HttpClient.getLocale(
+    language: String,
+    country: String?
+): Map<Localization, String> =
     get("${baseUrl()}locale") {
         header("language", language)
         header("country", country)

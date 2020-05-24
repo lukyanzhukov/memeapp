@@ -14,11 +14,11 @@ class RatingViewModel(private val httpClient: HttpClient) : ViewModel() {
     val state: LiveData<RatingState>
         get() = _state
 
-    fun getRating() {
+    fun getRating(name: String) {
         viewModelScope.launch {
             try {
                 _state.value = RatingState.Progress
-                val rating = httpClient.getRating()
+                val rating = httpClient.getRating(name)
                 print(rating)
                 _state.value = RatingState.Success(rating)
             } catch (e: Exception) {

@@ -25,24 +25,27 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="48dp"
                 app:srcCompat="@drawable/ic_rating" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="48dp"
+        android:orientation="vertical"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/modes_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="34dp"
             android:clipToPadding="false"
-            android:padding="8dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_rating" />
+            tools:listitem="@layout/item_rating_mode" />
 
         <include
             android:id="@+id/error_loading_view"
@@ -53,10 +56,17 @@
             android:id="@+id/waitingProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_gravity="center|top"
-            android:theme="@style/MemebattleProgressbarTheme"
-            />
+            android:layout_marginTop="16dp"
+            android:theme="@style/MemebattleProgressbarTheme" />
 
-    </FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_rating" />
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

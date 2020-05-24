@@ -86,7 +86,7 @@ private val authModule = module {
 
 private val ratingModule = module {
     viewModel {
-        RatingViewModel(get()).also(RatingViewModel::getRating)
+        RatingViewModel(get())
     }
 }
 

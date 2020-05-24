@@ -6,4 +6,10 @@
     <color name="textColor">#000000</color>
     <color name="background">#dddddd</color>
     <color name="authStatusBarColor">#EBF6FF</color>
+    <color name="classicItemColor">#FF9A62</color>
+    <color name="seniorItemColor">#C9C9E4</color>
+    <color name="englishItemColor">#CEEBEA</color>
+    <color name="itItemColor">#FFD491</color>
+    <color name="workItemColor">#C9C9E4</color>
+    <color name="studyItemColor">#CEEBEA</color>
 </resources>
