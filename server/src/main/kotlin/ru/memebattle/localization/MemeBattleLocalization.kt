@@ -17,11 +17,10 @@ class MemeBattleLocalization : ListResourceBundle() {
         Localization.AUTH_PASSWORD_HINT_TEXT to "Пароль",
         Localization.AUTH_SIGN_IN_BUTTON_TEXT to "Вход",
         Localization.AUTH_SIGN_UP_BUTTON_TEXT to "Регистрация",
-        Localization.ONBOARDING_TEXT to
-                """У тебя есть всего 15 секунд на выбор самой смешной картинки из пары. 
-            |
-            |Помоги смешным мемам выиграть эту битву и получи за это очки.""".trimMargin(),
-        Localization.ONBOARDING_TITLE to "В первый раз?",
+        Localization.CHILL_GAME_ONBOARDING_TITLE to "Чилим",
+        Localization.CHILL_GAME_ONBOARDING_TEXT to "В этом режиме ты можешь выбирать понравившиеся мемы не смотря на время.\n Только ты, наслаждение и мемы..\n\nТапни два раза, чтобы выбрать понравившуюся картинку",
+        Localization.CLASSIC_GAME_ONBOARDING_TEXT to "У тебя есть всего 15 секунд на выбор самой смешной картинки из пары.\n Помоги смешным мемам выиграть эту битву и получи за это очки.\n\nТапни два раза, чтобы выбрать понравившуюся картинку",
+        Localization.CLASSIC_GAME_ONBOARDING_TITLE to "В первый раз?",
         Localization.ONBOARDING_OK_BTN_TEXT to "Погнали",
         Localization.GAME_WAIT_NEXT_ROUND_TEXT to "Ждём начала следующего раунда...",
         Localization.GAME_SHARE_IMAGE_TEXT to """"Я нашёл этот мемасик в Memebattle, заходи поорём: https://play.google.com/store/apps/details?id=ru.memeapp """",

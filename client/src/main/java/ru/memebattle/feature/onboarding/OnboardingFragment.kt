@@ -1,5 +1,6 @@
 package ru.memebattle.feature.onboarding
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -30,6 +31,7 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().window.statusBarColor = Color.WHITE
         close_button.setOnClickListener {
             onComplete?.invoke()
         }
