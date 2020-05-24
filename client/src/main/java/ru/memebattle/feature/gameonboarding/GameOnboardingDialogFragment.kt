@@ -48,7 +48,7 @@ class GameOnboardingDialogFragment(private val selectedMode: GameModeTab) :
         dialogView.onboarding_banner_view.clipToOutline = true
         dialogView.onboarding_banner_view.outlineProvider = provider
         dialogView.ok_button.setOnClickListener {
-            gameOnboardingViewModel.onCloseDialog()
+            gameOnboardingViewModel.onCloseDialog(selectedMode)
             dismiss()
         }
         dialogView.close_onboarding_dialog_btn.setOnClickListener {

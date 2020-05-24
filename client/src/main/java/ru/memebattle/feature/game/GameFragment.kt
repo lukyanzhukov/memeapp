@@ -60,10 +60,24 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         gameOnboardingViewModel.closeDialogEvent.observe(viewLifecycleOwner) {
-            Navigation.findNavController(requireActivity(), R.id.host_global)
-                .navigate(R.id.action_mainFragment_action_to_memebattleFragment, Bundle().apply {
-                    gameMode = selectedGameMode
-                })
+            when (selectedMode) {
+                GameModeTab.CLASSIC_MODE_TAB -> {
+                    Navigation.findNavController(requireActivity(), R.id.host_global)
+                        .navigate(
+                            R.id.action_mainFragment_action_to_memebattleFragment,
+                            Bundle().apply {
+                                gameMode = selectedGameMode
+                            })
+                }
+                GameModeTab.CHILL_MODE_TAB -> {
+                    Navigation.findNavController(requireActivity(), R.id.host_global)
+                        .navigate(
+                            R.id.action_mainFragment_to_memeChillFragment,
+                            Bundle().apply {
+                                gameMode = selectedGameMode
+                            })
+                }
+            }
         }
 
         when (selectedMode) {

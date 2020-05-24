@@ -28,14 +28,14 @@ class RatingFragment : Fragment(R.layout.fragment_rating) {
         modesAdapter.onItemSelected = {
             viewModel.getRating(it.toUpperCase())
         }
-        modesAdapter.gameModesModels = listOf(
-            GameModeItem("All", R.drawable.bg_item_study_mode),
-            GameModeItem("Classic", R.drawable.bg_item_classic_mode),
-            GameModeItem("Senior", R.drawable.bg_item_senior_mode),
-            GameModeItem("English", R.drawable.bg_item_english_mode),
-            GameModeItem("It", R.drawable.bg_item_it_mode),
-            GameModeItem("Work", R.drawable.bg_item_work_mode),
-            GameModeItem("Study", R.drawable.bg_item_study_mode)
+        modesAdapter.ratingGameModesModels = listOf(
+            RatingGameModeItem("All", R.drawable.bg_item_study_mode),
+            RatingGameModeItem("Classic", R.drawable.bg_item_classic_mode),
+            RatingGameModeItem("Senior", R.drawable.bg_item_senior_mode),
+            RatingGameModeItem("English", R.drawable.bg_item_english_mode),
+            RatingGameModeItem("It", R.drawable.bg_item_it_mode),
+            RatingGameModeItem("Work", R.drawable.bg_item_work_mode),
+            RatingGameModeItem("Study", R.drawable.bg_item_study_mode)
         )
         recycler_view.adapter = ratingAdapter
         modes_recycler.adapter = modesAdapter

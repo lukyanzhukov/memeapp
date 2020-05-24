@@ -12,7 +12,7 @@ class GameModesAdapter : RecyclerView.Adapter<GameModesAdapter.GameModesViewHold
     var onItemSelected: ((name: String) -> Unit)? = null
     var selectedPosition: Int = 0
     var oldSelectedPosition: Int = 0
-    var gameModesModels: List<GameModeItem> = emptyList()
+    var ratingGameModesModels: List<RatingGameModeItem> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -24,10 +24,10 @@ class GameModesAdapter : RecyclerView.Adapter<GameModesAdapter.GameModesViewHold
         return GameModesViewHolder(ratingItemView)
     }
 
-    override fun getItemCount(): Int = gameModesModels.size
+    override fun getItemCount(): Int = ratingGameModesModels.size
 
     override fun onBindViewHolder(holder: GameModesViewHolder, position: Int) {
-        holder.bind(gameModesModels[position], position)
+        holder.bind(ratingGameModesModels[position], position)
     }
 
     inner class GameModesViewHolder(view: View) :
@@ -35,17 +35,17 @@ class GameModesAdapter : RecyclerView.Adapter<GameModesAdapter.GameModesViewHold
 
         private val modeButton = view.findViewById<TextView>(R.id.mode_btn)
 
-        fun bind(gameModeItem: GameModeItem, position: Int) {
+        fun bind(ratingGameModeItem: RatingGameModeItem, position: Int) {
             if (selectedPosition == position) {
-                modeButton.setBackgroundResource(gameModeItem.drawable)
+                modeButton.setBackgroundResource(ratingGameModeItem.drawable)
             } else {
                 modeButton.setBackgroundResource(R.drawable.bg_item_rating_mode)
             }
-            modeButton.text = gameModeItem.name
+            modeButton.text = ratingGameModeItem.name
             modeButton.setOnClickListener {
                 if (selectedPosition == position) return@setOnClickListener
-                onItemSelected?.invoke(gameModeItem.name)
-                modeButton.setBackgroundResource(gameModeItem.drawable)
+                onItemSelected?.invoke(ratingGameModeItem.name)
+                modeButton.setBackgroundResource(ratingGameModeItem.drawable)
                 oldSelectedPosition = selectedPosition
                 selectedPosition = position
                 notifyItemChanged(oldSelectedPosition)
