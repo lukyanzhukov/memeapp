@@ -18,7 +18,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private val viewModel: GameViewModel by viewModel()
     private val gameOnboardingViewModel: GameOnboardingViewModel by viewModel()
 
-    private var selectedMode: Int = CLASSIC_MODE_TAB_INDEX
+    private var selectedMode: GameModeTab = GameModeTab.CLASSIC_MODE_TAB
     private var selectedGameMode: String? = null
 
     private val gameModesClickListener = View.OnClickListener {
@@ -34,15 +34,14 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         val bundle = Bundle().apply {
             gameMode = selectedGameMode
         }
-        // Сейчас проверяется и ставится только классический режим, в след. релизе будет чекаться каждый.
-        if (viewModel.isGameModeUsed("CLASSIC")) {
+        if (viewModel.isGameModeUsed(selectedMode.name)) {
             when (selectedMode) {
-                CLASSIC_MODE_TAB_INDEX -> {
+                GameModeTab.CLASSIC_MODE_TAB -> {
                     Navigation.findNavController(requireActivity(), R.id.host_global)
                         .navigate(R.id.action_mainFragment_action_to_memebattleFragment, bundle)
                     return@OnClickListener
                 }
-                CHILL_MODE_TAB_INDEX -> {
+                GameModeTab.CHILL_MODE_TAB -> {
                     Navigation.findNavController(requireActivity(), R.id.host_global)
                         .navigate(R.id.action_mainFragment_to_memeChillFragment, bundle)
                     return@OnClickListener
@@ -50,8 +49,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 else -> return@OnClickListener
             }
         }
-
-        GameOnboardingDialogFragment().show(childFragmentManager, null)
+        GameOnboardingDialogFragment(selectedMode).show(childFragmentManager, null)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,12 +67,12 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
 
         when (selectedMode) {
-            CLASSIC_MODE_TAB_INDEX -> {
+            GameModeTab.CLASSIC_MODE_TAB -> {
                 classic_mode_btn.background =
                     resources.getDrawable(R.drawable.bg_selected_game_mode)
                 chill_mode_btn.background = null
             }
-            CHILL_MODE_TAB_INDEX -> {
+            GameModeTab.CHILL_MODE_TAB -> {
                 chill_mode_btn.background = resources.getDrawable(R.drawable.bg_selected_game_mode)
                 classic_mode_btn.background = null
             }
@@ -82,12 +80,12 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         classic_mode_btn.setOnClickListener {
             classic_mode_btn.background = resources.getDrawable(R.drawable.bg_selected_game_mode)
             chill_mode_btn.background = null
-            selectedMode = CLASSIC_MODE_TAB_INDEX
+            selectedMode = GameModeTab.CLASSIC_MODE_TAB
         }
         chill_mode_btn.setOnClickListener {
             chill_mode_btn.background = resources.getDrawable(R.drawable.bg_selected_game_mode)
             classic_mode_btn.background = null
-            selectedMode = CHILL_MODE_TAB_INDEX
+            selectedMode = GameModeTab.CHILL_MODE_TAB
         }
         classic_game_mode_btn.setOnClickListener(gameModesClickListener)
         senior_game_mode_btn.setOnClickListener(gameModesClickListener)
@@ -100,10 +98,5 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.gameMode = selectedGameMode
-    }
-
-    companion object {
-        private const val CLASSIC_MODE_TAB_INDEX = 0
-        private const val CHILL_MODE_TAB_INDEX = 1
     }
 }

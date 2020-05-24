@@ -4,22 +4,22 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import client.common.feature.splash.SplashViewModel
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import client.common.feature.splash.NavState
 import client.common.feature.splash.SplashState
+import client.common.feature.splash.SplashViewModel
 import kotlinx.android.synthetic.main.error_loading_view.*
 import kotlinx.android.synthetic.main.fragment_splash.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
-import ru.memebattle.core.utils.log
 
 class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     private val viewModel: SplashViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requireActivity().window.statusBarColor = resources.getColor(R.color.authStatusBarColor)
         viewModel.navigation.platform.observe(viewLifecycleOwner) {
             when (it) {
                 NavState.Main -> findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
