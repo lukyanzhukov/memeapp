@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Meme App</string>
+    <string name="app_name">meme app</string>
     <string name="splash_network_error_message">Проблемы с сетью</string>
     <string name="splash_retry">Повторить</string>
     <string name="first_page_title">Что такое Meme App?</string>
