@@ -1,5 +1,6 @@
 package client.common.feature.rating
 
+import client.common.data.getGameModes
 import client.common.data.getRating
 import client.common.presentation.LiveData
 import client.common.presentation.MutableLiveData
@@ -13,6 +14,20 @@ class RatingViewModel(private val httpClient: HttpClient) : ViewModel() {
     private val _state = MutableLiveData<RatingState>()
     val state: LiveData<RatingState>
         get() = _state
+
+    fun getModes() {
+        viewModelScope.launch {
+            try {
+                _state.value = RatingState.Progress
+                val modes = httpClient.getGameModes()
+                val rating = httpClient.getRating("ALL")
+                print(rating)
+                _state.value = RatingState.Success(rating, modes)
+            } catch (e: Exception) {
+                _state.value = RatingState.Fail
+            }
+        }
+    }
 
     fun getRating(name: String) {
         viewModelScope.launch {

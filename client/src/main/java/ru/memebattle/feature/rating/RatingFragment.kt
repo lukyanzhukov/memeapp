@@ -26,20 +26,11 @@ class RatingFragment : Fragment(R.layout.fragment_rating) {
         val ratingAdapter = RatingAdapter(loginSource.login)
         val modesAdapter = GameModesAdapter()
         modesAdapter.onItemSelected = {
-            viewModel.getRating(it.toUpperCase())
+            viewModel.getRating(it)
         }
-        modesAdapter.ratingGameModesModels = listOf(
-            RatingGameModeItem("All", R.drawable.bg_item_study_mode),
-            RatingGameModeItem("Classic", R.drawable.bg_item_classic_mode),
-            RatingGameModeItem("Senior", R.drawable.bg_item_senior_mode),
-            RatingGameModeItem("English", R.drawable.bg_item_english_mode),
-            RatingGameModeItem("It", R.drawable.bg_item_it_mode),
-            RatingGameModeItem("Work", R.drawable.bg_item_work_mode),
-            RatingGameModeItem("Study", R.drawable.bg_item_study_mode)
-        )
         recycler_view.adapter = ratingAdapter
         modes_recycler.adapter = modesAdapter
-        viewModel.getRating("ALL")
+        viewModel.getModes()
         localizationViewModel.locale.platform.observe(viewLifecycleOwner) { locale ->
             errorTextView.text = locale[Localization.ERROR_LOADING_TEXT]
             retry_loading_button.text = locale[Localization.ERROR_LOADING_BUTTON_TEXT]
@@ -52,6 +43,15 @@ class RatingFragment : Fragment(R.layout.fragment_rating) {
                     recycler_view.isVisible = true
                     imageView3.isVisible = true
                     waitingProgressBar.isVisible = false
+                    if (state.modes != null) {
+                        val modes = state.modes?.map {
+                            RatingGameModeItem(it.name, R.drawable.bg_item_study_mode)
+                        }?.toMutableList()
+                        modes?.add(0, RatingGameModeItem("All", R.drawable.bg_item_study_mode))
+                        if (modes != null) {
+                            modesAdapter.ratingGameModesModels = modes
+                        }
+                    }
                     ratingAdapter.ratingModels = state.rating
                 }
 
