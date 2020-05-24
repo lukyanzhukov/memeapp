@@ -95,7 +95,7 @@ private val gameModule = module {
         SettingsGameModeSource(get())
     }
     viewModel {
-        GameViewModel(get())
+        GameViewModel(get(), get()).also(GameViewModel::getModes)
     }
 }
 

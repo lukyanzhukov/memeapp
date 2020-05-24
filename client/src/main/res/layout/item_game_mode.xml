@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/item_view"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -27,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:fontFamily="@font/ubuntu_medium"
+        android:paddingTop="4dp"
         android:textSize="16sp"
         tools:text="classic"
         tools:textColor="#FF805E" />
