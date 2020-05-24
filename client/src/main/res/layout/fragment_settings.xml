@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -7,14 +13,14 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-    <ImageView
+        <ImageView
             android:id="@+id/logo"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="24dp"
             app:srcCompat="@drawable/ic_settings_logo" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cardRate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,7 +29,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/bg_settings_rate">
 
-        <ImageView
+            <ImageView
                 android:id="@+id/icon_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,7 +41,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_settings_rate" />
 
-        <TextView
+            <TextView
                 android:id="@+id/text_rate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -48,7 +54,7 @@
                 app:layout_constraintStart_toEndOf="@+id/icon_rate"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+            <ImageView
                 android:id="@+id/arrow_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,9 +65,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_settings_arrow" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cardShare"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,7 +76,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/bg_settings_share">
 
-        <ImageView
+            <ImageView
                 android:id="@+id/icon_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -82,7 +88,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_settings_share" />
 
-        <TextView
+            <TextView
                 android:id="@+id/text_share"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -95,7 +101,7 @@
                 app:layout_constraintStart_toEndOf="@+id/icon_share"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+            <ImageView
                 android:id="@+id/arrow_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,9 +112,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_settings_arrow" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cardMemesTeam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,7 +123,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/bg_settings_memes_team">
 
-        <ImageView
+            <ImageView
                 android:id="@+id/icon_memes_team"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -129,7 +135,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_settings_memes_team" />
 
-        <TextView
+            <TextView
                 android:id="@+id/text_memes_team"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -142,7 +148,7 @@
                 app:layout_constraintStart_toEndOf="@+id/icon_memes_team"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+            <ImageView
                 android:id="@+id/arrow_memes_team"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -153,26 +159,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_settings_arrow" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-    <TextView
+        <TextView
             android:id="@+id/buttonSignIn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/bg_settings_sign_in_button"
             android:gravity="center"
             tools:text="Войти"
             android:textSize="16sp" />
 
-    <TextView
+        <TextView
             android:id="@+id/buttonSignUp"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -186,4 +187,5 @@
             android:textColor="#FFFFFF"
             android:textSize="16sp" />
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
