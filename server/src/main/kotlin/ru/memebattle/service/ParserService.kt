@@ -43,21 +43,24 @@ class ParserService(
                             "https://vk.com/${sourceId}"
                         }
                         posts?.forEach { post ->
-                            val url = post.attachments?.firstOrNull()?.photo?.sizes?.getMaxImage()
-                            if (url != null) {
-                                val text = post.text ?: ""
-                                val likes = post.likes?.count ?: 0
-                                if (text.length <= 100) {
-                                    memeRepository.save(
-                                        MemeModel(
-                                            url = url,
-                                            mode = mode.name,
-                                            text = text,
-                                            sourceId = sourceId,
-                                            sourceUrl = sourceUrl,
-                                            likes = likes
+                            if (post.attachments?.size == 1) {
+                                val url =
+                                    post.attachments.firstOrNull()?.photo?.sizes?.getMaxImage()
+                                if (url != null) {
+                                    val text = post.text ?: ""
+                                    val likes = post.likes?.count ?: 0
+                                    if (text.length <= 100) {
+                                        memeRepository.save(
+                                            MemeModel(
+                                                url = url,
+                                                mode = mode.name,
+                                                text = text,
+                                                sourceId = sourceId,
+                                                sourceUrl = sourceUrl,
+                                                likes = likes
+                                            )
                                         )
-                                    )
+                                    }
                                 }
                             }
                         }

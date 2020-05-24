@@ -43,4 +43,10 @@ class GameFactory(
     suspend fun getAllMemes() = memeRepository.getAll()
 
     suspend fun getMemesByMode(mode: String) = memeRepository.getByMode(mode)
+
+    suspend fun restartGames() {
+        mapOfMemeServices.map {
+            it.value.restart()
+        }
+    }
 }

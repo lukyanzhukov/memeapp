@@ -5,8 +5,8 @@ import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import ru.memebattle.common.dto.game.GameState
-import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.common.dto.game.MemeModel
+import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.model.UserModel
 import ru.memebattle.repository.MemeRepository
 import ru.memebattle.repository.RateusersRepository
@@ -29,8 +29,10 @@ class MemeService(
     private var endTime = 0L
     private val mutex = Mutex()
 
+    private var game: Job
+
     init {
-        GlobalScope.launch {
+        game = GlobalScope.launch {
             startRound()
         }
     }
@@ -67,6 +69,7 @@ class MemeService(
                             pairs.add(memes[s] to memes[s.inc()])
                         }
                     }
+                    pairs.shuffle()
                     pairs
                 }
 
@@ -120,4 +123,11 @@ class MemeService(
         withContext(Dispatchers.IO) {
             memeRepository.getByMode(gameMode)
         }
+
+    fun restart() {
+        game.cancel()
+        game = GlobalScope.launch {
+            startRound()
+        }
+    }
 }

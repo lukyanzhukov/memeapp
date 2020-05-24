@@ -119,6 +119,12 @@ class RoutingV1(
                             call.respond("ok")
                         }
                     }
+
+                    route("restartGames") {
+                        get {
+                            gameFactory.restartGames()
+                        }
+                    }
                 }
 
                 authenticate(BasicAuth.NAME, JwtAuth.NAME, optional = true) {
