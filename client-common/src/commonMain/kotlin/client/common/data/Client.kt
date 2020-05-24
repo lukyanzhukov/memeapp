@@ -14,6 +14,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import ru.memebattle.common.dto.AuthenticationRequestDto
 import ru.memebattle.common.dto.AuthenticationResponseDto
+import ru.memebattle.common.dto.game.GameModeModel
 import ru.memebattle.common.dto.game.MemeModel
 import ru.memebattle.common.feature.localization.Localization
 import ru.memebattle.common.model.RatingModel
@@ -47,6 +48,9 @@ internal suspend fun HttpClient.signIn(authenticationRequestDto: AuthenticationR
 
 internal suspend fun HttpClient.getRating(name: String): List<RatingModel> =
     get("${baseUrl()}rating?gameMode=${name}")
+
+internal suspend fun HttpClient.getGameModes(): List<GameModeModel> =
+    get("${baseUrl()}gameMode")
 
 internal suspend fun HttpClient.getChillMemes(mode: String): List<MemeModel> =
     get("${baseUrl()}chill?gameMode=${mode}")

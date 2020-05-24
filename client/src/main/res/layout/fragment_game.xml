@@ -58,140 +58,34 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="24dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <LinearLayout
-            android:id="@+id/memebattle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        android:layout_marginTop="16dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+    <ProgressBar
+        android:id="@+id/waitingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:theme="@style/MemebattleProgressbarTheme" />
 
-                <ru.memebattle.feature.game.GameModeItem
-                    android:id="@+id/classic_game_mode_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="7.5dp"
-                    android:layout_weight="1"
-                    app:banner="@drawable/classic_game_mode_banner"
-                    app:title="classic"
-                    app:titleColor="#FF805E" />
+    <include
+        android:id="@+id/error_loading_view"
+        layout="@layout/error_loading_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
-                <ru.memebattle.feature.game.GameModeItem
-                    android:id="@+id/senior_game_mode_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="7.5dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    app:banner="@drawable/senior_game_mode_banner"
-                    app:title="senior"
-                    app:titleColor="#4749A0" />
-            </LinearLayout>
+    </FrameLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ru.memebattle.feature.game.GameModeItem
-                    android:id="@+id/english_game_mode_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="7.5dp"
-                    android:layout_weight="1"
-                    app:banner="@drawable/english_game_mode_banner"
-                    app:title="english"
-                    app:titleColor="#149E96" />
-
-                <ru.memebattle.feature.game.GameModeItem
-                    android:id="@+id/it_game_mode_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="7.5dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    app:banner="@drawable/it_game_mode_banner"
-                    app:title="it"
-                    app:titleColor="#FFCE83" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ru.memebattle.feature.game.GameModeItem
-                    android:id="@+id/science_game_mode_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="7.5dp"
-                    android:layout_weight="1"
-                    app:banner="@drawable/science_game_mode_banner"
-                    app:title="science"
-                    app:titleColor="#4749A0" />
-
-                <ru.memebattle.feature.game.GameModeItem
-                    android:id="@+id/work_game_mode_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="7.5dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    app:banner="@drawable/work_game_mode_banner"
-                    app:title="work"
-                    app:titleColor="#FF805E" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ru.memebattle.feature.game.GameModeItem
-                    android:id="@+id/study_game_mode_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="7.5dp"
-                    android:layout_weight="1"
-                    app:banner="@drawable/study_game_mode_banner"
-                    app:title="study"
-                    app:titleColor="#149E96" />
-
-                <ru.memebattle.feature.game.GameModeItem
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="7.5dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    app:banner="@drawable/no_mode_banner"
-                    app:titleColor="#CED0D6" />
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

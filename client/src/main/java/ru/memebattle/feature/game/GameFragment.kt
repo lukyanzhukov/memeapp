@@ -2,10 +2,13 @@ package ru.memebattle.feature.game
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.Navigation
+import client.common.feature.game.GameState
 import client.common.feature.game.GameViewModel
+import kotlinx.android.synthetic.main.error_loading_view.*
 import kotlinx.android.synthetic.main.fragment_game.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.memebattle.R
@@ -21,35 +24,24 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private var selectedMode: GameModeTab = GameModeTab.CLASSIC_MODE_TAB
     private var selectedGameMode: String? = null
 
-    private val gameModesClickListener = View.OnClickListener {
-        when (it.id) {
-            R.id.classic_game_mode_btn -> selectedGameMode = "CLASSIC"
-            R.id.senior_game_mode_btn -> selectedGameMode = "SENIOR"
-            R.id.english_game_mode_btn -> selectedGameMode = "ENGLISH"
-            R.id.it_game_mode_btn -> selectedGameMode = "IT"
-            R.id.science_game_mode_btn -> selectedGameMode = "SCIENCE"
-            R.id.work_game_mode_btn -> selectedGameMode = "WORK"
-            R.id.study_game_mode_btn -> selectedGameMode = "STUDY"
-        }
+    private val onGameModeClick: (String) -> Unit = {
         val bundle = Bundle().apply {
-            gameMode = selectedGameMode
+            gameMode = it
         }
         if (viewModel.isGameModeUsed(selectedMode.name)) {
             when (selectedMode) {
                 GameModeTab.CLASSIC_MODE_TAB -> {
                     Navigation.findNavController(requireActivity(), R.id.host_global)
                         .navigate(R.id.action_mainFragment_action_to_memebattleFragment, bundle)
-                    return@OnClickListener
                 }
                 GameModeTab.CHILL_MODE_TAB -> {
                     Navigation.findNavController(requireActivity(), R.id.host_global)
                         .navigate(R.id.action_mainFragment_to_memeChillFragment, bundle)
-                    return@OnClickListener
                 }
-                else -> return@OnClickListener
             }
+        } else {
+            GameOnboardingDialogFragment(selectedMode).show(childFragmentManager, null)
         }
-        GameOnboardingDialogFragment(selectedMode).show(childFragmentManager, null)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,13 +93,32 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             classic_mode_btn.background = null
             selectedMode = GameModeTab.CHILL_MODE_TAB
         }
-        classic_game_mode_btn.setOnClickListener(gameModesClickListener)
-        senior_game_mode_btn.setOnClickListener(gameModesClickListener)
-        english_game_mode_btn.setOnClickListener(gameModesClickListener)
-        it_game_mode_btn.setOnClickListener(gameModesClickListener)
-        science_game_mode_btn.setOnClickListener(gameModesClickListener)
-        work_game_mode_btn.setOnClickListener(gameModesClickListener)
-        study_game_mode_btn.setOnClickListener(gameModesClickListener)
+
+        val ratingAdapter = GameModeAdapter(onGameModeClick)
+        recyclerView.adapter = ratingAdapter
+
+        viewModel.state.platform.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is GameState.Success -> {
+                    waitingProgressBar.isVisible = false
+                    ratingAdapter.gameModeModels = state.modes
+                }
+
+                GameState.Fail -> {
+                    waitingProgressBar.isVisible = false
+                    error_loading_view.isVisible = true
+                }
+
+                GameState.Progress -> {
+                    waitingProgressBar.isVisible = true
+                    error_loading_view.isVisible = false
+                }
+            }
+        }
+
+        retry_loading_button.setOnClickListener {
+            viewModel.getModes()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
