@@ -10,8 +10,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import client.common.feature.localization.LocalizationViewModel
 import androidx.navigation.Navigation
+import client.common.feature.localization.LocalizationViewModel
 import client.common.feature.memebattle.MemeBattleState
 import client.common.feature.memebattle.MemeBattleViewModel
 import com.bumptech.glide.Glide
@@ -24,7 +24,9 @@ import ru.memebattle.R
 import ru.memebattle.common.dto.game.GameState
 import ru.memebattle.common.dto.game.MemeResponse
 import ru.memebattle.common.feature.localization.Localization
-import ru.memebattle.core.utils.*
+import ru.memebattle.core.utils.openUrl
+import ru.memebattle.core.utils.saveImage
+import ru.memebattle.core.utils.shareImage
 import ru.memebattle.feature.firstwin.FirstWinDialogFragment
 import ru.memebattle.feature.firstwin.FirstWinViewModel
 import java.util.*
@@ -120,7 +122,7 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
         second_source_meme_text.setOnClickListener {
             openUrl(secondMemeSourceUrl)
         }
-     }
+    }
 
     private fun setShareClickListener(button: View, imageView: ImageView, sharingText: String) {
         button.setOnClickListener {
@@ -149,6 +151,12 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
         waitingProgressBar.isVisible = false
         when (memeResponse.state) {
             GameState.MEMES -> {
+                vk_badge_first.isVisible = false
+                vk_badge_second.isVisible = false
+                vk_likes_first.isVisible = false
+                vk_likes_second.isVisible = false
+                vk_likes_first.text = memeResponse.memes[0].likes.toString()
+                vk_likes_second.text = memeResponse.memes[1].likes.toString()
                 first_meme_text.isVisible = memeResponse.memes[0].text.isNotEmpty()
                 second_meme_text.isVisible = memeResponse.memes[1].text.isNotEmpty()
                 firstMemeSourceUrl = memeResponse.memes[0].sourceUrl
@@ -189,6 +197,10 @@ class MemeBattleFragment : Fragment(R.layout.fragment_memebattle) {
                     .into(image2)
             }
             GameState.RESULT -> {
+                vk_badge_first.isVisible = true
+                vk_badge_second.isVisible = true
+                vk_likes_first.isVisible = true
+                vk_likes_second.isVisible = true
                 loadingMemesProgressBar.progress = 0
                 isButtonDisabled = true
                 like1.isVisible = false
