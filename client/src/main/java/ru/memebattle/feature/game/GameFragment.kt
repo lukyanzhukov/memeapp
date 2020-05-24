@@ -25,6 +25,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private var selectedGameMode: String? = null
 
     private val onGameModeClick: (String) -> Unit = {
+        selectedGameMode = it
         val bundle = Bundle().apply {
             gameMode = it
         }

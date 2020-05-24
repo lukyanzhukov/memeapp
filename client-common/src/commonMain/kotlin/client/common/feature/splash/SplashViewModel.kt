@@ -35,11 +35,11 @@ class SplashViewModel(
         viewModelScope.launch {
 
             try {
-                val localeExists = withContext(Dispatchers.Default) {
+                /*val localeExists = withContext(Dispatchers.Default) {
                     localeQueries.getCount().executeAsOne() != 0L
                 }
 
-                if (!localeExists or setDifferentLanguage()) {
+                if (!localeExists or setDifferentLanguage()) {*/
                     _state.value = SplashState.Progress
 
                     val locale = client.getLocale(
@@ -59,9 +59,9 @@ class SplashViewModel(
                     }
 
                     checkLaunch()
-                } else {
+                /*} else {
                     checkLaunch()
-                }
+                }*/
             } catch (e: Exception) {
                 _state.value = SplashState.Error
             }
