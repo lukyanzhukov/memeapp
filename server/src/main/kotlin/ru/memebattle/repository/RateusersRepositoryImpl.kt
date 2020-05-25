@@ -26,7 +26,7 @@ class RateusersRepositoryImpl : RateusersRepository {
                     it.toRateUser()
                 }
                 .filter {
-                    it.mode == gameMode
+                    it.mode.toLowerCase() == gameMode.toLowerCase()
                 }.sortedBy {
                     it.likes
                 }.reversed()
