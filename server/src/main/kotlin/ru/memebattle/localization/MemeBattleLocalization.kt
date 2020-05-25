@@ -43,8 +43,8 @@ class MemeBattleLocalization : ListResourceBundle() {
         Localization.FIRST_WIN_TITLE to "Поздравляем!",
         Localization.SHARE_APP_TEXT to "Присоединяйся к meme app! https://play.google.com/store/apps/details?id=ru.memeapp",
         Localization.SHARE_APP_TITLE to "Поделиться с друзьями",
-        Localization.FATAL_ERROR_DIALOG_BTN_TEXT to "Ошибка интернет-соединения",
-        Localization.FATAL_ERROR_DIALOG_TEXT to "Вернуться",
+        Localization.FATAL_ERROR_DIALOG_BTN_TEXT to "Обновить",
+        Localization.FATAL_ERROR_DIALOG_TEXT to "Ошибка интернет-соединения",
         Localization.SIGN_OUT_DIALOG_TEXT to
                 """Ты точно хочешь 
                     |выйти из аккаунта?""".trimMargin(),
