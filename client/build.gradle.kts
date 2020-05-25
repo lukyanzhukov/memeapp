@@ -20,8 +20,8 @@ android {
         applicationId = "ru.memeapp"
         minSdkVersion(23)
         targetSdkVersion(29)
-        versionCode = 6
-        versionName = "2.1.1"
+        versionCode = 7
+        versionName = "2.1.2"
     }
     buildTypes {
         getByName("release") {
