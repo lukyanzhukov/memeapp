@@ -1,6 +1,7 @@
 package ru.memebattle
 
 import android.os.Bundle
+import android.os.NetworkOnMainThreadException
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private fun catchFuckingException() {
         Thread.setDefaultUncaughtExceptionHandler { t, e ->
+            if (e is NetworkOnMainThreadException) return@setDefaultUncaughtExceptionHandler
             if (isFatalErrorCatch) return@setDefaultUncaughtExceptionHandler
             lifecycleScope.launch {
                 FatalDialogFragment().show(supportFragmentManager, null)
