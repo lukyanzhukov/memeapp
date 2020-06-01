@@ -27,6 +27,8 @@ class ParserService(
             while (true) {
                 memeRepository.removeAll()
                 val client = HttpClient(Apache)
+                client.get<String>("https://echo-alice.herokuapp.com/")
+                client.get<String>("https://memebattle.herokuapp.com/api/v1/memes")
                 val modes = gameModeRepository.getAll()
                 modes.forEach { mode ->
                     mode.groupIds.split(",").forEach { groupId ->
